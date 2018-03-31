@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">SmartMobUCE</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password </string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">Direccion Correo invalido</string>
+    <string name="error_invalid_password">clave invalida</string>
+    <string name="error_incorrect_password">El password es incorrecto</string>
+    <string name="error_field_required">este campo es requerio</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="coordenadas">coordenadas:\nLatitud =  -0.222222 \n
+        Longitud =  -78.256586\n
+        conducta = 0.0\n
+        precision =  10.0\n
+        altitud =  2910.0\n
+        Speed =  0.0\n
+        Provider = gps</string>
+</resources>
