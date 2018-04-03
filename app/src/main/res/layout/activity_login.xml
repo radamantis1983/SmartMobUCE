@@ -11,7 +11,7 @@
     tools:context="ec.edu.uce.smartmobuce.vista.LoginActivity">
 
     <EditText android:id="@+id/email" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:hint="Email"
+        android:layout_height="wrap_content" android:hint="@string/prompt_email"
         android:inputType="textEmailAddress" android:maxLines="1"
         android:singleLine="true" />
 
@@ -25,6 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login o Registro" />
+        android:text="@string/action_sign_in" />
 
 </LinearLayout>

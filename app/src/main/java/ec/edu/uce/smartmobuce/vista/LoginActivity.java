@@ -59,13 +59,13 @@ public class LoginActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 //comprobar idioma crea archivo de config
-        String sIdioma = "/data/data/" + getPackageName() + "/shared_prefs/IdiomaDeUsuario.xml";
+ /*       String sIdioma = "/data/data/" + getPackageName() + "/shared_prefs/IdiomaDeUsuario.xml";
         File idioma = new File(sIdioma);
         if (idioma.exists()) {}else{
             showDialog();
             m.guardarIdioma(getBaseContext(),"idioma seleccionado");
         }
-
+*/
         //comprobar archivo
         String sFichero = "/data/data/" + getPackageName() + "/shared_prefs/PreferenciasDeUsuario.xml";
         File fichero = new File(sFichero);
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(new Intent(getApplicationContext(), GPSActivity.class));
                                         finish();
                                     } else {
-                                        password.setError(getString(R.string.error_invalid_email));
+                                        password.setError(getString(R.string.error_incorrect_password));
                                         focusView = password;
                                         cancel = true;
                                         Toast.makeText(getApplicationContext(), "Error" + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
