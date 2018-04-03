@@ -18,6 +18,8 @@ import android.provider.Settings;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ec.edu.uce.smartmobuce.R;
+
 public class GPSService extends Service {
 
     private LocationListener listener;
@@ -29,12 +31,13 @@ public class GPSService extends Service {
     private Double longi;
     private Double alt;
     private Float cond;
-    private Float preci;
+    private Float press;
     private Float vel;
     private String usr;
     private String prov;
     private String fecha;
     private String mac;
+
 
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
@@ -111,29 +114,38 @@ public class GPSService extends Service {
                 lat = loc.getLatitude();
                 longi = loc.getLongitude();
                 cond = loc.getBearing();
-                preci = loc.getAccuracy();
+                press = loc.getAccuracy();
                 alt = loc.getAltitude();
                 vel = loc.getSpeed();
                 prov = loc.getProvider();
                 mac = address;
                 fecha = m.getFechaActual();
-
+                String coordenadas11=getString(R.string.coordenadas1);
+                String latitude1=getString(R.string.latitude);
+                String longitude1=getString(R.string.longitude);
+                String bearing1=getString(R.string.bearing);
+                String accuracy1=getString(R.string.accuracy);
+                String altitude1=getString(R.string.altitude);
+                String speed1=getString(R.string.speed);
+                String provider1=getString(R.string.provider);
+                String hour1=getString(R.string.hour);
+                String date1=getString(R.string.date);
 
 
                 Intent i = new Intent("location_update");
-                i.putExtra("coordenadas", "Coordenadas"
-                        + "\n Latitud = " + loc.getLatitude()
-                        + "\n Longitud = " + loc.getLongitude()
-                        + "\n conducta = " + loc.getBearing()
-                        + "\n precision = " + loc.getAccuracy()
-                        + "\n altitud = " + loc.getAltitude()
-                        + "\n Speed = " + loc.getSpeed()
-                        + "\n Provider = " + loc.getProvider()
-                        + "\n MAC address = " + address
-                        + "\n estado = " + area1
-                        + "\n contador = " + tt
-                        + "\n hora = " + m.getHoraActual()
-                        + "\n Fecha = " + m.getFechaActual());
+                i.putExtra("coordenadas", coordenadas11
+                        +"\n"+latitude1+" : " + lat
+                        +"\n"+longitude1+" : " + longi
+                        +"\n"+bearing1+" : " + cond
+                        +"\n"+accuracy1+" : " + press
+                        +"\n"+altitude1+" : " + alt
+                        +"\n"+speed1+" : " + vel
+                        +"\n"+provider1+" : " + prov
+                        //+ "\n MAC address = " + address
+                        //+ "\n estado = " + area1
+                        //+ "\n contador = " + tt
+                        +"\n"+hour1+" : " + m.getHoraActual()
+                        +"\n"+date1+" : " + m.getFechaActual());
                 sendBroadcast(i);
 
 /*
@@ -153,7 +165,7 @@ public class GPSService extends Service {
                         queryValues.put("latitud", lat.toString());
                         queryValues.put("longitud", longi.toString());
                         queryValues.put("conducta", cond.toString());
-                        queryValues.put("press", preci.toString());
+                        queryValues.put("press", press.toString());
                         queryValues.put("altitud", alt.toString());
                         queryValues.put("velocidad", vel.toString());
                         queryValues.put("proveedor", prov);

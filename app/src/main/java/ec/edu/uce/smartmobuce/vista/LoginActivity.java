@@ -1,6 +1,9 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ec.edu.uce.smartmobuce.R;
@@ -33,7 +37,8 @@ import ec.edu.uce.smartmobuce.controlador.Metodos;
  */
 public class LoginActivity extends AppCompatActivity {
     private final Metodos m = new Metodos();
-
+    private Locale locale;
+    private Configuration config = new Configuration();
 
     private EditText email, password;
     private Button sign_in_register;
@@ -53,7 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         sign_in_register = (Button) findViewById(R.id.sign_in_register);
 
         requestQueue = Volley.newRequestQueue(this);
-
+//comprobar idioma crea archivo de config
+ /*       String sIdioma = "/data/data/" + getPackageName() + "/shared_prefs/IdiomaDeUsuario.xml";
+        File idioma = new File(sIdioma);
+        if (idioma.exists()) {}else{
+            showDialog();
+            m.guardarIdioma(getBaseContext(),"idioma seleccionado");
+        }
+*/
         //comprobar archivo
         String sFichero = "/data/data/" + getPackageName() + "/shared_prefs/PreferenciasDeUsuario.xml";
         File fichero = new File(sFichero);
@@ -85,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(new Intent(getApplicationContext(), GPSActivity.class));
                                         finish();
                                     } else {
-                                        password.setError(getString(R.string.error_invalid_email));
+                                        password.setError(getString(R.string.error_incorrect_password));
                                         focusView = password;
                                         cancel = true;
                                         Toast.makeText(getApplicationContext(), "Error" + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
@@ -138,5 +150,43 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+    /**
+     * Muestra una ventana de dialogo para elegir el nuevo idioma de la aplicacion
+     * Cuando se hace clic en uno de los idiomas, se cambia el idioma de la aplicacion
+     * y se recarga la actividad para ver los cambios
+     * */
+    private void showDialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getResources().getString(R.string.str_languaje));
+        //obtiene los idiomas del array de string.xml
+        String[] types = getResources().getStringArray(R.array.languages);
+        b.setItems(types, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                switch(which){
+                    case 0:
+                        locale = new Locale("en");
+                        config.locale =locale;
+                        break;
+                    case 1:
+                        locale = new Locale("es");
+                        config.locale =locale;
+                        break;
+
+                }
+                getResources().updateConfiguration(config, null);
+                Intent refresh = new Intent(LoginActivity.this, LoginActivity.class);
+                startActivity(refresh);
+                finish();
+            }
+
+        });
+
+        b.show();
+    }
+
 }
 
