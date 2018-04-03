@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_languaje">Cambiar Idioma</string>
+    <string name="str_en">Ingles</string>
+    <string name="str_es">Español</string>
+    <string name="prompt_email">Correo Electrónico</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Inicie sesión o regístrese</string>
+    <string name="action_sign_in_short">Iniciar sesión</string>
+    <string name="error_invalid_email">El correo electrónico no es válida</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_invalid_password">La contraseña no es válida</string>
+    <string name="error_field_required">Este campo es obligatorio</string>
+    <string name="coordenadas1">Coordenadas</string>
+    <string name="latitude">Latitud</string>
+    <string name="longitude">Longitud</string>
+    <string name="bearing">Conducta</string>
+    <string name="accuracy">Presición</string>
+    <string name="altitude">Altitud</string>
+    <string name="speed">Velocidad</string>
+    <string name="provider">Proveedor</string>
+    <string name="date">Fecha</string>
+    <string name="hour">Hora</string>
+    <string name="coordenadas">
+        coordenadas:\n
+        Latitud =  -0.222222\n
+        Longitud =  -78.256586\n
+        Conducta = 0.0\n
+        Precision =  10.0\n
+        Altitud =  2910.0\n
+        Velocidad =  0.0\n
+        Provider = gps
+    </string>
+    <string name="app_name">SmartMobUCE</string>
+</resources>

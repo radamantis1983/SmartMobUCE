@@ -33,6 +33,14 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
+    public void guardarIdioma(Context context, String text) {
+
+        SharedPreferences preferencia = context.getSharedPreferences("IdiomaDeUsuario", MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        editor = preferencia.edit();
+        editor.putString("idioma", text);
+        editor.commit();
+    }
     //permite guardar en archivo de preferencias
     public void guardarPreferencias(Context context, String text) {
 
