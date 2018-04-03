@@ -29,7 +29,7 @@
         Precision =  10.0\n
         Altitud =  2910.0\n
         Velocidad =  0.0\n
-        Provider = gps
+        Proveedor = gps
     </string>
     <string name="app_name">SmartMobUCE</string>
 </resources>
