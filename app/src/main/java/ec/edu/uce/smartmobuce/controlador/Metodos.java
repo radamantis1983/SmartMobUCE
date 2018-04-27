@@ -240,16 +240,16 @@ public class Metodos {
                 client.post("https://smartmobuce.000webhostapp.com/smartgps/registrogps.php",params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
-                        System.out.println(response);
+
 
                         try {
+
                             JSONArray arr = new JSONArray(response);
-                            //System.out.println("tamaño arreglo"+arr.length());
-                            System.out.println("arreglo"+arr+"ejemplo");
+                            System.out.println("dato response"+response);
                             for(int i=0; i<arr.length();i++){
                                 JSONObject obj = (JSONObject)arr.get(i);
-                                //  System.out.println(obj.get("usu_id"));
-                                //  System.out.println(obj.get("dat_fechahora_lectura"));
+                               //   System.out.println(obj.get("usu_id"));
+                               //   System.out.println(obj.get("dat_fechahora_lectura"));
                                 // System.out.println(obj.get("status"));
 
                                 controller.updateSyncStatus(obj.get("usu_id").toString(),obj.get("dat_fechahora_lectura").toString(),obj.get("status").toString());

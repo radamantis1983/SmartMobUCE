@@ -21,7 +21,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
     //variable para almecenar
 
     String sqlCreate = "CREATE TABLE `DatosGPS` (`dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-            "`usu_id` REAL," +
+            "`usu_id` INTEGER," +
             "`dat_latitud` REAL," +
             "`dat_longitud` REAL," +
             "`dat_precision` REAL," +
@@ -61,6 +61,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
     public void insertDatos(HashMap<String, String> queryValues) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("dat_id", queryValues.get("dat_id"));
         values.put("usu_id", queryValues.get("usu_id"));
         values.put("dat_latitud", queryValues.get("dat_latitud"));
         values.put("dat_longitud", queryValues.get("dat_longitud"));

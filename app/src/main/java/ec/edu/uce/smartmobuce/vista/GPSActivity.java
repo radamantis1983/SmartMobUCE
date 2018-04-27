@@ -41,6 +41,8 @@ public class GPSActivity extends AppCompatActivity {
         } else {
             Intent i = new Intent(getApplicationContext(), GPSService.class);
             startService(i);
+            System.out.println("start service");
+            //startService(new Intent(getApplicationContext(), GPSService.class));
 
         }
 
