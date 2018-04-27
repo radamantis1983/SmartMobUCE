@@ -30,7 +30,7 @@ public class GPSService extends Service {
     private Double lat;
     private Double longi;
     private Double alt;
-    private Float cond;
+    //private Float cond;
     private Float press;
     private Float vel;
     private String usr;
@@ -42,14 +42,11 @@ public class GPSService extends Service {
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
 
-    private final int tiempoEspera = 5* 60 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
-    private final int refrescarPantalla=5*60*1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
-                                                // envia a la pantalla del activity gps
+    private final int tiempoEspera = 60 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
+    private final int refrescarPantalla=30*1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
+    // envia a la pantalla del activity gps
     private final String horaActualizacion = "00:00:00";// para sincronizar datos hora de inicio
     private final String horaActualizacionf = "00:15:00";//para sincronizar datos hora de fin
-
-
-
     private final String horaInicial = "06:00:00"; //horas de actividad inicio
     private final String horaFinal = "22:00:00";//horas de actividad fin
 
@@ -57,42 +54,14 @@ public class GPSService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-
-
         return null;
     }
+
 
 
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
-
-        final CountDownTimer start = new CountDownTimer(tiempoEspera, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                tt = (millisUntilFinished / 1000);
-                System.out.println(tt);
-            }
-
-            @SuppressLint("MissingPermission")
-            public void onFinish() {
-
-
-                start();
-                System.out.println("start");
-
-               locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-                //noinspection MissingPermission
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, refrescarPantalla, 0, listener);
-                System.out.println("ejecuto listener");
-
-
-        }
-
-        }.start();
-
-
         listener = new LocationListener() {
 
 
@@ -108,22 +77,22 @@ public class GPSService extends Service {
 
                 Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
 
-            //datos a guardar en variables para luego guardar en la base
+                //datos a guardar en variables para luego guardar en la base
 
                 usr=m.cargarPreferencias(getBaseContext());
                 lat = loc.getLatitude();
                 longi = loc.getLongitude();
-                cond = loc.getBearing();
+                //cond = loc.getBearing();
                 press = loc.getAccuracy();
                 alt = loc.getAltitude();
                 vel = loc.getSpeed();
                 prov = loc.getProvider();
                 mac = address;
                 fecha = m.getFechaActual();
-                String coordenadas11=getString(R.string.coordenadas1);
+                String coordenadas0=getString(R.string.coordenadas1);
                 String latitude1=getString(R.string.latitude);
                 String longitude1=getString(R.string.longitude);
-                String bearing1=getString(R.string.bearing);
+                // String bearing1=getString(R.string.bearing);
                 String accuracy1=getString(R.string.accuracy);
                 String altitude1=getString(R.string.altitude);
                 String speed1=getString(R.string.speed);
@@ -133,10 +102,10 @@ public class GPSService extends Service {
 
 
                 Intent i = new Intent("location_update");
-                i.putExtra("coordenadas", coordenadas11
-                        +"\n"+latitude1+" : " + lat
+                i.putExtra("coordenadas", coordenadas0
+                        +"\n"+latitude1+" : " + loc.getLatitude()
                         +"\n"+longitude1+" : " + longi
-                        +"\n"+bearing1+" : " + cond
+                        //  +"\n"+bearing1+" : " + cond
                         +"\n"+accuracy1+" : " + press
                         +"\n"+altitude1+" : " + alt
                         +"\n"+speed1+" : " + vel
@@ -161,17 +130,16 @@ public class GPSService extends Service {
 
                         HashMap<String, String> queryValues = new HashMap<String, String>();
 
-                        queryValues.put("usuario", usr);
-                        queryValues.put("latitud", lat.toString());
-                        queryValues.put("longitud", longi.toString());
-                        queryValues.put("conducta", cond.toString());
-                        queryValues.put("press", press.toString());
-                        queryValues.put("altitud", alt.toString());
-                        queryValues.put("velocidad", vel.toString());
-                        queryValues.put("proveedor", prov);
-                        queryValues.put("fecha", fecha);
+                        queryValues.put("usu_id", usr.toString());
+                        queryValues.put("dat_latitud", lat.toString());
+                        queryValues.put("dat_longitud", longi.toString());
+                        queryValues.put("dat_precision", press.toString());
+                        queryValues.put("dat_altitud", alt.toString());
+                        queryValues.put("dat_velocidad", vel.toString());
+                        queryValues.put("dat_proveedor", prov);
+                        queryValues.put("dat_fechahora_lectura", fecha);
 
-                        controller.insertUser(queryValues);
+                        controller.insertDatos(queryValues);
 
 /*
                         //lista los datos para sincronizar
@@ -215,7 +183,6 @@ public class GPSService extends Service {
                         + "\n Longitud = " + loc.getLongitude());
 
             }
-
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
 
@@ -240,11 +207,38 @@ public class GPSService extends Service {
 
         //noinspection MissingPermission
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, refrescarPantalla, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 0, listener);
         System.out.println("ejecuto listener 2");
         // permite guardar un respaldo de la base de datos en la carpeta my documents
         //        m.backupdDatabase(getApplicationContext());
+/*
+        final CountDownTimer start = new CountDownTimer(tiempoEspera, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                tt = (millisUntilFinished / 1000);
+              //  System.out.println(tt);
+            }
+
+
+            @SuppressLint("MissingPermission")
+            public void onFinish() {
+
+
+                start();
+          /*      System.out.println("start");
+
+                locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, listener);
+                System.out.println("ejecuto listener");
+
+
+            }
+
+        }.start();
+
+*/
 
 
 
@@ -258,7 +252,7 @@ public class GPSService extends Service {
         super.onDestroy();
         if (locationManager != null) {
             //noinspection MissingPermission
-            locationManager.removeUpdates(listener);
+            //locationManager.removeUpdates(listener);
         }
     }
 

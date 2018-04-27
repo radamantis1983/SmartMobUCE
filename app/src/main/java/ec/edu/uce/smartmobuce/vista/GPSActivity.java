@@ -39,9 +39,6 @@ public class GPSActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
         } else {
-
-
-
             Intent i = new Intent(getApplicationContext(), GPSService.class);
             startService(i);
 
@@ -81,7 +78,7 @@ public class GPSActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -90,19 +87,27 @@ public class GPSActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //When Sync action button is clicked
-        if (id == R.id.refresh) {
-            ControladorSQLite controller = new ControladorSQLite(this);
-            //lista los datos para sincronizar
-            ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
-            if (userList.size() != 0) {
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                ControladorSQLite controller = new ControladorSQLite(this);
+                //lista los datos para sincronizar
+                ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                if (userList.size() != 0) {
 
-            }
-            //Sync SQLite DB data to remote MySQL DB
-            m.syncSQLiteMySQLDB(getApplicationContext());
-            return true;
+                }
+                //Sync SQLite DB data to remote MySQL DB
+                m.syncSQLiteMySQLDB(getApplicationContext());
+                return true;
+            case R.id.action_settings:
+
+                Toast.makeText(this, "Elaborado por Henry Guamán", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 }
+
+
+
