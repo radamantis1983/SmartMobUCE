@@ -241,11 +241,10 @@ public class Metodos {
                     @Override
                     public void onSuccess(String response) {
 
-
+                        System.out.println("dato response"+response);
                         try {
-
                             JSONArray arr = new JSONArray(response);
-                            System.out.println("dato response"+response);
+                            System.out.println(arr.length());
                             for(int i=0; i<arr.length();i++){
                                 JSONObject obj = (JSONObject)arr.get(i);
                                //   System.out.println(obj.get("usu_id"));

@@ -174,8 +174,8 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      */
     public void updateSyncStatus(String usu_id,String dat_fechahora_lectura, String status){
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update DatosGPS set udpateStatus = '"+ status +"' where usu_id='"+ usu_id +"'" +" and String dat_fechahora_lectura='"+dat_fechahora_lectura+"'" ;
-        Log.d("query",updateQuery);
+        String updateQuery = "Update DatosGPS set udpateStatus = '"+ status +"' where usu_id='"+ usu_id +"'" +" and dat_fechahora_lectura='"+dat_fechahora_lectura+"'" ;
+        //Log.d("query",updateQuery);
         database.execSQL(updateQuery);
         database.close();
     }
