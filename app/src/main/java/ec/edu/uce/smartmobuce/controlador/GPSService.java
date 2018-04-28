@@ -43,7 +43,7 @@ public class GPSService extends Service {
     private final Metodos m = new Metodos();
 
     private final int tiempoEspera = 60 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
-    private final int refrescarPantalla=30*1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
+    private final int actualizar_gps=30*1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
     // envia a la pantalla del activity gps
     private final String horaActualizacion = "00:00:00";// para sincronizar datos hora de inicio
     private final String horaActualizacionf = "00:15:00";//para sincronizar datos hora de fin
@@ -207,7 +207,7 @@ public class GPSService extends Service {
 
         //noinspection MissingPermission
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, actualizar_gps, 0, listener);
         System.out.println("ejecuto listener 2");
         // permite guardar un respaldo de la base de datos en la carpeta my documents
         //        m.backupdDatabase(getApplicationContext());
@@ -252,7 +252,7 @@ public class GPSService extends Service {
         super.onDestroy();
         if (locationManager != null) {
             //noinspection MissingPermission
-            //locationManager.removeUpdates(listener);
+            locationManager.removeUpdates(listener);
         }
     }
 
