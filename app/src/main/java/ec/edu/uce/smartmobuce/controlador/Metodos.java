@@ -33,29 +33,22 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
-    public void guardarIdioma(Context context, String text) {
 
-        SharedPreferences preferencia = context.getSharedPreferences("IdiomaDeUsuario", MODE_PRIVATE);
-        SharedPreferences.Editor editor;
-        editor = preferencia.edit();
-        editor.putString("idioma", text);
-        editor.commit();
-    }
     //permite guardar en archivo de preferencias
     public void guardarPreferencias(Context context, String text) {
 
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
         SharedPreferences.Editor editor;
         editor = preferencia.edit();
-        editor.putString("email", text);
+        editor.putString("usu_id", text);
         editor.commit();
     }
 
 
-//permite cargar el archivo de preferencias (email usuario)
+    //permite cargar el archivo de preferencias (email usuario)
     public String cargarPreferencias(Context context) {
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
-        return  preferencia.getString("email", "");
+        return  preferencia.getString("usu_id", "");
     }
     //recupera la hora actual
     public String getHoraActual() {
@@ -93,7 +86,7 @@ public class Metodos {
 
         } catch (ParseException ex) {
             //Logger.getLogger(Main2.class.getName()).log(Level.SEVERE, null, ex);
-           // System.out.println("La hora Posee errores");
+            // System.out.println("La hora Posee errores");
             return false;
         }
 
@@ -111,11 +104,11 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
             if (horaIni.equals(horaFin)) {
-               // System.out.println("horas iguales procediendo a sincronizar");
+                // System.out.println("horas iguales procediendo a sincronizar");
                 System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
                 return true;
             } else {
-              //  System.out.println("no es hora de sincronizar");
+                //  System.out.println("no es hora de sincronizar");
                 return false;
             }
 
@@ -153,7 +146,7 @@ public class Metodos {
             return false;
         }
         */
-    return true;
+        return true;
     }
 
     ////activa la funcion de guardar si se encuentra en el rango del area seleccionada
@@ -244,21 +237,21 @@ public class Metodos {
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
-                client.post("https://movilidad.000webhostapp.com/movilidad/insertuser.php",params ,new AsyncHttpResponseHandler() {
+                client.post("https://movilidad.000webhostapp.com/movilidad/registrogps.php",params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
-                        //System.out.println(response);
 
+                        System.out.println("dato response"+response);
                         try {
                             JSONArray arr = new JSONArray(response);
-                           // System.out.println(arr.length());
+                            System.out.println(arr.length());
                             for(int i=0; i<arr.length();i++){
                                 JSONObject obj = (JSONObject)arr.get(i);
-                             //   System.out.println(obj.get("id_usuario"));
-                             //   System.out.println(obj.get("usuario"));
-                             //   System.out.println(obj.get("status"));
+                               //   System.out.println(obj.get("usu_id"));
+                               //   System.out.println(obj.get("dat_fechahora_lectura"));
+                                // System.out.println(obj.get("status"));
 
-                                controller.updateSyncStatus(obj.get("id_usuario").toString(),obj.get("usuario").toString(),obj.get("status").toString());
+                                controller.updateSyncStatus(obj.get("usu_id").toString(),obj.get("dat_fechahora_lectura").toString(),obj.get("status").toString());
                             }
                             Toast.makeText(appContext, "DB Sincronización completada!", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ec.edu.uce.smartmobuce">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -17,17 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ec.edu.uce.smartmobuce.vista.LoginActivity"
-            android:label="@string/app_name">
+            android:name=".vista.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ec.edu.uce.smartmobuce.vista.GPSActivity" />
+        <activity android:name=".vista.GPSActivity" />
 
-        <service android:name="ec.edu.uce.smartmobuce.controlador.GPSService"/>
+        <service android:name=".controlador.GPSService" />
+
+        <activity android:name=".vista.RegistroActivity"  android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
