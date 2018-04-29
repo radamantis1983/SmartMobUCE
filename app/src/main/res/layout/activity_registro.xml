@@ -80,7 +80,11 @@
 
         </android.support.design.widget.TextInputLayout>
         <!-- Género Label -->
+        <TextView android:text="@string/gender" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/spin_genero"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -93,6 +97,8 @@
                 android:layout_weight="1" />
         </android.support.design.widget.TextInputLayout>
         <!-- Facultad Label -->
+        <TextView android:text="@string/faculty" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -106,6 +112,8 @@
                 android:layout_weight="1" />
         </android.support.design.widget.TextInputLayout>
         <!-- Tipo Label -->
+        <TextView android:text="@string/type" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -119,6 +127,8 @@
                 android:layout_weight="1" />
         </android.support.design.widget.TextInputLayout>
         <!-- Sector Label -->
+        <TextView android:text="@string/sector" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -132,6 +142,8 @@
                 android:layout_weight="1" />
         </android.support.design.widget.TextInputLayout>
         <!-- Actividad Label -->
+        <TextView android:text="@string/activity" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"

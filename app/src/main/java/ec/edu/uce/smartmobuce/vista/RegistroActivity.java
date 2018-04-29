@@ -237,11 +237,11 @@ public class RegistroActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
-        int genero =_genero.getSelectedItemPosition();
+      //  int genero =_genero.getSelectedItemPosition();
         String facultad = _facultad.getSelectedItem().toString();
-        int tipo = _tipo.getSelectedItemPosition();
-        int sector = _sector.getSelectedItemPosition();
-        String actividad = _actividad.getSelectedItem().toString();
+        //int tipo = _tipo.getSelectedItemPosition();
+        //int sector = _sector.getSelectedItemPosition();
+        //String actividad = _actividad.getSelectedItem().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || !email.contains("@uce.edu.ec")) {
             _emailText.requestFocus();
@@ -268,12 +268,22 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
 
-        if (year.isEmpty() ) {
+        if (year.isEmpty() )  {
             _year.requestFocus();
             _year.setError("ingrese año ");
             valid = false;
+
         } else {
-            _year.setError(null);
+            int y=Integer.parseInt(_year.getText().toString());
+            if(y>=2000 ||y <=1950){
+                _year.requestFocus();
+                _year.setError("ingrese año válido");
+                valid = false;
+            }else{
+                _year.setError(null);
+            }
+
+
         }
 
         if (_genero.getSelectedItem().toString().trim().equals("GENDER")||_genero.getSelectedItem().toString().trim().equals("GÉNERO")) {
