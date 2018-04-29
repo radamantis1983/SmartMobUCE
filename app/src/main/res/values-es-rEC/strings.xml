@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+       <string name="app_name">SmartMobUCE</string>
     <string name="str_languaje">Cambiar Idioma</string>
     <string name="str_en">Ingles</string>
     <string name="str_es">Español</string>
@@ -25,13 +26,12 @@
         coordenadas:\n
         Latitud =  -0.222222\n
         Longitud =  -78.256586\n
-        Conducta = 0.0\n
         Precision =  10.0\n
         Altitud =  2910.0\n
         Velocidad =  0.0\n
         Proveedor = gps
     </string>
-    <string name="app_name">SmartMobUCE</string>
+
     <string name="title_activity_login">Registrarse</string>
     <string name="action_settings">Acerca de</string>
     <string name="action_sync">Sincronizar</string>

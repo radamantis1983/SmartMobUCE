@@ -42,6 +42,8 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
 public class LoginActivity extends AppCompatActivity {
     private final Metodos m = new Metodos();
     private static final String TAG = "LoginActivity";
+    private Locale locale;
+    private Configuration config = new Configuration();
     private RequestQueue requestQueue;
     private static final String URL = "https://movilidad.000webhostapp.com/login/login.php";
     private StringRequest request;

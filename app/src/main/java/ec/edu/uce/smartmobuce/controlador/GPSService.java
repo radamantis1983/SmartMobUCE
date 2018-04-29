@@ -1,7 +1,6 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
@@ -10,37 +9,40 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
 public class GPSService extends Service {
 
-    private LocationListener listener;
-    private LocationManager locationManager;
+
+
     private SensorManager sensorManager;
     private Sensor sensor;
     private SensorEventListener sensorEventListener;
     private long tt = 0;
-
-    private Double lat;
+     private Double lat;
     private Double longi;
+
     private Double alt;
     //private Float cond;
     private Float press;
@@ -66,188 +68,22 @@ public class GPSService extends Service {
     private float sensor_z;
 
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public GPSService() {
     }
 
-
-    @SuppressLint("MissingPermission")
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO: Return the communication channel to the service.
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     @Override
     public void onCreate() {
 
-     /*   final CountDownTimer start = new CountDownTimer(tiempoEspera, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                tt = (millisUntilFinished / 1000);
-                //  System.out.println(tt);
-            }
+        locationStart();
 
 
-            @SuppressLint("MissingPermission")
-            public void onFinish() {
 
-
-                start();
-                System.out.println("start");
-
-                locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-                System.out.println("ejecuto listener");
-
-
-            }
-
-        }.start();
-
-*/
-        listener = new LocationListener() {
-
-
-            @Override
-            public void onLocationChanged(Location loc) {
-                String coordenadas0 = getString(R.string.coordenadas1);
-                String latitude1 = getString(R.string.latitude);
-                String longitude1 = getString(R.string.longitude);
-                String accuracy1 = getString(R.string.accuracy);
-                String altitude1 = getString(R.string.altitude);
-                String speed1 = getString(R.string.speed);
-                String provider1 = getString(R.string.provider);
-                String hour1 = getString(R.string.hour);
-                String date1 = getString(R.string.date);
-                System.out.println("x:" + sensor_x);
-                System.out.println("y:" + sensor_y);
-                System.out.println("z:" + sensor_z);
-
-                Intent i = new Intent("location_update");
-                i.putExtra("coordenadas", coordenadas0
-                        + "\n" + latitude1 + " : " + loc.getLatitude()
-                        + "\n" + longitude1 + " : " + loc.getLongitude()
-                        + "\n" + accuracy1 + " : " + loc.getAccuracy()
-                        + "\n" + altitude1 + " : " + loc.getAltitude()
-                        + "\n" + speed1 + " : " + loc.getSpeed()
-                        + "\n" + provider1 + " : " + loc.getProvider()
-                        + "\n" + hour1 + " : " + m.getHoraActual()
-                        + "\n" + date1 + " : " + m.getFechaActual()
-                        + "\n x :" + sensor_x
-                        + "\n y :" + sensor_y
-                        + "\n z :" + sensor_z);
-                sendBroadcast(i);
-
-
-                Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
-
-                //datos a guardar en variables para luego guardar en la base
-
-                usr = m.cargarPreferencias(getBaseContext());
-                lat = loc.getLatitude();
-                longi = loc.getLongitude();
-                press = loc.getAccuracy();
-                alt = loc.getAltitude();
-                vel = loc.getSpeed();
-                prov = loc.getProvider();
-                fecha = m.getFechaActual();
-
-/*
-*/
-                //si se encuentra dentro del area capturamos los datos
-                if (area1) {
-                    //si el tiempo llega a 1 y la hora esta en el rango definido guardamos los datos
-
-
-                    //if ((tt == 1) && m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
-                    if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
-                        //prepara los datos a ser enviados al query de insertar datos a la base
-
-                        HashMap<String, String> queryValues = new HashMap<String, String>();
-
-                        queryValues.put("usu_id", usr.toString());
-                        queryValues.put("dat_latitud", lat.toString());
-                        queryValues.put("dat_longitud", longi.toString());
-                        queryValues.put("dat_precision", press.toString());
-                        queryValues.put("dat_altitud", alt.toString());
-                        queryValues.put("dat_velocidad", vel.toString());
-                        queryValues.put("dat_proveedor", prov);
-                        queryValues.put("dat_fechahora_lectura", fecha);
-
-                        controller.insertDatos(queryValues);
-
-/*
-                        //lista los datos para sincronizar
-                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
-                        if (userList.size() != 0) {
-
-                        }
-                        //tt = 0;
-*/
-                    }
-                    //comprueba la hora para sincronizacón con la base de datos
-  /*                  if (m.compararHoras(m.getHoraActual(), horaActualizacion)) {
-                        System.out.println("sincronizando");
-                        System.out.println(horaActualizacion+"la hora de sincronizacion");
-                        m.syncSQLiteMySQLDB(getApplicationContext());
-
-
-                    }
-*/
-
-
-                    //comprueba la hora para sincronizacón con la base de datos
-                    if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
-                        //lista los datos para sincronizar
-
-
-                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
-                        if (userList.size() != 0) {
-
-                        }
-                        m.syncSQLiteMySQLDB(getApplicationContext());
-
-
-                    }
-
-
-                }
-                System.out.println(" Latitud = " + loc.getLatitude()
-                        + "\n Longitud = " + loc.getLongitude());
-                sendBroadcast(i);
-//                start1();
-
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        };
-        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
-        System.out.println("inicio gps");
-
-
-        //   locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-        //noinspection MissingPermission
-
-        // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, actualizar_gps, 0, listener);
-        //System.out.println("ejecuto listener gps");
-        // permite guardar un respaldo de la base de datos en la carpeta my documents
-        //        m.backupdDatabase(getApplicationContext());
-
-
-/*
 //sensor acelerometro
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -280,13 +116,6 @@ public class GPSService extends Service {
                     if (tt > 150) {
                         System.out.println("valor giro x" + sensor_x);
                         System.out.println("device ESTA en movimiento gps activo");
-                        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-                        //noinspection MissingPermission
-
-
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, listener);
-                        System.out.println("ejecuto listener gps");
                         tt = 0;
                     }
                 }
@@ -300,20 +129,9 @@ public class GPSService extends Service {
             }
         };
         start1();
-*/
+
+
     }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (locationManager != null) {
-            //noinspection MissingPermission
-            locationManager.removeUpdates(listener);
-        }
-    }
-
-/*
     private void start1() {
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -323,8 +141,205 @@ public class GPSService extends Service {
         sensorManager.unregisterListener(sensorEventListener);
     }
 
+    @SuppressLint("MissingPermission")
+    private void locationStart() {
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Localizacion Local = new Localizacion();
+
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!gpsEnabled) {
+            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, (LocationListener) Local);
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30*1000, 0, (LocationListener) Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, (LocationListener) Local);
+        System.out.println("inicio gps");
+
+    }
+/*
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1000) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationStart();
+                return;
+            }
+        }
+    }
+
+    public void setLocation(Location loc) {
+        //Obtener la direccion de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(
+                        loc.getLatitude(), loc.getLongitude(), 1);
+                if (!list.isEmpty()) {
+                    Address DirCalle = list.get(0);
+                    String coordenadas0 = getString(R.string.coordenadas1);
+
+
+                    Intent i = new Intent("location_update1");
+                    i.putExtra("mensaje2", coordenadas0
+                            + "Mi direccion es: \n"
+                            + DirCalle.getAddressLine(0)
+                    );
+                    sendBroadcast(i);
+                    //  mensaje2.setText();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 */
+    /* Aqui empieza la Clase Localizacion */
+    public class Localizacion implements LocationListener {
+  //      GPSActivity mainGPSActivity;
+
+     /*   public GPSActivity getMainGPSActivity() {
+            return mainGPSActivity;
+        }
+
+        public void setMainGPSActivity(GPSActivity mainGPSActivity) {
+            this.mainGPSActivity = mainGPSActivity;
+        }
+*/
+        @Override
+        public void onLocationChanged(Location loc) {
+            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
+            // debido a la deteccion de un cambio de ubicacion
+
+            String coordenadas0 = getString(R.string.coordenadas1);
+            String latitude1 = getString(R.string.latitude);
+            String longitude1 = getString(R.string.longitude);
+            String accuracy1 = getString(R.string.accuracy);
+            String altitude1 = getString(R.string.altitude);
+            String speed1 = getString(R.string.speed);
+            String provider1 = getString(R.string.provider);
+            String hour1 = getString(R.string.hour);
+            String date1 = getString(R.string.date);
+            System.out.println("x:" + sensor_x);
+            System.out.println("y:" + sensor_y);
+            System.out.println("z:" + sensor_z);
+
+            Intent i = new Intent("location_update");
+            i.putExtra("coordenadas", coordenadas0
+                    + "\n" + latitude1 + " : " + loc.getLatitude()
+                    + "\n" + longitude1 + " : " + loc.getLongitude()
+                    + "\n" + accuracy1 + " : " + loc.getAccuracy()
+                    + "\n" + altitude1 + " : " + loc.getAltitude()
+                    + "\n" + speed1 + " : " + loc.getSpeed()
+                    + "\n" + provider1 + " : " + loc.getProvider()
+                    + "\n" + hour1 + " : " + m.getHoraActual()
+                    + "\n" + date1 + " : " + m.getFechaActual()
+                    + "\n x :" + sensor_x
+                    + "\n y :" + sensor_y
+                    + "\n z :" + sensor_z);
+            sendBroadcast(i);
+            Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
+
+            //datos a guardar en variables para luego guardar en la base
+
+            usr = m.cargarPreferencias(getBaseContext());
+            lat = loc.getLatitude();
+            longi = loc.getLongitude();
+            press = loc.getAccuracy();
+            alt = loc.getAltitude();
+            vel = loc.getSpeed();
+            prov = loc.getProvider();
+            fecha = m.getFechaActual();
+
+            //si se encuentra dentro del area capturamos los datos
+            if (area1) {
+                //si el tiempo llega a 1 y la hora esta en el rango definido guardamos los datos
 
 
+                //if ((tt == 1) && m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
+                if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
+                    //prepara los datos a ser enviados al query de insertar datos a la base
 
+                    HashMap<String, String> queryValues = new HashMap<String, String>();
+
+                    queryValues.put("usu_id", usr.toString());
+                    queryValues.put("dat_latitud", lat.toString());
+                    queryValues.put("dat_longitud", longi.toString());
+                    queryValues.put("dat_precision", press.toString());
+                    queryValues.put("dat_altitud", alt.toString());
+                    queryValues.put("dat_velocidad", vel.toString());
+                    queryValues.put("dat_proveedor", prov);
+                    queryValues.put("dat_fechahora_lectura", fecha);
+
+                    controller.insertDatos(queryValues);
+
+/*
+                        //lista los datos para sincronizar
+                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                        if (userList.size() != 0) {
+
+                        }
+                        //tt = 0;
+*/
+                }
+
+                //comprueba la hora para sincronizacón con la base de datos
+                if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
+                    //lista los datos para sincronizar
+
+
+                    ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                    if (userList.size() != 0) {
+
+                    }
+                    m.syncSQLiteMySQLDB(getApplicationContext());
+
+
+                }
+
+
+            }
+            System.out.println(" Latitud = " + loc.getLatitude()
+                    + "\n Longitud = " + loc.getLongitude());
+            System.out.println("tiempo ejecucion"+tt++);
+            //this.mainGPSActivity.setLocation(loc);
+            // permite guardar un respaldo de la base de datos en la carpeta my documents
+            //        m.backupdDatabase(getApplicationContext());
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es desactivado
+            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es activado
+            locationStart();
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            switch (status) {
+                case LocationProvider.AVAILABLE:
+                    Log.d("debug", "LocationProvider.AVAILABLE");
+                    break;
+                case LocationProvider.OUT_OF_SERVICE:
+                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
+                    break;
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
+                    break;
+            }
+        }
+    }
 }
+
