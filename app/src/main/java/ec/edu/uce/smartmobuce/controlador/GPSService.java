@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Address;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,8 +33,7 @@ import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
 public class GPSService extends Service {
 
-    //private LocationListener listener;
-    //private LocationManager locationManager;
+
     private LocationManager mlocManager;
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -81,7 +82,7 @@ public class GPSService extends Service {
         locationStart();
 
 
-    /*
+
 //sensor acelerometro
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -114,13 +115,6 @@ public class GPSService extends Service {
                     if (tt > 150) {
                         System.out.println("valor giro x" + sensor_x);
                         System.out.println("device ESTA en movimiento gps activo");
-                        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-                        //noinspection MissingPermission
-
-
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, listener);
-                        System.out.println("ejecuto listener gps");
                         tt = 0;
                     }
                 }
@@ -135,6 +129,8 @@ public class GPSService extends Service {
         };
         start1();
 
+
+    }
     private void start1() {
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -143,11 +139,10 @@ public class GPSService extends Service {
     private void stop1() {
         sensorManager.unregisterListener(sensorEventListener);
     }
-*/
-    }
+
     @SuppressLint("MissingPermission")
     private void locationStart() {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
         //Local.setMainGPSActivity(ec.edu.uce.gps.GPSActivity);
         final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -162,7 +157,7 @@ public class GPSService extends Service {
         // mensaje1.setText("Localizacion agregada");
         // mensaje2.setText("");
     }
-
+/*
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 1000) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -198,6 +193,7 @@ public class GPSService extends Service {
             }
         }
     }
+*/
     /* Aqui empieza la Clase Localizacion */
     public class Localizacion implements LocationListener {
         GPSActivity mainGPSActivity;
