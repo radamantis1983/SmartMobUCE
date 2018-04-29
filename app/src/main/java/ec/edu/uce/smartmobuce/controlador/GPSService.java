@@ -54,8 +54,8 @@ public class GPSService extends Service {
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
 
-    //private final int tiempoEspera = 60 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
-    private final int actualizar_gps = 30 * 1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
+    private final int tiempoEspera = 30 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
+    private final int actualizar_gps = 15 * 1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
     // envia a la pantalla del activity gps
     private final String horaActualizacion = "00:00:00";// para sincronizar datos hora de inicio
     private final String horaActualizacionf = "00:15:00";//para sincronizar datos hora de fin
@@ -75,75 +75,37 @@ public class GPSService extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        if (sensor == null)
-            Toast.makeText(getApplicationContext(), "dispositivo no cuenta con acelerometro", Toast.LENGTH_SHORT).show();
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                sensor_x = sensorEvent.values[0];
-                sensor_y = sensorEvent.values[1];
-                sensor_z = sensorEvent.values[2];
-                //System.out.println("valor giro x" + sensor_x);
-                //System.out.println("valor giro y" + sensor_y);
-                //System.out.println("valor giro z" + sensor_z);
-                if ((sensor_x > 0 && sensor_x < 1) && (sensor_y > -1 && sensor_y < 0.3) && (sensor_z < -10 || sensor_z > 9)) {
 
-                    //System.out.println(tt++);
-                    tt++;
-                    if (tt>310){
-                        System.out.println("device NO esta en movimiento gps inactivo");
-                        tt=0;
-                    }
-                 } else {
-                    tt++;
-                    //System.out.println(tt++);
-                    if (tt>300){
-                        System.out.println("valor giro x" + sensor_x);
-                        System.out.println("device ESTA en movimiento gps activo");
-                        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+     /*   final CountDownTimer start = new CountDownTimer(tiempoEspera, 1000) {
 
-                        //noinspection MissingPermission
+            public void onTick(long millisUntilFinished) {
+                tt = (millisUntilFinished / 1000);
+                //  System.out.println(tt);
+            }
 
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, actualizar_gps, 0, listener);
-                        System.out.println("ejecuto listener gps");
-                        tt=0;
-                    }
-                }
 
+            @SuppressLint("MissingPermission")
+            public void onFinish() {
+
+
+                start();
+                System.out.println("start");
+
+                locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+                System.out.println("ejecuto listener");
 
 
             }
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }.start();
 
-            }
-        };
-        start();
-
-
+*/
         listener = new LocationListener() {
 
 
             @Override
             public void onLocationChanged(Location loc) {
-
-
-                Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
-
-                //datos a guardar en variables para luego guardar en la base
-
-                usr = m.cargarPreferencias(getBaseContext());
-                lat = loc.getLatitude();
-                longi = loc.getLongitude();
-                //cond = loc.getBearing();
-                press = loc.getAccuracy();
-                alt = loc.getAltitude();
-                vel = loc.getSpeed();
-                prov = loc.getProvider();
-                fecha = m.getFechaActual();
                 String coordenadas0 = getString(R.string.coordenadas1);
                 String latitude1 = getString(R.string.latitude);
                 String longitude1 = getString(R.string.longitude);
@@ -153,23 +115,38 @@ public class GPSService extends Service {
                 String provider1 = getString(R.string.provider);
                 String hour1 = getString(R.string.hour);
                 String date1 = getString(R.string.date);
-                System.out.println(sensor_x);
-                System.out.println(sensor_y);
-                System.out.println(sensor_z);
+                System.out.println("x:" + sensor_x);
+                System.out.println("y:" + sensor_y);
+                System.out.println("z:" + sensor_z);
+
                 Intent i = new Intent("location_update");
                 i.putExtra("coordenadas", coordenadas0
                         + "\n" + latitude1 + " : " + loc.getLatitude()
-                        + "\n" + longitude1 + " : " + longi
-                        + "\n" + accuracy1 + " : " + press
-                        + "\n" + altitude1 + " : " + alt
-                        + "\n" + speed1 + " : " + vel
-                        + "\n" + provider1 + " : " + prov
+                        + "\n" + longitude1 + " : " + loc.getLongitude()
+                        + "\n" + accuracy1 + " : " + loc.getAccuracy()
+                        + "\n" + altitude1 + " : " + loc.getAltitude()
+                        + "\n" + speed1 + " : " + loc.getSpeed()
+                        + "\n" + provider1 + " : " + loc.getProvider()
                         + "\n" + hour1 + " : " + m.getHoraActual()
                         + "\n" + date1 + " : " + m.getFechaActual()
                         + "\n x :" + sensor_x
                         + "\n y :" + sensor_y
                         + "\n z :" + sensor_z);
                 sendBroadcast(i);
+
+
+                Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
+
+                //datos a guardar en variables para luego guardar en la base
+
+                usr = m.cargarPreferencias(getBaseContext());
+                lat = loc.getLatitude();
+                longi = loc.getLongitude();
+                press = loc.getAccuracy();
+                alt = loc.getAltitude();
+                vel = loc.getSpeed();
+                prov = loc.getProvider();
+                fecha = m.getFechaActual();
 
 /*
 */
@@ -233,6 +210,8 @@ public class GPSService extends Service {
                 }
                 System.out.println(" Latitud = " + loc.getLatitude()
                         + "\n Longitud = " + loc.getLongitude());
+                sendBroadcast(i);
+//                start1();
 
             }
 
@@ -253,6 +232,9 @@ public class GPSService extends Service {
                 startActivity(i);
             }
         };
+        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+        System.out.println("inicio gps");
 
 
         //   locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
@@ -263,36 +245,62 @@ public class GPSService extends Service {
         //System.out.println("ejecuto listener gps");
         // permite guardar un respaldo de la base de datos en la carpeta my documents
         //        m.backupdDatabase(getApplicationContext());
+
+
 /*
-        final CountDownTimer start = new CountDownTimer(tiempoEspera, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                tt = (millisUntilFinished / 1000);
-              //  System.out.println(tt);
-            }
-
+//sensor acelerometro
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (sensor == null)
+            Toast.makeText(getApplicationContext(), "dispositivo no cuenta con acelerometro", Toast.LENGTH_SHORT).show();
+        sensorEventListener = new SensorEventListener() {
 
             @SuppressLint("MissingPermission")
-            public void onFinish() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                sensor_x = sensorEvent.values[0];
+                sensor_y = sensorEvent.values[1];
+                sensor_z = sensorEvent.values[2];
+                //System.out.println("valor giro x" + sensor_x);
+                //System.out.println("valor giro y" + sensor_y);
+                //System.out.println("valor giro z" + sensor_z);
+                if ((sensor_x > 0 && sensor_x < 1) && (sensor_y > -1 && sensor_y < 0.3) && (sensor_z < -10 || sensor_z > 9)) {
+
+                    //System.out.println(tt++);
+                    tt++;
+                    if (tt > 333) {
+                        System.out.println("device NO esta en movimiento gps inactivo");
+                        stop1();
+                        tt = 0;
+
+                    }
+                } else {
+                    tt++;
+                    //System.out.println(tt++);
+                    if (tt > 150) {
+                        System.out.println("valor giro x" + sensor_x);
+                        System.out.println("device ESTA en movimiento gps activo");
+                        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+                        //noinspection MissingPermission
 
 
-                start();
-          /*      System.out.println("start");
-
-                locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, listener);
-                System.out.println("ejecuto listener");
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, listener);
+                        System.out.println("ejecuto listener gps");
+                        tt = 0;
+                    }
+                }
 
 
             }
 
-        }.start();
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+            }
+        };
+        start1();
 */
-
-
     }
 
 
@@ -305,12 +313,18 @@ public class GPSService extends Service {
         }
     }
 
-    private void start() {
+/*
+    private void start1() {
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
-    private void stop(){
+
+    private void stop1() {
         sensorManager.unregisterListener(sensorEventListener);
     }
+
+*/
+
 
 
 }
