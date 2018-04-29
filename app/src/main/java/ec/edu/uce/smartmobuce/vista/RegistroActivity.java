@@ -37,7 +37,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
     private RequestQueue requestQueue;
-    private static final String URL = "https://smartmobuce.000webhostapp.com/login/registro.php";
+    private static final String URL = "https://movilidad.000webhostapp.com/login/registro.php";
     private StringRequest request;
 
     View focusView = null;

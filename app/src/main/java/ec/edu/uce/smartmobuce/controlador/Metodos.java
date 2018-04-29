@@ -237,7 +237,7 @@ public class Metodos {
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
-                client.post("https://smartmobuce.000webhostapp.com/smartgps/registrogps.php",params ,new AsyncHttpResponseHandler() {
+                client.post("https://movilidad.000webhostapp.com/movilidad/registrogps.php",params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 

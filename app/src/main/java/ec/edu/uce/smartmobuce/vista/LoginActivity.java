@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private final Metodos m = new Metodos();
     private static final String TAG = "LoginActivity";
     private RequestQueue requestQueue;
-    private static final String URL = "https://smartmobuce.000webhostapp.com/login/login.php";
+    private static final String URL = "https://movilidad.000webhostapp.com/login/login.php";
     private StringRequest request;
     View focusView = null;
     boolean cancel = false;
