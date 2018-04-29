@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +35,14 @@ import ec.edu.uce.smartmobuce.vista.GPSActivity;
 public class GPSService extends Service {
 
 
-    private LocationManager mlocManager;
+
     private SensorManager sensorManager;
     private Sensor sensor;
     private SensorEventListener sensorEventListener;
     private long tt = 0;
-
-    private Double lat;
+     private Double lat;
     private Double longi;
+
     private Double alt;
     //private Float cond;
     private Float press;
@@ -142,20 +143,20 @@ public class GPSService extends Service {
 
     @SuppressLint("MissingPermission")
     private void locationStart() {
-        mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
-        //Local.setMainGPSActivity(ec.edu.uce.gps.GPSActivity);
+
         final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!gpsEnabled) {
-            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(settingsIntent);
+            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
-
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, (LocationListener) Local);
         mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30*1000, 0, (LocationListener) Local);
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 0, (LocationListener) Local);
         System.out.println("inicio gps");
-        // mensaje1.setText("Localizacion agregada");
-        // mensaje2.setText("");
+
     }
 /*
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -196,16 +197,16 @@ public class GPSService extends Service {
 */
     /* Aqui empieza la Clase Localizacion */
     public class Localizacion implements LocationListener {
-        GPSActivity mainGPSActivity;
+  //      GPSActivity mainGPSActivity;
 
-        public GPSActivity getMainGPSActivity() {
+     /*   public GPSActivity getMainGPSActivity() {
             return mainGPSActivity;
         }
 
         public void setMainGPSActivity(GPSActivity mainGPSActivity) {
             this.mainGPSActivity = mainGPSActivity;
         }
-
+*/
         @Override
         public void onLocationChanged(Location loc) {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
@@ -251,8 +252,6 @@ public class GPSService extends Service {
             prov = loc.getProvider();
             fecha = m.getFechaActual();
 
-/*
-*/
             //si se encuentra dentro del area capturamos los datos
             if (area1) {
                 //si el tiempo llega a 1 y la hora esta en el rango definido guardamos los datos
@@ -284,16 +283,6 @@ public class GPSService extends Service {
                         //tt = 0;
 */
                 }
-                //comprueba la hora para sincronizacón con la base de datos
-  /*                  if (m.compararHoras(m.getHoraActual(), horaActualizacion)) {
-                        System.out.println("sincronizando");
-                        System.out.println(horaActualizacion+"la hora de sincronizacion");
-                        m.syncSQLiteMySQLDB(getApplicationContext());
-
-
-                    }
-
-*/
 
                 //comprueba la hora para sincronizacón con la base de datos
                 if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
@@ -313,7 +302,7 @@ public class GPSService extends Service {
             }
             System.out.println(" Latitud = " + loc.getLatitude()
                     + "\n Longitud = " + loc.getLongitude());
-
+            System.out.println("tiempo ejecucion"+tt++);
             //this.mainGPSActivity.setLocation(loc);
             // permite guardar un respaldo de la base de datos en la carpeta my documents
             //        m.backupdDatabase(getApplicationContext());
@@ -326,24 +315,14 @@ public class GPSService extends Service {
             Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
-            String coordenadas0 = getString(R.string.coordenadas1);
-            String latitude1 = getString(R.string.latitude);
 
-            Intent i1 = new Intent("location_update");
-            i1.putExtra("coordenadas", " GPS Disable");
-            sendBroadcast(i);
 
         }
 
         @Override
         public void onProviderEnabled(String provider) {
             // Este metodo se ejecuta cuando el GPS es activado
-            String coordenadas0 = getString(R.string.coordenadas1);
-
-            Intent i = new Intent("location_update");
-            i.putExtra("coordenadas", coordenadas0 + " : GPS Activado");
-            sendBroadcast(i);
-
+            locationStart();
 
         }
 
