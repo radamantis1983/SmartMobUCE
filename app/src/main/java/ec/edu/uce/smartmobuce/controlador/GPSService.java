@@ -263,11 +263,7 @@ public class GPSService extends Service {
 
                     }
                     m.syncSQLiteMySQLDB(getApplicationContext());
-
-
                 }
-
-
             }
             System.out.println(" Latitud = " + loc.getLatitude()
                     + "\n Longitud = " + loc.getLongitude());
