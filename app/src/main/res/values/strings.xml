@@ -57,7 +57,7 @@
     <string name="t03">Administrative</string>
 
     <!-- Strings sector -->
-    <string name="sector" translatable="false">SECTOR</string>
+    <string name="sector" translatable="false">Sector</string>
     <string name="s01">North</string>
     <string name="s02">Center</string>
     <string name="s03">South</string>
