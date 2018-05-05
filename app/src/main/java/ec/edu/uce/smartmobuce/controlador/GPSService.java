@@ -154,8 +154,8 @@ public class GPSService extends Service {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         }
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 1, (LocationListener) Local);
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30*1000, 1, (LocationListener) Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 1, Local);
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30*1000, 1, Local);
 
         System.out.println("inicio gps");
 

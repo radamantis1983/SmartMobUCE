@@ -38,8 +38,7 @@ public class Metodos {
     public void guardarPreferencias(Context context, String text) {
 
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
-        SharedPreferences.Editor editor;
-        editor = preferencia.edit();
+        SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("usu_id", text);
         editor.commit();
     }

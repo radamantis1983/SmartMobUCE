@@ -54,21 +54,21 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         ButterKnife.bind(this);
-        _emailText = (EditText) findViewById(R.id.input_email);
-        _passwordText = (EditText) findViewById(R.id.input_password);
-        _reEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
-        _year = (EditText) findViewById(R.id.input_year);
+        _emailText = findViewById(R.id.input_email);
+        _passwordText = findViewById(R.id.input_password);
+        _reEnterPasswordText = findViewById(R.id.input_reEnterPassword);
+        _year = findViewById(R.id.input_year);
 
-        _genero= (Spinner) findViewById(R.id.input_genero) ;
-        _facultad= (Spinner) findViewById(R.id.input_facultad);
-        _tipo= (Spinner) findViewById(R.id.input_tipo);
-        _sector= (Spinner) findViewById(R.id.input_sector);
+        _genero= findViewById(R.id.input_genero);
+        _facultad= findViewById(R.id.input_facultad);
+        _tipo= findViewById(R.id.input_tipo);
+        _sector= findViewById(R.id.input_sector);
 
         final List<String> list = Arrays.asList(getResources().getStringArray(R.array.actividad));
         //_actividad= (Spinner) findViewById(R.id.input_actividad);
-        _actividad = (MultiSelectSpinner) findViewById(R.id.input_actividad);
-        _signupButton = (Button) findViewById(R.id.btn_signup);
-        _loginLink = (TextView) findViewById(R.id.link_login);
+        _actividad = findViewById(R.id.input_actividad);
+        _signupButton = findViewById(R.id.btn_signup);
+        _loginLink = findViewById(R.id.link_login);
 
         requestQueue = Volley.newRequestQueue(this);
 
