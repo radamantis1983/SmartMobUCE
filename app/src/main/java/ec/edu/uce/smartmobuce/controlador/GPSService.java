@@ -66,7 +66,7 @@ public class GPSService extends Service {
     private float sensor_y;
     private float sensor_z;
     private int sattelite_num;
-//agrego comentario para commit
+
 
     public GPSService() {
     }
