@@ -12,14 +12,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.location.OnNmeaMessageListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -44,29 +49,34 @@ public class GPSService extends Service {
     private double longi;
     private double alt;
     //private Float cond;
+    private double aux1=0,aux2=0;
     private float press;
     private float vel;
     private String usr;
     private String prov;
     private String fecha;
     private String mac;
+    private double dop;
+    private double dopv;
+    private double doph;
 
-
+    private OnNmeaMessageListener mOnNmeaMessageListener;
+    private ArrayList<Localizacion> mGpsTestListeners = new ArrayList<Localizacion>();
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
 
     private final int tiempoEspera = 30 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
     private final int actualizar_gps = 15 * 1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
     // envia a la pantalla del activity gps
-    private final String horaActualizacion = "00:00:00";// para sincronizar datos hora de inicio
-    private final String horaActualizacionf = "00:15:00";//para sincronizar datos hora de fin
+    private final String horaActualizacion = "01:00:00";// para sincronizar datos hora de inicio
+    private final String horaActualizacionf = "01:30:00";//para sincronizar datos hora de fin
     private final String horaInicial = "06:00:00"; //horas de actividad inicio
     private final String horaFinal = "22:00:00";//horas de actividad fin
     private float sensor_x;
     private float sensor_y;
     private float sensor_z;
     private int sattelite_num;
-
+    private GpsStatus.NmeaListener mLegacyNmeaListener;
 
     public GPSService() {
     }
@@ -97,31 +107,12 @@ public class GPSService extends Service {
                 sensor_x = sensorEvent.values[0];
                 sensor_y = sensorEvent.values[1];
                 sensor_z = sensorEvent.values[2];
-                //System.out.println("valor giro x" + sensor_x);
-                //System.out.println("valor giro y" + sensor_y);
-                //System.out.println("valor giro z" + sensor_z);
-                if ((sensor_x > 0 && sensor_x < 1) && (sensor_y > -1 && sensor_y < 0.3) && (sensor_z < -10 || sensor_z > 9)) {
 
-                    //System.out.println(tt++);
-                    tt++;
-                    if (tt > 333) {
-                        System.out.println("device NO esta en movimiento gps inactivo");
-                        sensor_x=0;
-                        sensor_y=0;
-                        sensor_z=0;
-                        tt = 0;
-
-                    }
-                } else {
-                    tt++;
-                    //System.out.println(tt++);
-                    if (tt > 150) {
-                        System.out.println("valor giro x" + sensor_x);
-                        System.out.println("device ESTA en movimiento gps activo");
-                        tt = 0;
-                    }
-                }
-
+                Intent c = new Intent("acelerometro_update");
+                c.putExtra("acelerometro","Acelerometer \n x :" + sensor_x
+                        + "\n y :" + sensor_y
+                        + "\n z :" + sensor_z);
+                sendBroadcast(c);
 
             }
 
@@ -159,23 +150,31 @@ public class GPSService extends Service {
 
         System.out.println("inicio gps");
 
+
+
+
     }
-/*
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1000) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationStart();
-                return;
+
+
+
+
+    /*
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            if (requestCode == 1000) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationStart();
+                    return;
+                }
             }
         }
-    }
 
 
-    /* Aqui empieza la Clase Localizacion */
-    public class Localizacion implements LocationListener {
+        /* Aqui empieza la Clase Localizacion */
+    public class Localizacion implements LocationListener, GpsTestListener{
 
 
 
+        @SuppressLint("NewApi")
         @Override
         public void onLocationChanged(Location loc) {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
@@ -190,29 +189,7 @@ public class GPSService extends Service {
             String provider1 = getString(R.string.provider);
             String hour1 = getString(R.string.hour);
             String date1 = getString(R.string.date);
-            System.out.println("x:" + sensor_x);
-            System.out.println("y:" + sensor_y);
-            System.out.println("z:" + sensor_z);
-
-            Intent i = new Intent("location_update");
-            i.putExtra("coordenadas", coordenadas0
-                    + "\n" + latitude1 + " : " + loc.getLatitude()
-                    + "\n" + longitude1 + " : " + loc.getLongitude()
-                    + "\n" + accuracy1 + " : " + loc.getAccuracy()
-                    + "\n" + altitude1 + " : " + loc.getAltitude()
-                    + "\n" + speed1 + " : " + loc.getSpeed()
-                    + "\n" + provider1 + " : " + loc.getProvider()
-                    + "\n" + hour1 + " : " + m.getHoraActual()
-                    + "\n" + date1 + " : " + m.getFechaActual()
-                    + "\n x :" + sensor_x
-                    + "\n y :" + sensor_y
-                    + "\n z :" + sensor_z
-                    + "\n saltelite :" + loc.getExtras().getInt("satellites")
-            );
-            sendBroadcast(i);
-            Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
-
-            //datos a guardar en variables para luego guardar en la base
+            addNmeaListenerAndroidN();//nemea
 
             usr = m.cargarPreferencias(getBaseContext());
             lat = loc.getLatitude();
@@ -224,53 +201,110 @@ public class GPSService extends Service {
             fecha = m.getFechaActual();
             sattelite_num=loc.getExtras().getInt("satellites");
 
-            //si se encuentra dentro del area capturamos los datos
-            if (area1) {
-                //si el tiempo llega a 1 y la hora esta en el rango definido guardamos los datos
+            if (loc.hasSpeed()||lastlocation(lat,longi)) {
 
 
-                //if ((tt == 1) && m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
-                if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
-                    //prepara los datos a ser enviados al query de insertar datos a la base
-
-                    HashMap<String, String> queryValues = new HashMap<String, String>();
-
-                    queryValues.put("usu_id", usr);
-                    queryValues.put("dat_latitud", String.valueOf(lat));
-                    queryValues.put("dat_longitud", String.valueOf(longi));
-                    queryValues.put("dat_precision", String.valueOf(press));
-                    queryValues.put("dat_altitud", String.valueOf(alt));
-                    queryValues.put("dat_velocidad", String.valueOf(vel));
-                    queryValues.put("dat_proveedor", prov);
-                    queryValues.put("dat_fechahora_lectura", fecha);
-                    queryValues.put("dat_acelerometro_x", String.valueOf(sensor_x));
-                    queryValues.put("dat_acelerometro_x", String.valueOf(sensor_y));
-                    queryValues.put("dat_acelerometro_x", String.valueOf(sensor_z));
-                    queryValues.put("dat_numero_sat",String.valueOf(sattelite_num ));
-                    queryValues.put("dat_amplitud_sat", "0");
-
-                    controller.insertDatos(queryValues);
-
-                }
-
-                //comprueba la hora para sincronizacón con la base de datos
-                if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
-                    //lista los datos para sincronizar
-
-
-                    ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
-                    if (userList.size() != 0) {
-
+                Intent i = new Intent("location_update");
+                i.putExtra("coordenadas", coordenadas0
+                        + "\n" + latitude1 + " : " + lat
+                        + "\n" + longitude1 + " : " + longi
+                        + "\n" + accuracy1 + " : " + press
+                        + "\n" + altitude1 + " : " + alt
+                        + "\n" + speed1 + " : " + vel
+                        + "\n" + provider1 + " : " + prov
+                        + "\n" + hour1 + " : " + m.getHoraActual()
+                        + "\n" + date1 + " : " + fecha
+                        + "\n x :" + sensor_x
+                        + "\n y :" + sensor_y
+                        + "\n z :" + sensor_z
+                        + "\n saltelite :" + sattelite_num
+                        + "\n dop :" + dop
+                        + "\n dopv :" + dopv
+                        + "\n dop :" + doph );
+                sendBroadcast(i);
+                Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
+                //si se encuentra dentro del area capturamos los datos
+                if (area1) {
+                    //si la aplicacion esta en el horario definido guardamos los datos
+                    if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
+                        //prepara los datos a ser enviados al query de insertar datos a la base
+                        HashMap<String, String> queryValues = new HashMap<String, String>();
+                        queryValues.put("usu_id", usr);
+                        queryValues.put("dat_latitud", String.valueOf(lat));
+                        queryValues.put("dat_longitud", String.valueOf(longi));
+                        queryValues.put("dat_precision", String.valueOf(press));
+                        queryValues.put("dat_altitud", String.valueOf(alt));
+                        queryValues.put("dat_velocidad", String.valueOf(vel));
+                        queryValues.put("dat_proveedor", prov);
+                        queryValues.put("dat_fechahora_lectura", fecha);
+                        queryValues.put("dat_acelerometro_x", String.valueOf(sensor_x));
+                        queryValues.put("dat_acelerometro_x", String.valueOf(sensor_y));
+                        queryValues.put("dat_acelerometro_x", String.valueOf(sensor_z));
+                        queryValues.put("dat_numero_sat",String.valueOf(sattelite_num ));
+                        queryValues.put("dat_amplitud_sat", "0");
+                        controller.insertDatos(queryValues);
                     }
-                    m.syncSQLiteMySQLDB(getApplicationContext());
+
+                    //comprueba la hora para sincronizacón con la base de datos
+                    if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
+                        //lista los datos para sincronizar
+                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                        if (userList.size() != 0) {
+                        }
+                        m.syncSQLiteMySQLDB(getApplicationContext());
+                    }
                 }
+
+                System.out.println(" Latitud = " + loc.getLatitude()
+                        + "\n Longitud = " + loc.getLongitude()
+                        + "\n Proveedor = " + loc.getProvider());
+            }else{
+                 //mostramos los datos en cero
+                Intent i = new Intent("location_update");
+                i.putExtra("coordenadas", coordenadas0
+                        + "\n" + latitude1 + " : " + 0
+                        + "\n" + longitude1 + " : " + 0
+                        + "\n" + accuracy1 + " : " + 0
+                        + "\n" + altitude1 + " : " + 0
+                        + "\n" + speed1 + " : " + 0
+                        + "\n" + provider1 + " : " + "n/a"
+                        + "\n" + hour1 + " : " + m.getHoraActual()
+                        + "\n" + date1 + " : " + fecha
+                        + "\n x :" + sensor_x
+                        + "\n y :" + sensor_y
+                        + "\n z :" + sensor_z
+                        + "\n saltelite :" + 0
+                        + "\n dop :" + 0
+                        + "\n dopv :" + 0
+                        + "\n dop :" + 0
+                );
+                sendBroadcast(i);
+                //insertamos los datos en cero
+                HashMap<String, String> queryValues = new HashMap<String, String>();
+                queryValues.put("usu_id", usr);
+                queryValues.put("dat_latitud", "0");
+                queryValues.put("dat_longitud", "0");
+                queryValues.put("dat_precision", "0");
+                queryValues.put("dat_altitud", "0");
+                queryValues.put("dat_velocidad", "0");
+                queryValues.put("dat_proveedor", "n/a");
+                queryValues.put("dat_fechahora_lectura", fecha);
+                queryValues.put("dat_acelerometro_x", "0");
+                queryValues.put("dat_acelerometro_x", "0");
+                queryValues.put("dat_acelerometro_x", "0");
+                queryValues.put("dat_numero_sat","0");
+                queryValues.put("dat_amplitud_sat", "0");
+                controller.insertDatos(queryValues);
+                System.out.println(" Latitud0 = " + loc.getLatitude()
+                        + "\n Longitud0 = " + loc.getLongitude());
             }
-            System.out.println(" Latitud = " + loc.getLatitude()
-                    + "\n Longitud = " + loc.getLongitude());
-            System.out.println("tiempo ejecucion"+tt++);
+
+
+
 
             // permite guardar un respaldo de la base de datos en la carpeta my documents
             //        m.backupdDatabase(getApplicationContext());
+
 
         }
 
@@ -305,6 +339,77 @@ public class GPSService extends Service {
                     break;
             }
         }
+
+    public void onNmeaMessage(String message, long timestamp) {
+        if (message.startsWith("$GNGSA") || message.startsWith("$GPGSA")) {
+            DilutionOfPrecision dop1 = GpsTestUtil.getDop(message);
+            if (dop1 != null ) {
+                dop=dop1.getPositionDop();
+                doph=dop1.getHorizontalDop();
+                dopv=dop1.getVerticalDop();
+                System.out.println(dop);
+                System.out.println(doph);
+                System.out.println(dopv);
+
+            }
+        }
     }
+
+    }
+    private void addNmeaListener() {
+        if (GpsTestUtil.isGnssStatusListenerSupported()) {
+            addNmeaListenerAndroidN();
+        } else {
+            addLegacyNmeaListener();
+        }
+    }
+    @SuppressLint("MissingPermission")
+    private void addLegacyNmeaListener() {
+        LocationManager mlocManager1 = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (mLegacyNmeaListener == null) {
+            mLegacyNmeaListener = new GpsStatus.NmeaListener() {
+                @Override
+                public void onNmeaReceived(long timestamp, String nmea) {
+                    for (GpsTestListener listener : mGpsTestListeners) {
+                        listener.onNmeaMessage(nmea, timestamp);
+                    }
+
+                }
+            };
+        }
+        mlocManager1.addNmeaListener(mLegacyNmeaListener);
+    }
+
+    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void addNmeaListenerAndroidN() {
+        LocationManager mlocManager1 = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (mOnNmeaMessageListener == null) {
+            mOnNmeaMessageListener = new OnNmeaMessageListener() {
+                @Override
+                public void onNmeaMessage(String message, long timestamp) {
+                    for (Localizacion listener : mGpsTestListeners) {
+                        listener.onNmeaMessage(message, timestamp);
+                    }
+                }
+            };
+        }
+        mlocManager1.addNmeaListener(mOnNmeaMessageListener);
+    }
+public boolean lastlocation(double last_latitud, double last_longitud){
+
+        if(aux1!=last_latitud || aux2!=last_longitud){
+            aux1=last_latitud;
+            aux2=last_longitud;
+            System.out.println("cambio de lugar");
+            return true;
+
+        }
+        else{
+            return false;
+        }
+
+}
+
 }
 

@@ -16,21 +16,27 @@
     <string name="latitude">Latitud</string>
     <string name="longitude">Longitud</string>
     <string name="bearing">Conducta</string>
-    <string name="accuracy">Presición</string>
+    <string name="accuracy">Precisión</string>
     <string name="altitude">Altitud</string>
     <string name="speed">Velocidad</string>
     <string name="provider">Proveedor</string>
     <string name="date">Fecha</string>
     <string name="hour">Hora</string>
     <string name="coordenadas">
-        coordenadas:\n
-        Latitud =  -0.222222\n
-        Longitud =  -78.256586\n
-        Precision =  10.0\n
-        Altitud =  2910.0\n
+        Coordenadas:\n
+        Latitud =  -0.0\n
+        Longitud =  -0.0\n
+        Precision =  0.0\n
+        Altitud =  0.0\n
         Velocidad =  0.0\n
-        Proveedor = gps
-    </string>
+        Proveedor = n/a\n
+        x:0\n
+        y:0\n
+        z:0\n
+        dop:\n
+        doph:\n
+        dopv:
+      </string>
 
     <string name="title_activity_login">Registrarse</string>
     <string name="action_settings">Acerca de</string>
