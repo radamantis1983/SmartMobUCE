@@ -41,13 +41,13 @@ public class GPSActivity extends AppCompatActivity {
 
                     textView.setText("\n" + intent.getExtras().get("coordenadas"));
 
-
                 }
             };
         }
 
 
         registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+
         if (broadcastReceiver1 == null) {
 
             broadcastReceiver1 = new BroadcastReceiver() {

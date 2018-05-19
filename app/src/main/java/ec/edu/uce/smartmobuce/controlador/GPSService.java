@@ -110,8 +110,8 @@ public class GPSService extends Service {
 
                 Intent c = new Intent("acelerometro_update");
                 c.putExtra("acelerometro","Acelerometer \n x :" + sensor_x
-                        + "\n y :" + sensor_y
-                        + "\n z :" + sensor_z);
+                        + "\t y :" + sensor_y
+                        + "\t z :" + sensor_z);
                 sendBroadcast(c);
 
             }
@@ -134,13 +134,15 @@ public class GPSService extends Service {
         sensorManager.unregisterListener(sensorEventListener);
     }
 
+
+
     @SuppressLint("MissingPermission")
     private void locationStart() {
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
 
-        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
+         boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (gpsEnabled==false) {
             Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
@@ -174,7 +176,7 @@ public class GPSService extends Service {
 
 
 
-        @SuppressLint("NewApi")
+
         @Override
         public void onLocationChanged(Location loc) {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
@@ -189,7 +191,7 @@ public class GPSService extends Service {
             String provider1 = getString(R.string.provider);
             String hour1 = getString(R.string.hour);
             String date1 = getString(R.string.date);
-            addNmeaListenerAndroidN();//nemea
+            //addNmeaListenerAndroidN();//nemea
 
             usr = m.cargarPreferencias(getBaseContext());
             lat = loc.getLatitude();
@@ -200,7 +202,9 @@ public class GPSService extends Service {
             prov = loc.getProvider();
             fecha = m.getFechaActual();
             sattelite_num=loc.getExtras().getInt("satellites");
-
+            //System.out.println("tiene  movimiento"+loc.hasSpeed());
+            //System.out.println("tiene cambio de lugar"+lastlocation(lat,longi));
+            System.out.println("comprueba si hay movimiento o cambio de lugar");
             if (loc.hasSpeed()||lastlocation(lat,longi)) {
 
 
@@ -259,14 +263,15 @@ public class GPSService extends Service {
                         + "\n Longitud = " + loc.getLongitude()
                         + "\n Proveedor = " + loc.getProvider());
             }else{
-                 //mostramos los datos en cero
+                System.out.println("el celular no esta en movimiento y tampoco hubo cambio de lugar");
+                //mostramos los datos en cero
                 Intent i = new Intent("location_update");
                 i.putExtra("coordenadas", coordenadas0
-                        + "\n" + latitude1 + " : " + 0
-                        + "\n" + longitude1 + " : " + 0
-                        + "\n" + accuracy1 + " : " + 0
-                        + "\n" + altitude1 + " : " + 0
-                        + "\n" + speed1 + " : " + 0
+                        + "\n" + latitude1 + " : " + 0.0
+                        + "\n" + longitude1 + " : " + 0.0
+                        + "\n" + accuracy1 + " : " + 0.0
+                        + "\n" + altitude1 + " : " + 0.0
+                        + "\n" + speed1 + " : " + 0.0
                         + "\n" + provider1 + " : " + "n/a"
                         + "\n" + hour1 + " : " + m.getHoraActual()
                         + "\n" + date1 + " : " + fecha
@@ -274,24 +279,24 @@ public class GPSService extends Service {
                         + "\n y :" + sensor_y
                         + "\n z :" + sensor_z
                         + "\n saltelite :" + 0
-                        + "\n dop :" + 0
-                        + "\n dopv :" + 0
-                        + "\n dop :" + 0
+                        + "\n dop :" + 0.0
+                        + "\n dopv :" + 0.0
+                        + "\n dop :" + 0.0
                 );
                 sendBroadcast(i);
                 //insertamos los datos en cero
                 HashMap<String, String> queryValues = new HashMap<String, String>();
                 queryValues.put("usu_id", usr);
-                queryValues.put("dat_latitud", "0");
-                queryValues.put("dat_longitud", "0");
-                queryValues.put("dat_precision", "0");
-                queryValues.put("dat_altitud", "0");
-                queryValues.put("dat_velocidad", "0");
+                queryValues.put("dat_latitud", "0.0");
+                queryValues.put("dat_longitud", "0.0");
+                queryValues.put("dat_precision", "0.0");
+                queryValues.put("dat_altitud", "0.0");
+                queryValues.put("dat_velocidad", "0.0");
                 queryValues.put("dat_proveedor", "n/a");
                 queryValues.put("dat_fechahora_lectura", fecha);
-                queryValues.put("dat_acelerometro_x", "0");
-                queryValues.put("dat_acelerometro_x", "0");
-                queryValues.put("dat_acelerometro_x", "0");
+                queryValues.put("dat_acelerometro_x", "0.0");
+                queryValues.put("dat_acelerometro_x", "0.0");
+                queryValues.put("dat_acelerometro_x", "0.0");
                 queryValues.put("dat_numero_sat","0");
                 queryValues.put("dat_amplitud_sat", "0");
                 controller.insertDatos(queryValues);
@@ -311,9 +316,9 @@ public class GPSService extends Service {
         @Override
         public void onProviderDisabled(String provider) {
             // Este metodo se ejecuta cuando el GPS es desactivado
-            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
+            Intent k = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            k.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(k);
 
 
         }
@@ -397,16 +402,20 @@ public class GPSService extends Service {
         mlocManager1.addNmeaListener(mOnNmeaMessageListener);
     }
 public boolean lastlocation(double last_latitud, double last_longitud){
-
+    System.out.println("latitud anterior"+aux1);
+    System.out.println("longitud anterior"+aux2);
+    boolean estado=false;
         if(aux1!=last_latitud || aux2!=last_longitud){
             aux1=last_latitud;
             aux2=last_longitud;
             System.out.println("cambio de lugar");
-            return true;
-
+            estado =true;
+            return estado;
         }
         else{
-            return false;
+            System.out.println("no cambio de lugar");
+            estado=false;
+            return estado;
         }
 
 }
