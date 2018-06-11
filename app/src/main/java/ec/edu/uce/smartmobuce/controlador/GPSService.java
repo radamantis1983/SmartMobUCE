@@ -23,12 +23,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +39,13 @@ import java.util.Locale;
 import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
+import static android.content.ContentValues.TAG;
+import static ec.edu.uce.smartmobuce.controlador.GpsTestUtil.getDop;
+
 public class GPSService extends Service {
 
 
-
+    DecimalFormat df = new DecimalFormat("#.0000");
     private SensorManager sensorManager;
     private Sensor sensor;
     private SensorEventListener sensorEventListener;
@@ -56,16 +61,23 @@ public class GPSService extends Service {
     private String prov;
     private String fecha;
     private String mac;
+    private String pdop="", hdop="", vdop="";
     private double dop;
     private double dopv;
     private double doph;
+
+    boolean isGPSEnabled = false;
+    boolean isNetworkEnabled = false;
+    boolean canGetLocation = false;
+    Location location;
+    boolean estado1=false;
 
     private OnNmeaMessageListener mOnNmeaMessageListener;
     private ArrayList<Localizacion> mGpsTestListeners = new ArrayList<Localizacion>();
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
 
-    private final int tiempoEspera = 30 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
+    private final int tiempoEspera = 15 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
     private final int actualizar_gps = 15 * 1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
     // envia a la pantalla del activity gps
     private final String horaActualizacion = "01:00:00";// para sincronizar datos hora de inicio
@@ -138,6 +150,51 @@ public class GPSService extends Service {
 
     @SuppressLint("MissingPermission")
     private void locationStart() {
+        LocationManager locationmanager;
+
+        locationmanager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationmanager.addNmeaListener(new GpsStatus.NmeaListener() {
+            public void onNmeaReceived(long timestamp, String nmea) {
+
+                Log.d(TAG,"Nmea Received :");
+                Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
+                String[] tokens = nmea.split(",");
+                if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
+
+                    try {
+                        pdop = tokens[15];
+                        hdop = tokens[16];
+                        vdop = tokens[17];
+
+                        if (vdop.contains("*")) {
+                            vdop = vdop.split("\\*")[0];
+                        }
+
+
+                        if (pdop.contains("*")) {
+                            pdop = "0.0";
+                        }
+                        if (vdop.contains("")) {
+                            vdop = "0.0";
+                        }
+                        if (hdop.contains("")) {
+                            hdop = "0.0";
+                        }
+                        System.out.println("valor PDOP:: " + pdop + " el dato H: " + hdop + " el dato v es: " + vdop);
+                        Log.e(TAG, "valor PDOP: " + pdop + "el dato H" + hdop + "el dato v es " + vdop);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmea + " :" + e);
+
+                    }
+                    // See https://github.com/barbeau/gpstest/issues/71#issuecomment-263169174
+
+
+                }
+
+
+
+
+            }});
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
 
@@ -147,13 +204,35 @@ public class GPSService extends Service {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         }
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 1, Local);
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30*1000, 1, Local);
-
-        System.out.println("inicio gps");
-
+        isGPSEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//solo gps hora y acelerometro
+        //get network status
 
 
+        if (!isGPSEnabled && !isNetworkEnabled)
+        {
+            //no network provider enabled
+            //guardar cero
+
+        }
+        else if (isGPSEnabled)
+        {
+            //   locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15*1000, 0, Local);
+            Log.d("GPS Enabled", "GPS Enabled");
+                /*    if (mlocManager != null)
+                    {
+                        location = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (location != null)
+                        {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            altitude = location.getAltitude();
+                        }
+                    }
+                */
+
+        }
 
     }
 
@@ -205,8 +284,8 @@ public class GPSService extends Service {
             //System.out.println("tiene  movimiento"+loc.hasSpeed());
             //System.out.println("tiene cambio de lugar"+lastlocation(lat,longi));
             System.out.println("comprueba si hay movimiento o cambio de lugar");
-            if (loc.hasSpeed()||lastlocation(lat,longi)) {
-
+            if (loc.hasSpeed()&&vel!=0.0||(lastlocation(lat,longi) )) {
+                  System.out.println("hubo velocidad"+(loc.hasSpeed()&&vel!=0.0));
 
                 Intent i = new Intent("location_update");
                 i.putExtra("coordenadas", coordenadas0
@@ -221,11 +300,12 @@ public class GPSService extends Service {
                         + "\n x :" + sensor_x
                         + "\n y :" + sensor_y
                         + "\n z :" + sensor_z
-                        + "\n saltelite :" + sattelite_num
-                        + "\n dop :" + dop
-                        + "\n dopv :" + dopv
-                        + "\n dop :" + doph );
+                        + "\n satelite :" + sattelite_num
+                        + "\n dop :" + pdop
+                        + "\n dopv :" + vdop
+                        + "\n dop :" + hdop );
                 sendBroadcast(i);
+
                 Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
                 //si se encuentra dentro del area capturamos los datos
                 if (area1) {
@@ -259,8 +339,8 @@ public class GPSService extends Service {
                     }
                 }
 
-                System.out.println(" Latitud = " + loc.getLatitude()
-                        + "\n Longitud = " + loc.getLongitude()
+                System.out.println(" Latitud = " + truncateDecimal(loc.getLatitude(),4)
+                        + "\n Longitud = " + truncateDecimal(loc.getLongitude(),4)
                         + "\n Proveedor = " + loc.getProvider());
             }else{
                 System.out.println("el celular no esta en movimiento y tampoco hubo cambio de lugar");
@@ -347,7 +427,7 @@ public class GPSService extends Service {
 
     public void onNmeaMessage(String message, long timestamp) {
         if (message.startsWith("$GNGSA") || message.startsWith("$GPGSA")) {
-            DilutionOfPrecision dop1 = GpsTestUtil.getDop(message);
+            DilutionOfPrecision dop1 = getDop(message);
             if (dop1 != null ) {
                 dop=dop1.getPositionDop();
                 doph=dop1.getHorizontalDop();
@@ -401,24 +481,99 @@ public class GPSService extends Service {
         }
         mlocManager1.addNmeaListener(mOnNmeaMessageListener);
     }
-public boolean lastlocation(double last_latitud, double last_longitud){
-    System.out.println("latitud anterior"+aux1);
-    System.out.println("longitud anterior"+aux2);
-    boolean estado=false;
-        if(aux1!=last_latitud || aux2!=last_longitud){
-            aux1=last_latitud;
-            aux2=last_longitud;
-            System.out.println("cambio de lugar");
-            estado =true;
-            return estado;
+    private static double truncateDecimal(double x,int numberofDecimals)
+    {
+        if ( x > 0) {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR).doubleValue();
+        } else {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+    }
+private boolean lastlocation(double last_latitud, double last_longitud){
+
+        double a=truncateDecimal(last_latitud,4);
+        double b=truncateDecimal(last_longitud,4);
+    System.out.println("latitud a comparar"+a);
+    System.out.println("longitud a comparar"+b);
+    System.out.println("latitud anterior" + aux1);//alamacenar solo 4 digitos0.0000
+    System.out.println("longitud anterior" + aux2);//alamacenar solo 4 digitos
+
+        if(aux1!=a || aux2!=b){
+            aux1= truncateDecimal(last_latitud,4);
+            aux2=truncateDecimal(last_longitud,4);
+
+            System.out.println("cambio de lugar true");
+            estado1 =true;
+            return estado1;
         }
         else{
             System.out.println("no cambio de lugar");
-            estado=false;
-            return estado;
+            estado1=false;
+            return estado1;
         }
 
 }
+
+    /**
+     * Given a $GNGSA or $GPGSA NMEA sentence, return the dilution of precision, or null if dilution of
+     * precision can't be parsed.
+     *
+     * Example inputs are:
+     * $GPGSA,A,3,03,14,16,22,23,26,,,,,,,3.6,1.8,3.1*38
+     * $GNGSA,A,3,03,14,16,22,23,26,,,,,,,3.6,1.8,3.1,1*3B
+     *
+     * Example output is:
+     * PDOP is 3.6, HDOP is 1.8, and VDOP is 3.1
+     *
+     * @param nmeaSentence a $GNGSA or $GPGSA NMEA sentence
+     * @return the dilution of precision, or null if dilution of precision can't be parsed
+     */
+    public static DilutionOfPrecision getDoph(String nmeaSentence) {
+        final int PDOP_INDEX = 15;
+        final int HDOP_INDEX = 16;
+        final int VDOP_INDEX = 17;
+        String[] tokens = nmeaSentence.split(",");
+
+        if (nmeaSentence.startsWith("$GNGSA") || nmeaSentence.startsWith("$GPGSA")) {
+            String pdop, hdop, vdop;
+            try {
+                pdop = tokens[PDOP_INDEX];
+                hdop = tokens[HDOP_INDEX];
+                vdop = tokens[VDOP_INDEX];
+                System.out.println("valor PDOP: "+pdop+"el dato H"+hdop+"el dato v es "+vdop);
+                Log.e(TAG,"valor PDOP: "+pdop+"el dato H"+hdop+"el dato v es "+vdop);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmeaSentence + " :" + e);
+                return null;
+            }
+
+            // See https://github.com/barbeau/gpstest/issues/71#issuecomment-263169174
+            if (vdop.contains("*")) {
+                vdop = vdop.split("\\*")[0];
+            }
+
+            if (!TextUtils.isEmpty(pdop) && !TextUtils.isEmpty(hdop) && !TextUtils.isEmpty(vdop)) {
+                DilutionOfPrecision dop = null;
+                try {
+                    dop = new DilutionOfPrecision(Double.valueOf(pdop), Double.valueOf(hdop),
+                            Double.valueOf(vdop));
+                } catch (NumberFormatException e) {
+                    // See https://github.com/barbeau/gpstest/issues/71#issuecomment-263169174
+                    Log.e(TAG, "Invalid DOP values in NMEA: " + nmeaSentence);
+                }
+                return dop;
+            } else {
+                Log.w(TAG, "Empty DOP values in NMEA: " + nmeaSentence);
+                return null;
+            }
+        } else {
+            Log.w(TAG, "Input must be a $GNGSA NMEA: " + nmeaSentence);
+            return null;
+        }
+    }
+
+
+
 
 }
 

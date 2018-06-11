@@ -222,8 +222,8 @@ public class GpsTestUtil {
                 pdop = tokens[PDOP_INDEX];
                 hdop = tokens[HDOP_INDEX];
                 vdop = tokens[VDOP_INDEX];
-                System.out.println("valor PDOP: "+pdop);
-                Log.e(TAG,"pDOP"+pdop);
+                System.out.println("valor PDOP: "+pdop+"el dato H"+hdop+"el dato v es "+vdop);
+                Log.e(TAG,"valor PDOP: "+pdop+"el dato H"+hdop+"el dato v es "+vdop);
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmeaSentence + " :" + e);
                 return null;
