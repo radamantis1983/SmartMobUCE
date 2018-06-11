@@ -62,6 +62,7 @@ public class GPSService extends Service {
     private String fecha;
     private String mac;
     private String pdop="", hdop="", vdop="";
+    private String pdop1="", hdop1="", vdop1="";
     private double dop;
     private double dopv;
     private double doph;
@@ -123,7 +124,12 @@ public class GPSService extends Service {
                 Intent c = new Intent("acelerometro_update");
                 c.putExtra("acelerometro","Acelerometer \n x :" + sensor_x
                         + "\t y :" + sensor_y
-                        + "\t z :" + sensor_z);
+                        + "\t z :" + sensor_z
+                        + "\t pod :" + pdop1
+                        + "\t hdop :" + hdop1
+                        + "\t vdop :" + vdop1
+
+                );
                 sendBroadcast(c);
 
             }
@@ -169,19 +175,25 @@ public class GPSService extends Service {
                         if (vdop.contains("*")) {
                             vdop = vdop.split("\\*")[0];
                         }
+                        pdop1 =pdop;
+                        hdop1 = hdop;
+                        vdop1 = vdop;
 
-
-                        if (pdop.contains("*")) {
-                            pdop = "0.0";
-                        }
-                        if (vdop.contains("")) {
-                            vdop = "0.0";
-                        }
-                        if (hdop.contains("")) {
-                            hdop = "0.0";
-                        }
+                        Log.e(TAG, "recibiendo valor pod");
                         System.out.println("valor PDOP:: " + pdop + " el dato H: " + hdop + " el dato v es: " + vdop);
                         Log.e(TAG, "valor PDOP: " + pdop + "el dato H" + hdop + "el dato v es " + vdop);
+                        if (pdop.isEmpty()) {
+                            pdop1 = "0.0";
+                        }
+                        if (vdop.isEmpty()) {
+                            vdop1 = "0.0";
+                        }
+                        if (hdop.isEmpty()) {
+                            hdop1 = "0.0";
+                        }
+                        Log.e(TAG, "recibiendo  valor 000000");
+                        System.out.println("valor PDOP:: " + pdop1 + " el dato H: " + hdop1 + " el dato v es: " + vdop1);
+                        Log.e(TAG, "valor PDOP: " + pdop1 + "el dato H" + hdop1 + "el dato v es " + vdop1);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmea + " :" + e);
 
@@ -301,9 +313,9 @@ public class GPSService extends Service {
                         + "\n y :" + sensor_y
                         + "\n z :" + sensor_z
                         + "\n satelite :" + sattelite_num
-                        + "\n dop :" + pdop
-                        + "\n dopv :" + vdop
-                        + "\n dop :" + hdop );
+                        + "\n dop :" + pdop1
+                        + "\n dopv :" + vdop1
+                        + "\n dop :" + hdop1 );
                 sendBroadcast(i);
 
                 Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
@@ -358,10 +370,10 @@ public class GPSService extends Service {
                         + "\n x :" + sensor_x
                         + "\n y :" + sensor_y
                         + "\n z :" + sensor_z
-                        + "\n saltelite :" + 0
-                        + "\n dop :" + 0.0
-                        + "\n dopv :" + 0.0
-                        + "\n dop :" + 0.0
+                        + "\n satelite :" + sattelite_num
+                        + "\n dop :" + pdop1
+                        + "\n dopv :" + vdop1
+                        + "\n dop :" + hdop1
                 );
                 sendBroadcast(i);
                 //insertamos los datos en cero
