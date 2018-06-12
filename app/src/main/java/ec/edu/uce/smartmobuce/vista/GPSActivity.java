@@ -24,8 +24,10 @@ import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.R;
 
 public class GPSActivity extends AppCompatActivity {
-    private TextView textView;
+    private TextView textView,textView2;
+
     private BroadcastReceiver broadcastReceiver;
+    private BroadcastReceiver broadcastReceiver1;
     private final Metodos m = new Metodos();
 
     @Override
@@ -43,8 +45,23 @@ public class GPSActivity extends AppCompatActivity {
             };
         }
 
+
         registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
 
+        if (broadcastReceiver1 == null) {
+
+            broadcastReceiver1 = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    textView2.setText("\n" + intent.getExtras().get("acelerometro"));
+
+
+                }
+            };
+        }
+
+        registerReceiver(broadcastReceiver1, new IntentFilter("acelerometro_update"));
     }
 
     @Override
@@ -52,6 +69,9 @@ public class GPSActivity extends AppCompatActivity {
         super.onDestroy();
         if (broadcastReceiver != null) {
             unregisterReceiver(broadcastReceiver);
+        }
+        if (broadcastReceiver1 != null) {
+            unregisterReceiver(broadcastReceiver1);
         }
     }
 
@@ -61,7 +81,7 @@ public class GPSActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gps);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         textView = findViewById(R.id.textView);
-
+        textView2 = findViewById(R.id.textView2);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);

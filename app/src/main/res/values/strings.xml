@@ -57,7 +57,7 @@
     <string name="t03">Administrative</string>
 
     <!-- Strings sector -->
-    <string name="sector" translatable="false">SECTOR</string>
+    <string name="sector" translatable="false">Sector</string>
     <string name="s01">North</string>
     <string name="s02">Center</string>
     <string name="s03">South</string>
@@ -89,13 +89,18 @@
     <string name="hour">Hour</string>
     <string name="coordenadas">
         Coordinates\n
-        Latitude =  -0.222222 \n
-        Longitude =  -78.256586\n
-        Bearing = 0.0\n
-        Accuracy =  10.0\n
-        Altitude =  2910.0\n
+        Latitude =  -0.0 \n
+        Longitude =  -0.0\n
+        Accuracy =  0.0\n
+        Altitude =  0.0\n
         Speed =  0.0\n
-        Provider = gps
+        Provider = n/a\n
+        x:0\n
+        y:0\n
+        z:0\n
+        dop:\n
+        doph:\n
+        dopv:
     </string>
 
 
