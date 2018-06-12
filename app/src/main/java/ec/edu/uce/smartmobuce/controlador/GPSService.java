@@ -187,7 +187,7 @@ public class GPSService extends Service {
                         }
                         if (vdop.isEmpty()) {
                             vdop1 = "0.0";
-                        } 
+                        }
                         if (hdop.isEmpty()) {
                             hdop1 = "0.0";
                         }
