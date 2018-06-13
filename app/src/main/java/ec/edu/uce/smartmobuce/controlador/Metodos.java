@@ -1,8 +1,11 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -281,6 +284,8 @@ public class Metodos {
             Toast.makeText(appContext, "No data in SQLite DB, \n por favor espere la accion \nde Sincronizacion ", Toast.LENGTH_LONG).show();
         }
     }
+
+
 
 
 }

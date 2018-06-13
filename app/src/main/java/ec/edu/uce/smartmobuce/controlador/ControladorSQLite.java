@@ -33,8 +33,10 @@ public class ControladorSQLite extends SQLiteOpenHelper {
             "`dat_acelerometro_x` REAL," +
             "`dat_acelerometro_y` REAL," +
             "`dat_acelerometro_z` REAL," +
-            "`dat_numero_sat` INTEGER,"+
-            "`dat_amplitud_sat` REAL" +
+            "`dat_numero_sat` INTEGER, "+
+            "`dat_pdop` REAL, " +
+            "`dat_hdop` REAL, " +
+            "`dat_vdop` REAL" +
             ");";
 
     //contexto referencia al activity, name nombre de base de datos SQLiteDatabase m=no utilizamos ponemos null
@@ -80,7 +82,9 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         values.put("dat_acelerometro_y", queryValues.get("dat_acelerometro_x"));
         values.put("dat_acelerometro_z", queryValues.get( "dat_acelerometro_x"));
         values.put("dat_numero_sat", queryValues.get("dat_numero_sat"));
-        values.put("dat_amplitud_sat", queryValues.get("dat_amplitud_sat"));
+        values.put("dat_pdop", queryValues.get("dat_pdop"));
+        values.put("dat_hdop", queryValues.get("dat_hdop"));
+        values.put("dat_vdop", queryValues.get("dat_vdop"));
 
         database.insert("DatosGPS", null, values);
         database.close();
@@ -113,7 +117,9 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_acelerometro_y", cursor.getString(11));
                 map.put("dat_acelerometro_z", cursor.getString(12));
                 map.put("dat_numero_sat", cursor.getString(13));
-                map.put("dat_amplitud_sat", cursor.getString(14));
+                map.put("dat_pdop", cursor.getString(14));
+                map.put("dat_hdop", cursor.getString(15));
+                map.put("dat_vdop", cursor.getString(16));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -149,7 +155,9 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_acelerometro_y", cursor.getString(11));
                 map.put("dat_acelerometro_z", cursor.getString(12));
                 map.put("dat_numero_sat", cursor.getString(13));
-                map.put("dat_amplitud_sat", cursor.getString(14));
+                map.put("dat_pdop", cursor.getString(14));
+                map.put("dat_hdop", cursor.getString(15));
+                map.put("dat_vdop", cursor.getString(16));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
