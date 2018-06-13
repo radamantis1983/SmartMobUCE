@@ -1,6 +1,7 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -68,8 +70,6 @@ public class GPSService extends Service {
     private double doph;
 
     boolean isGPSEnabled = false;
-    boolean isNetworkEnabled = false;
-    boolean canGetLocation = false;
     Location location;
     boolean estado1=false;
 
@@ -209,8 +209,9 @@ public class GPSService extends Service {
             }});
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
-
+        //verifica si el gps esta activo caso contrario activa la opcion de activar el gps
          boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
         if (gpsEnabled==false) {
             Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -221,7 +222,7 @@ public class GPSService extends Service {
         //get network status
 
 
-        if (!isGPSEnabled && !isNetworkEnabled)
+        if (!isGPSEnabled )
         {
             //no network provider enabled
             //guardar cero
@@ -337,7 +338,10 @@ public class GPSService extends Service {
                         queryValues.put("dat_acelerometro_x", String.valueOf(sensor_y));
                         queryValues.put("dat_acelerometro_x", String.valueOf(sensor_z));
                         queryValues.put("dat_numero_sat",String.valueOf(sattelite_num ));
-                        queryValues.put("dat_amplitud_sat", "0");
+                        queryValues.put("dat_pdop",String.valueOf(pdop1 ));
+                        queryValues.put("dat_hdop",String.valueOf(hdop1 ));
+                        queryValues.put("dat_vdop",String.valueOf(vdop1 ));
+
                         controller.insertDatos(queryValues);
                     }
 
@@ -367,13 +371,13 @@ public class GPSService extends Service {
                         + "\n" + provider1 + " : " + "n/a"
                         + "\n" + hour1 + " : " + m.getHoraActual()
                         + "\n" + date1 + " : " + fecha
-                        + "\n x :" + sensor_x
-                        + "\n y :" + sensor_y
-                        + "\n z :" + sensor_z
-                        + "\n satelite :" + sattelite_num
-                        + "\n dop :" + pdop1
-                        + "\n dopv :" + vdop1
-                        + "\n dop :" + hdop1
+                        + "\n x :" + 0.0
+                        + "\n y :" + 0.0
+                        + "\n z :" + 0.0
+                        + "\n satelite :" + 0
+                        + "\n dop :" + 0.0
+                        + "\n dopv :" + 0.0
+                        + "\n dop :" + 0.0
                 );
                 sendBroadcast(i);
                 //insertamos los datos en cero
@@ -390,7 +394,9 @@ public class GPSService extends Service {
                 queryValues.put("dat_acelerometro_x", "0.0");
                 queryValues.put("dat_acelerometro_x", "0.0");
                 queryValues.put("dat_numero_sat","0");
-                queryValues.put("dat_amplitud_sat", "0");
+                queryValues.put("dat_pdop","0.0");
+                queryValues.put("dat_hdop","0.0");
+                queryValues.put("dat_vdop","0.0");
                 controller.insertDatos(queryValues);
                 System.out.println(" Latitud0 = " + loc.getLatitude()
                         + "\n Longitud0 = " + loc.getLongitude());
