@@ -164,7 +164,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                 //Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
                 String[] tokens = nmea.split(",");
                 if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
-
+  
                     try {
                         pdop = tokens[15];
                         hdop = tokens[16];
