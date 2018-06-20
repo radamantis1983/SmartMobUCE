@@ -260,7 +260,6 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                     + "\n dop :" + pdop1
                     + "\n dopv :" + vdop1
                     + "\n dop :" + hdop1
-                    + "\n nmea :" + dat_nmea
                     );
             sendBroadcast(i);
 
