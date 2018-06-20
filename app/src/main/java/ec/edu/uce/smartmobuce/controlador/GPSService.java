@@ -65,7 +65,8 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     private String prov;
     private String fecha;
     private String mac;
-    private String pdop="", hdop="", vdop="";
+
+    private String pdop="", hdop="", vdop="",dat_nmea="n/a",aux_dat_nmea;
     private String pdop1="0", hdop1="0", vdop1="0";
     private double dop;
     private double dopv;
@@ -160,11 +161,18 @@ public class GPSService extends Service implements SensorEventListener,LocationL
 
             public void onNmeaReceived(long timestamp, String nmea) {
 
-                //Log.d(TAG,"Nmea Received :");
+                Log.d(TAG,"Nmea Received :");
+                Log.d(TAG,"nmea is :"+nmea);
                 //Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
+                aux_dat_nmea=nmea;
+                if (aux_dat_nmea.startsWith("$GNGSA") || aux_dat_nmea.startsWith("$GPGSA")) {
+                    dat_nmea=aux_dat_nmea.split("\\*")[0];
+                    System.out.println("HHHHHHHHHH"+dat_nmea);
+                }
+
                 String[] tokens = nmea.split(",");
                 if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
-  
+
                     try {
                         pdop = tokens[15];
                         hdop = tokens[16];
@@ -228,6 +236,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
         prov = loc.getProvider();
         fecha = m.getFechaActual();
         sattelite_num=loc.getExtras().getInt("satellites");
+        System.out.println("el DAT_NMEA\n"+dat_nmea);
         //System.out.println("tiene  movimiento"+loc.hasSpeed());
         //System.out.println("tiene cambio de lugar"+lastlocation(lat,longi));
         System.out.println("comprueba si hay movimiento o cambio de lugar");
@@ -250,7 +259,9 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                     + "\n satelite :" + sattelite_num
                     + "\n dop :" + pdop1
                     + "\n dopv :" + vdop1
-                    + "\n dop :" + hdop1 );
+                    + "\n dop :" + hdop1
+                    + "\n nmea :" + dat_nmea
+                    );
             sendBroadcast(i);
 
             Boolean area1 = m.revisarArea(loc.getLatitude(), loc.getLongitude());
@@ -271,11 +282,11 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                     queryValues.put("dat_acelerometro_x", String.valueOf(sensor_x));
                     queryValues.put("dat_acelerometro_x", String.valueOf(sensor_y));
                     queryValues.put("dat_acelerometro_x", String.valueOf(sensor_z));
-                    queryValues.put("dat_numero_sat",String.valueOf(sattelite_num ));
-                    queryValues.put("dat_pdop",String.valueOf(pdop1 ));
-                    queryValues.put("dat_hdop",String.valueOf(hdop1 ));
-                    queryValues.put("dat_vdop",String.valueOf(vdop1 ));
-
+                    queryValues.put("dat_numero_sat",String.valueOf(sattelite_num));
+                    queryValues.put("dat_pdop",String.valueOf(pdop1));
+                    queryValues.put("dat_hdop",String.valueOf(hdop1));
+                    queryValues.put("dat_vdop",String.valueOf(vdop1));
+                    queryValues.put("dat_nmea",dat_nmea);
                     controller.insertDatos(queryValues);
                 }
 
@@ -331,6 +342,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
             queryValues.put("dat_pdop","0.0");
             queryValues.put("dat_hdop","0.0");
             queryValues.put("dat_vdop","0.0");
+            queryValues.put("dat_nmea",dat_nmea);
             controller.insertDatos(queryValues);
             System.out.println(" Latitud0 = " + loc.getLatitude()
                     + "\n Longitud0 = " + loc.getLongitude());
