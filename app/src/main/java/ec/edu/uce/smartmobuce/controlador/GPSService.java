@@ -142,7 +142,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                                 +","+tokens[5]+","+tokens[6]+","+tokens[7]+","+tokens[8]+","+tokens[9]
                                 +","+tokens[10]+","+tokens[11]+","+tokens[12]+","+tokens[13]+","+tokens[14]
                                 +","+pdop+","+hdop+","+vdop;
-                        System.out.println("HHHHHHHHHH"+dat_nmea);
+                        System.out.println("mostrar datos nmea : "+dat_nmea);
                         pdop1 =pdop;
                         hdop1 = hdop;
                         vdop1 = vdop;
