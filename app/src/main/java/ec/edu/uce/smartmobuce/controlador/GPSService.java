@@ -1,47 +1,30 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 
-import android.Manifest;
+
 import android.annotation.SuppressLint;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.location.OnNmeaMessageListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.vista.GPSActivity;
+
 
 import static android.content.ContentValues.TAG;
 import static ec.edu.uce.smartmobuce.controlador.GpsTestUtil.getDop;
@@ -53,37 +36,30 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     private LocationManager locationManager;
     private SensorManager sensorManager;
     private Sensor sensor;
-    private SensorEventListener sensorEventListener;
-    private long tt = 0;
-     private double lat;
+    private double lat;
     private double longi;
     private double alt;
-    //private Float cond;
     private double aux1=0,aux2=0;
     private float press;
     private float vel;
     private String usr;
     private String prov;
     private String fecha;
-    private String mac;
-
-    private String pdop="", hdop="", vdop="",dat_nmea="n/a",aux_dat_nmea;
+    private String pdop="", hdop="", vdop="",dat_nmea="n/a";
     private String pdop1="0", hdop1="0", vdop1="0";
     private double dop;
     private double dopv;
     private double doph;
 
-    boolean isGPSEnabled = false;
-    Location location;
+    
+    
     boolean estado1=false;
-
-    private OnNmeaMessageListener mOnNmeaMessageListener;
-    //private ArrayList<Localizacion> mGpsTestListeners = new ArrayList<Localizacion>();
+ 
     private final ControladorSQLite controller = new ControladorSQLite(this);
     private final Metodos m = new Metodos();
 
     private final int tiempoEspera = 15 * 1000;//inicializa el tiempo de espera para guardar datos al iniciar la aplicacion
-    private final int actualizar_gps = 15 * 1000;//5min*60seg*1000= 5min  refresca la captura de los datos para luego
+    
     // envia a la pantalla del activity gps
     private final String horaActualizacion = "01:00:00";// para sincronizar datos hora de inicio
     private final String horaActualizacionf = "01:30:00";//para sincronizar datos hora de fin
@@ -93,7 +69,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     private float sensor_y;
     private float sensor_z;
     private int sattelite_num;
-    private GpsStatus.NmeaListener mLegacyNmeaListener;
+    
 
 
 
@@ -122,12 +98,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                 Log.d(TAG,"Nmea Received :");
                 Log.d(TAG,"nmea is :"+nmea);
                 //Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
-             /*   aux_dat_nmea=nmea;
-                if (aux_dat_nmea.startsWith("$GNGSA") || aux_dat_nmea.startsWith("$GPGSA")) {
-                    dat_nmea=aux_dat_nmea.split("\\*")[0];
-                    System.out.println("HHHHHHHHHH"+dat_nmea);
-                }
-            */
+            
                 String[] tokens = nmea.split(",");
                 if (nmea.startsWith("$GPGSA") || nmea.startsWith("$GNGSA")) {
 
@@ -178,7 +149,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
 
 
             }});
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15*1000, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, tiempoEspera, 0, this);
 
         Log.d(TAG, "Servicio iniciado...");
 
@@ -193,11 +164,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                 sensor_x = event.values[0];
                 sensor_y = event.values[1];
                 sensor_z = event.values[2];
-             /*   System.out.println("ACELEROMETRO");
-                System.out.println(sensor_x);
-                System.out.println(sensor_y);
-                System.out.println(sensor_z);
-*/
+      
                 Intent c = new Intent("acelerometro_update");
                 c.putExtra("acelerometro","Acelerometer \n x :" + sensor_x
                         + "\t y :" + sensor_y
