@@ -22,6 +22,7 @@ import android.location.OnNmeaMessageListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -110,6 +111,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor  = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, sensor , SensorManager.SENSOR_DELAY_NORMAL);
@@ -127,7 +129,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                 }
             */
                 String[] tokens = nmea.split(",");
-                if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
+                if (nmea.startsWith("$GPGSA") || nmea.startsWith("$GNGSA")) {
 
                     try {
 
@@ -138,10 +140,10 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                         if (vdop.contains("*")) {
                             vdop = vdop.split("\\*")[0];
                         }
-                        dat_nmea=tokens[0]+","+tokens[1]+","+tokens[2]+","+tokens[3]+","+tokens[4]
-                                +","+tokens[5]+","+tokens[6]+","+tokens[7]+","+tokens[8]+","+tokens[9]
-                                +","+tokens[10]+","+tokens[11]+","+tokens[12]+","+tokens[13]+","+tokens[14]
-                                +","+pdop+","+hdop+","+vdop;
+                        dat_nmea=tokens[0]+";"+tokens[1]+";"+tokens[2]+";"+tokens[3]+";"+tokens[4]
+                                +";"+tokens[5]+";"+tokens[6]+";"+tokens[7]+";"+tokens[8]+";"+tokens[9]
+                                +";"+tokens[10]+";"+tokens[11]+";"+tokens[12]+";"+tokens[13]+";"+tokens[14]
+                                +";"+pdop+";"+hdop+";"+vdop;
                         System.out.println("mostrar datos nmea : "+dat_nmea);
                         pdop1 =pdop;
                         hdop1 = hdop;
@@ -159,6 +161,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
                         if (hdop.isEmpty()) {
                             hdop1 = "0.0";
                         }
+
                         Log.e(TAG, "recibiendo  valor 000000");
                         System.out.println("valor PDOP:: " + pdop1 + " el dato H: " + hdop1 + " el dato v es: " + vdop1);
                         Log.e(TAG, "valor PDOP: " + pdop1 + "el dato H" + hdop1 + "el dato v es " + vdop1);
@@ -244,13 +247,15 @@ public class GPSService extends Service implements SensorEventListener,LocationL
         prov = loc.getProvider();
         fecha = m.getFechaActual();
         sattelite_num=loc.getExtras().getInt("satellites");
-        System.out.println("el DAT_NMEA\n"+dat_nmea);
+
         //System.out.println("tiene  movimiento"+loc.hasSpeed());
         //System.out.println("tiene cambio de lugar"+lastlocation(lat,longi));
         System.out.println("comprueba si hay movimiento o cambio de lugar");
         if (loc.hasSpeed()&&vel!=0.0||(lastlocation(lat,longi) )) {
             System.out.println("hubo velocidad"+(loc.hasSpeed()&&vel!=0.0));
 
+            System.out.println("el DAT_NMEA\n"+dat_nmea);
+            System.out.println("valor en listener  PDOP:: " + pdop1 + " el dato H: " + hdop1 + " el dato v es: " + vdop1);
             Intent i = new Intent("location_update");
             i.putExtra("coordenadas", coordenadas0
                     + "\n" + latitude1 + " : " + lat
