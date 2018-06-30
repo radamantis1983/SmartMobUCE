@@ -95,27 +95,90 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     private GpsStatus.NmeaListener mLegacyNmeaListener;
 
 
-    @Nullable
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+    public void onCreate(){
+        super.onCreate();
+    }
+
     @SuppressLint("MissingPermission")
     @Override
-    public void onCreate() {
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor  = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, sensor , SensorManager.SENSOR_DELAY_NORMAL);
+        locationManager.addNmeaListener(new GpsStatus.NmeaListener() {
+
+            public void onNmeaReceived(long timestamp, String nmea) {
+
+                Log.d(TAG,"Nmea Received :");
+                Log.d(TAG,"nmea is :"+nmea);
+                //Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
+             /*   aux_dat_nmea=nmea;
+                if (aux_dat_nmea.startsWith("$GNGSA") || aux_dat_nmea.startsWith("$GPGSA")) {
+                    dat_nmea=aux_dat_nmea.split("\\*")[0];
+                    System.out.println("HHHHHHHHHH"+dat_nmea);
+                }
+            */
+                String[] tokens = nmea.split(",");
+                if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
+
+                    try {
+
+                        pdop = tokens[15];
+                        hdop = tokens[16];
+                        vdop = tokens[17];
+
+                        if (vdop.contains("*")) {
+                            vdop = vdop.split("\\*")[0];
+                        }
+                        dat_nmea=tokens[0]+","+tokens[1]+","+tokens[2]+","+tokens[3]+","+tokens[4]
+                                +","+tokens[5]+","+tokens[6]+","+tokens[7]+","+tokens[8]+","+tokens[9]
+                                +","+tokens[10]+","+tokens[11]+","+tokens[12]+","+tokens[13]+","+tokens[14]
+                                +","+pdop+","+hdop+","+vdop;
+                        System.out.println("mostrar datos nmea : "+dat_nmea);
+                        pdop1 =pdop;
+                        hdop1 = hdop;
+                        vdop1 = vdop;
+
+                        Log.e(TAG, "recibiendo valor pod");
+                        System.out.println("valor PDOP:: " + pdop + " el dato H: " + hdop + " el dato v es: " + vdop);
+                        Log.e(TAG, "valor PDOP: " + pdop + "el dato H" + hdop + "el dato v es " + vdop);
+                        if (pdop.isEmpty()) {
+                            pdop1 = "0.0";
+                        }
+                        if (vdop.isEmpty()) {
+                            vdop1 = "0.0";
+                        }
+                        if (hdop.isEmpty()) {
+                            hdop1 = "0.0";
+                        }
+                        Log.e(TAG, "recibiendo  valor 000000");
+                        System.out.println("valor PDOP:: " + pdop1 + " el dato H: " + hdop1 + " el dato v es: " + vdop1);
+                        Log.e(TAG, "valor PDOP: " + pdop1 + "el dato H" + hdop1 + "el dato v es " + vdop1);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmea + " :" + e);
+
+                    }
+                    // See https://github.com/barbeau/gpstest/issues/71#issuecomment-263169174
+
+
+                }
+
+
+
+
+            }});
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15*1000, 0, this);
 
-
-    }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Servicio iniciado...");
+
 
         return START_STICKY;
     }
@@ -157,62 +220,7 @@ public class GPSService extends Service implements SensorEventListener,LocationL
     @Override
     public void onLocationChanged(Location loc) {
 
-        locationManager.addNmeaListener(new GpsStatus.NmeaListener() {
 
-            public void onNmeaReceived(long timestamp, String nmea) {
-
-                Log.d(TAG,"Nmea Received :");
-                Log.d(TAG,"nmea is :"+nmea);
-                //Log.d(TAG,"Timestamp is :" +timestamp+"   nmea is :"+nmea);
-                aux_dat_nmea=nmea;
-                if (aux_dat_nmea.startsWith("$GNGSA") || aux_dat_nmea.startsWith("$GPGSA")) {
-                    dat_nmea=aux_dat_nmea.split("\\*")[0];
-                    System.out.println("HHHHHHHHHH"+dat_nmea);
-                }
-
-                String[] tokens = nmea.split(",");
-                if (nmea.startsWith("$GNGSA") || nmea.startsWith("$GPGSA")) {
-
-                    try {
-                        pdop = tokens[15];
-                        hdop = tokens[16];
-                        vdop = tokens[17];
-
-                        if (vdop.contains("*")) {
-                            vdop = vdop.split("\\*")[0];
-                        }
-                        pdop1 =pdop;
-                        hdop1 = hdop;
-                        vdop1 = vdop;
-
-                        Log.e(TAG, "recibiendo valor pod");
-                        System.out.println("valor PDOP:: " + pdop + " el dato H: " + hdop + " el dato v es: " + vdop);
-                        Log.e(TAG, "valor PDOP: " + pdop + "el dato H" + hdop + "el dato v es " + vdop);
-                        if (pdop.isEmpty()) {
-                            pdop1 = "0.0";
-                        }
-                        if (vdop.isEmpty()) {
-                            vdop1 = "0.0";
-                        }
-                        if (hdop.isEmpty()) {
-                            hdop1 = "0.0";
-                        }
-                        Log.e(TAG, "recibiendo  valor 000000");
-                        System.out.println("valor PDOP:: " + pdop1 + " el dato H: " + hdop1 + " el dato v es: " + vdop1);
-                        Log.e(TAG, "valor PDOP: " + pdop1 + "el dato H" + hdop1 + "el dato v es " + vdop1);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        Log.e(TAG, "Bad NMEA message for parsing DOP - " + nmea + " :" + e);
-
-                    }
-                    // See https://github.com/barbeau/gpstest/issues/71#issuecomment-263169174
-
-
-                }
-
-
-
-
-            }});
         // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
         // debido a la deteccion de un cambio de ubicacion
 
