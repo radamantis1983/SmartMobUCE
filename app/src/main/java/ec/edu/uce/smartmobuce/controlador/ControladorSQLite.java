@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,15 +27,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
             "`dat_velocidad` REAL," +
             "`dat_proveedor` TEXT," +
             "`dat_fechahora_lectura` TEXT," +
-            "`udpateStatus` TEXT,"+
-            "`dat_acelerometro_x` REAL," +
-            "`dat_acelerometro_y` REAL," +
-            "`dat_acelerometro_z` REAL," +
-            "`dat_numero_sat` INTEGER, "+
-            "`dat_pdop` REAL, " +
-            "`dat_hdop` REAL, " +
-            "`dat_vdop` REAL, " +
-            "`dat_nmea` TEXT" +
+            "`udpateStatus` TEXT" +
             ");";
 
     //contexto referencia al activity, name nombre de base de datos SQLiteDatabase m=no utilizamos ponemos null
@@ -79,14 +69,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         values.put("dat_proveedor", queryValues.get("dat_proveedor"));
         values.put("dat_fechahora_lectura", queryValues.get("dat_fechahora_lectura"));
         values.put("udpateStatus", "no");
-        values.put("dat_acelerometro_x", queryValues.get("dat_acelerometro_x"));
-        values.put("dat_acelerometro_y", queryValues.get("dat_acelerometro_x"));
-        values.put("dat_acelerometro_z", queryValues.get( "dat_acelerometro_x"));
-        values.put("dat_numero_sat", queryValues.get("dat_numero_sat"));
-        values.put("dat_pdop", queryValues.get("dat_pdop"));
-        values.put("dat_hdop", queryValues.get("dat_hdop"));
-        values.put("dat_vdop", queryValues.get("dat_vdop"));
-        values.put("dat_nmea", queryValues.get("dat_nmea"));
+
 
         database.insert("DatosGPS", null, values);
         database.close();
@@ -115,14 +98,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
                 map.put("udpateStatus",cursor.getString(9));
-                map.put("dat_acelerometro_x", cursor.getString(10));
-                map.put("dat_acelerometro_y", cursor.getString(11));
-                map.put("dat_acelerometro_z", cursor.getString(12));
-                map.put("dat_numero_sat", cursor.getString(13));
-                map.put("dat_pdop", cursor.getString(14));
-                map.put("dat_hdop", cursor.getString(15));
-                map.put("dat_vdop", cursor.getString(16));
-                map.put("dat_nmea", cursor.getString(17));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -154,14 +129,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
                 map.put("udpateStatus",cursor.getString(9));
-                map.put("dat_acelerometro_x", cursor.getString(10));
-                map.put("dat_acelerometro_y", cursor.getString(11));
-                map.put("dat_acelerometro_z", cursor.getString(12));
-                map.put("dat_numero_sat", cursor.getString(13));
-                map.put("dat_pdop", cursor.getString(14));
-                map.put("dat_hdop", cursor.getString(15));
-                map.put("dat_vdop", cursor.getString(16));
-                map.put("dat_nmea", cursor.getString(17));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
