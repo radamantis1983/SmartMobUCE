@@ -31,7 +31,7 @@ import ec.edu.uce.smartmobuce.controlador.Metodos;
 public class GPSActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
-    protected static final String LOG_TAG = "TestApp2"; 
+    protected static final String LOG_TAG = "TestApp2";
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
     private String usr,fecha;
@@ -42,11 +42,16 @@ public class GPSActivity extends AppCompatActivity implements
     private TextView mSpeedText;
     private TextView mProviderText;
     private TextView mDatetext;
+    private final String horaActualizacion = "01:00:00";// para sincronizar datos hora de inicio
+    private final String horaActualizacionf = "01:30:00";//para sincronizar datos hora de fin
+    private final String horaInicial = "06:00:00"; //horas de actividad inicio
+    private final String horaFinal = "22:00:00";//horas de actividad fin
 
 
 
     protected LocationRequest mLocationRequest;
     private final Metodos m = new Metodos();
+    private final ControladorSQLite controller = new ControladorSQLite(this);
 
 
 
@@ -97,7 +102,7 @@ public class GPSActivity extends AppCompatActivity implements
                 mAltitudeText.setText(String.valueOf(mLastLocation.getAltitude()));
                 mSpeedText.setText(String.valueOf(mLastLocation.getSpeed()));
                 mProviderText.setText(String.valueOf(mLastLocation.getProvider()));
-                mDatetext.setText(String.valueOf(mLastLocation.getTime()));
+                mDatetext.setText(String.valueOf(m.getFechaActual()));
 
 
             }
@@ -148,8 +153,35 @@ public class GPSActivity extends AppCompatActivity implements
         mAltitudeText.setText(String.valueOf(location.getAltitude()));
         mSpeedText.setText(String.valueOf(location.getSpeed()));
         mProviderText.setText(String.valueOf(location.getProvider()));
-        mDatetext.setText(String.valueOf(location.getTime()));
+        mDatetext.setText(String.valueOf(m.getFechaActual()));
         fecha = m.getFechaActual();
+        Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
+        //si se encuentra dentro del area capturamos los datos
+        if (area1) {
+            //si la aplicacion esta en el horario definido guardamos los datos
+            if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
+                //prepara los datos a ser enviados al query de insertar datos a la base
+                HashMap<String, String> queryValues = new HashMap<String, String>();
+                queryValues.put("usu_id", usr);
+                queryValues.put("dat_latitud", String.valueOf(location.getLatitude()));
+                queryValues.put("dat_longitud", String.valueOf(location.getLongitude()));
+                queryValues.put("dat_precision", String.valueOf(location.getAccuracy()));
+                queryValues.put("dat_altitud", String.valueOf(location.getAltitude()));
+                queryValues.put("dat_velocidad", String.valueOf(location.getSpeed()));
+                queryValues.put("dat_proveedor", location.getProvider());
+                queryValues.put("dat_fechahora_lectura", fecha);
+                controller.insertDatos(queryValues);
+            }
+
+            //comprueba la hora para sincronizacón con la base de datos
+            if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
+                //lista los datos para sincronizar
+                ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                if (userList.size() != 0) {
+                }
+                m.syncSQLiteMySQLDB(getApplicationContext());
+            }
+        }
     }
     //menu
     @Override
