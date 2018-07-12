@@ -31,7 +31,7 @@ import ec.edu.uce.smartmobuce.controlador.Metodos;
 public class GPSActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
-    protected static final String LOG_TAG = "TestApp2";
+    protected static final String LOG_TAG = "TestApp2"; 
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
     private String usr,fecha;
