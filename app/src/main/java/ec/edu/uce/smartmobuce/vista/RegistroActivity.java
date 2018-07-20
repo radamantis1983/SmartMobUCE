@@ -31,13 +31,14 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
+import ec.edu.uce.smartmobuce.controlador.Constants;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
     private RequestQueue requestQueue;
-    private static final String URL = "https://movilidad.000webhostapp.com/login/registro.php";
+
     private StringRequest request;
 
     View focusView = null;
@@ -149,7 +150,7 @@ public class RegistroActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        request = new StringRequest(Request.Method.POST, Constants.URL_REGISTRO, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {

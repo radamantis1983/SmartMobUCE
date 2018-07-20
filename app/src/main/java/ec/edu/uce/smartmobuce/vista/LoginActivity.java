@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
+import ec.edu.uce.smartmobuce.controlador.Constants;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.modelo.Usuarios;
 
@@ -42,10 +44,8 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
 public class LoginActivity extends AppCompatActivity {
     private final Metodos m = new Metodos();
     private static final String TAG = "LoginActivity";
-    private Locale locale;
-    private Configuration config = new Configuration();
     private RequestQueue requestQueue;
-    private static final String URL = "https://movilidad.000webhostapp.com/login/login.php";
+
     private StringRequest request;
     View focusView = null;
     boolean cancel = false;
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     public void login() {
-        //Log.d(TAG, "Login");
+        Log.d(TAG, "Login");
 
         if (!validate()) {
             onLoginFailed();
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         //onLoginSuccess();
                         // On complete call either onLoginSuccess or onLoginFailed
-                        request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        request = new StringRequest(Request.Method.POST,Constants.URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {

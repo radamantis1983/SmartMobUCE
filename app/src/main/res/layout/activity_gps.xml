@@ -12,7 +12,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Latitude: "
+        android:text="@string/latitude"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Longitude: "
+        android:text="@string/longitude"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/latitude_label" />
@@ -35,7 +35,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Accuracy: "
+        android:text="@string/accuracy"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/longitude_label" />
@@ -46,7 +46,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Altitude: "
+        android:text="@string/altitude"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accuracy_label" />
@@ -57,7 +57,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Speed: "
+        android:text="@string/speed"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/altitude_label" />
@@ -68,7 +68,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Provider:"
+        android:text="@string/provider"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speed_label" />
@@ -79,7 +79,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Date: "
+        android:text="@string/date"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/provider_label" />
@@ -153,7 +153,7 @@
 
     <TextView
         android:id="@+id/date_text"
-        android:layout_width="141dp"
+        android:layout_width="200dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
