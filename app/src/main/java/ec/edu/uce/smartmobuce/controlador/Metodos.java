@@ -233,7 +233,7 @@ public class Metodos {
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
-                client.post("https://movilidad.000webhostapp.com/movilidad/registrogps.php",params ,new AsyncHttpResponseHandler() {
+                client.post(Constants.URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -251,8 +251,7 @@ public class Metodos {
                             }
                             Toast.makeText(appContext, "DB Sincronización completada!", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            Toast.makeText(appContext, "Error Ocurrido [Server's JSON solicitud posiblemente invalida]!", Toast.LENGTH_LONG).show();
+                             Toast.makeText(appContext, "Error Ocurrido [Server's JSON solicitud posiblemente invalida]!", Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     }
@@ -260,8 +259,6 @@ public class Metodos {
                     @Override
                     public void onFailure(int statusCode, Throwable error,
                                           String content) {
-                        // TODO Auto-generated method stub
-                        //  prgDialog.hide();
                         if(statusCode == 404){
                             Toast.makeText(appContext, "solicitud del recurso not found", Toast.LENGTH_LONG).show();
                         }else if(statusCode == 500){

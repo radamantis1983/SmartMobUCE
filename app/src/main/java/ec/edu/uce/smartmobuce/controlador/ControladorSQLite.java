@@ -49,6 +49,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int version_old, int current_version) {
         String query;
         query = "DROP TABLE IF EXISTS DatosGPS";
+        //For now, clear the database and re-create
         db.execSQL(query);
         onCreate(db);
     }
