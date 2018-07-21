@@ -1,10 +1,7 @@
 package ec.edu.uce.smartmobuce.vista;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,12 +25,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.controlador.Constants;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.modelo.Usuarios;
 
@@ -43,6 +38,7 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
  */
 public class LoginActivity extends AppCompatActivity {
     private final Metodos m = new Metodos();
+    private final Constants c = new Constants();
     private static final String TAG = "LoginActivity";
     private RequestQueue requestQueue;
 
@@ -53,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText _emailText,_passwordText;
     Button _loginButton;
     TextView _signupLink;
+    private  String URL_LOGIN="https://movilidad.000webhostapp.com/login/login.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +123,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         //onLoginSuccess();
                         // On complete call either onLoginSuccess or onLoginFailed
-                        request = new StringRequest(Request.Method.POST,Constants.URL_LOGIN, new Response.Listener<String>() {
+                        System.out.println(URL_LOGIN);
+                        request = new StringRequest(Request.Method.POST,URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {

@@ -31,16 +31,14 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.controlador.Constants;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
     private RequestQueue requestQueue;
-
     private StringRequest request;
-
+    private String URL_REGISTRO="https://movilidad.000webhostapp.com/login/registro.php";
     View focusView = null;
     boolean cancel = false;
     EditText _emailText,_passwordText,_reEnterPasswordText,_year;
@@ -150,7 +148,7 @@ public class RegistroActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        request = new StringRequest(Request.Method.POST, Constants.URL_REGISTRO, new Response.Listener<String>() {
+                        request = new StringRequest(Request.Method.POST, URL_REGISTRO, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
