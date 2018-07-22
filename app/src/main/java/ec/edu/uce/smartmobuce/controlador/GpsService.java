@@ -45,6 +45,8 @@ public class GpsService extends Service implements
     @Override
     public void onCreate() {
         super.onCreate();
+        buildGoogleApiClient();
+        Log.i(LOG_TAG, "onCreate");
 
            }
 
@@ -52,7 +54,11 @@ public class GpsService extends Service implements
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
 
-        buildGoogleApiClient();
+        Log.i(LOG_TAG, "onStartCommand");
+
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
+
         return  START_STICKY;
     }
 
