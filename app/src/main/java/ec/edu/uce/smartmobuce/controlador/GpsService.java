@@ -82,23 +82,13 @@ public class GpsService extends Service implements
         if(permissionCheck==0){
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if(mLastLocation != null){
-            /*    Intent i = new Intent("location_update");
-                i.putExtra("coordenadas", "\n Latitud = " + mLastLocation.getLatitude()
-                        + "\n Longitud = " + mLastLocation.getLongitude()
-                        + "\n conducta = " + mLastLocation.getBearing()
-                        + "\n precision = " + mLastLocation.getAccuracy()
-                        + "\n altitud = " + mLastLocation.getAltitude()
-                        + "\n Speed = " + mLastLocation.getSpeed()
-                        + "\n Provider = " + mLastLocation.getProvider()
-                        + "\n Fecha = " + m.getFechaActual());
-                sendBroadcast(i);
-*/
+
                 Intent i = new Intent("location_update");
-                i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude()));
-                i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude()));
-                i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy()));
-                i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude()));
-                i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed()));
+                i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude())+"°");
+                i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude())+"°");
+                i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy())+"m");
+                i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude())+"m");
+                i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed())+"m/s");
                 i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
                 i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
                 sendBroadcast(i);
