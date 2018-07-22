@@ -134,11 +134,11 @@ public class GpsService extends Service implements
         if (m.lastlocation(location.getLatitude(),location.getLongitude())) {
 
             Intent i = new Intent("location_update");
-            i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude()));
-            i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude()));
-            i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy()));
-            i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude()));
-            i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed()));
+            i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude())+"°");
+            i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude())+"°");
+            i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy())+"m");
+            i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude())+"m");
+            i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed())+"m/s");
             i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
             i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
             sendBroadcast(i);
@@ -175,11 +175,11 @@ public class GpsService extends Service implements
             System.out.println("NO hubo cambio de lugar");
             //mostramos los datos en cero
             Intent i = new Intent("location_update");
-            i.putExtra("Latitud","0");
-            i.putExtra("Longitud","0");
-            i.putExtra("Precision","0");
-            i.putExtra("Altitud","0");
-            i.putExtra("Velocidad","0");
+            i.putExtra("Latitud","0°");
+            i.putExtra("Longitud","0°");
+            i.putExtra("Precision","0 m");
+            i.putExtra("Altitud","0 m");
+            i.putExtra("Velocidad","0 m/s");
             i.putExtra("Proveedor","n/a");
             i.putExtra( "fecha","n/a");
             sendBroadcast(i);
