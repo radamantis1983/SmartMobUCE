@@ -1,7 +1,10 @@
 package ec.edu.uce.smartmobuce.vista;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -20,11 +23,12 @@ import ec.edu.uce.smartmobuce.controlador.ControladorSQLite;
 import ec.edu.uce.smartmobuce.controlador.GpsService;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 
-public class GPSActivity extends AppCompatActivity {
+public class GPSActivity extends AppCompatActivity  {
 
     protected static final String LOG_TAG = "TestApp2";
     private final Metodos m = new Metodos();
     private final ControladorSQLite controller = new ControladorSQLite(this);
+    private BroadcastReceiver broadcastReceiver;
     private TextView mLatitudeText;
     private TextView mLongitudeText;
     private TextView mAccuracyText;
@@ -36,6 +40,38 @@ public class GPSActivity extends AppCompatActivity {
 
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (broadcastReceiver == null) {
+
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    mLatitudeText.setText(""+intent.getExtras().get("Latitud"));
+                    mLongitudeText.setText(""+intent.getExtras().get("Longitud"));
+                    mAccuracyText.setText(""+intent.getExtras().get("Precision"));
+                    mAltitudeText.setText(""+intent.getExtras().get("Altitud"));
+                    mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
+                    mProviderText.setText(""+intent.getExtras().get("Proveedor"));
+                    mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                }
+            };
+        }
+
+
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (broadcastReceiver != null) {
+            unregisterReceiver(broadcastReceiver);
+        }
+    }
 
 
     @Override
@@ -50,18 +86,20 @@ public class GPSActivity extends AppCompatActivity {
         mSpeedText = (TextView) findViewById(R.id.speed_text);
         mProviderText = (TextView) findViewById(R.id.provider_text);
         mDatetext = (TextView) findViewById(R.id.date_text);
+
         int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permissionCheck==-1) {
-            ActivityCompat.requestPermissions((GPSActivity) getBaseContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
             permissionCheck= ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
 
         }
         if (permissionCheck==-0) {
-            Intent i = new Intent(getApplicationContext(), GpsService.class);
+            Intent i = new Intent(this, GpsService.class);
             startService(i);
-        }
 
+
+        }
 
 
     }
@@ -100,9 +138,6 @@ public class GPSActivity extends AppCompatActivity {
         }
 
     }
+
+
 }
-
-
-
-
-

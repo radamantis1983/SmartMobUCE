@@ -36,13 +36,6 @@ public class GpsService extends Service implements
     protected LocationRequest mLocationRequest;
     private final Metodos m = new Metodos();
     private final ControladorSQLite controller = new ControladorSQLite(this);
-    private TextView mLatitudeText;
-    private TextView mLongitudeText;
-    private TextView mAccuracyText;
-    private TextView mAltitudeText;
-    private TextView mSpeedText;
-    private TextView mProviderText;
-    private TextView mDatetext;
     //horas que permite guardar datos en la base interna
     public static final String horaInicial = "06:00:00";
     public static final String horaFinal = "22:00:00";
@@ -100,15 +93,15 @@ public class GpsService extends Service implements
                         + "\n Fecha = " + m.getFechaActual());
                 sendBroadcast(i);
 */
-
-                mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-                mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-                mAccuracyText.setText(String.valueOf(mLastLocation.getAccuracy()));
-                mAltitudeText.setText(String.valueOf(mLastLocation.getAltitude()));
-                mSpeedText.setText(String.valueOf(mLastLocation.getSpeed()));
-                mProviderText.setText(String.valueOf(mLastLocation.getProvider()));
-                mDatetext.setText(String.valueOf(m.getFechaActual()));
-
+                Intent i = new Intent("location_update");
+                i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude()));
+                i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude()));
+                i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy()));
+                i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude()));
+                i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed()));
+                i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
+                i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
+                sendBroadcast(i);
 
             }
 
@@ -136,22 +129,25 @@ public class GpsService extends Service implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i(LOG_TAG,"Localizacion"+location.toString());
+        Log.e(LOG_TAG,"Localizacion"+location.toString());
         usr = m.cargarPreferencias(getBaseContext());
-        mLatitudeText.setText(String.valueOf(location.getLatitude()));
-        mLongitudeText.setText(String.valueOf(location.getLongitude()));
-        mAccuracyText.setText(String.valueOf(location.getAccuracy()));
-        mAltitudeText.setText(String.valueOf(location.getAltitude()));
-        mSpeedText.setText(String.valueOf(location.getSpeed()));
-        mProviderText.setText(String.valueOf(location.getProvider()));
-        mDatetext.setText(String.valueOf(m.getFechaActual()));
         fecha = m.getFechaActual();
         Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
-
+        Log.e(LOG_TAG,"msg comprueba si hay cambio de lugar");
         System.out.println("comprueba si hay cambio de lugar");
         if (m.lastlocation(location.getLatitude(),location.getLongitude())) {
 
-        //si se encuentra dentro del area capturamos los datos
+            Intent i = new Intent("location_update");
+            i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude()));
+            i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude()));
+            i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy()));
+            i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude()));
+            i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed()));
+            i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
+            i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
+            sendBroadcast(i);
+
+            //si se encuentra dentro del area capturamos los datos
         if (area1) {
             //si la aplicacion esta en el horario definido guardamos los datos
             if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
@@ -179,15 +175,18 @@ public class GpsService extends Service implements
         }
         }
         else{
-            System.out.println("el celular no esta en movimiento y tampoco hubo cambio de lugar");
+            Log.e(LOG_TAG,"msg NO hubo cambio de lugar");
+            System.out.println("NO hubo cambio de lugar");
             //mostramos los datos en cero
-            mLatitudeText.setText("0");
-            mLongitudeText.setText("0");
-            mAccuracyText.setText("0");
-            mAltitudeText.setText("0");
-            mSpeedText.setText("0");
-            mProviderText.setText("0");
-            mDatetext.setText(String.valueOf(m.getFechaActual()));
+            Intent i = new Intent("location_update");
+            i.putExtra("Latitud","0");
+            i.putExtra("Longitud","0");
+            i.putExtra("Precision","0");
+            i.putExtra("Altitud","0");
+            i.putExtra("Velocidad","0");
+            i.putExtra("Proveedor","n/a");
+            i.putExtra( "fecha","n/a");
+            sendBroadcast(i);
 
             //insertamos los datos en cero
             HashMap<String, String> queryValues = new HashMap<String, String>();
@@ -198,8 +197,10 @@ public class GpsService extends Service implements
             queryValues.put("dat_altitud", "0.0");
             queryValues.put("dat_velocidad", "0.0");
             queryValues.put("dat_proveedor", "n/a");
-            queryValues.put("dat_fechahora_lectura", fecha);
+            queryValues.put("dat_fechahora_lectura", "n/a");
             controller.insertDatos(queryValues);
+            Log.e(LOG_TAG,"Latitud0 = " + location.getLatitude()
+                    + "\n Longitud0 = " + location.getLongitude());
             System.out.println(" Latitud0 = " + location.getLatitude()
                     + "\n Longitud0 = " + location.getLongitude());
         }
@@ -207,13 +208,14 @@ public class GpsService extends Service implements
     }
 
     protected synchronized void buildGoogleApiClient() {
-        Log.i(LOG_TAG,"Build Google API");
+        Log.e(LOG_TAG,"Mensaje Build Google API");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
     }
+
 
 
 }
