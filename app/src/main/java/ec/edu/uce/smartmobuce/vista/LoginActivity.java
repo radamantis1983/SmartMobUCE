@@ -129,11 +129,11 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
 
-                                try {
+                                  try {
                                     //me permite obtener el id del usuario para registrar en el gps
                                     JSONObject jsonObject = new JSONObject(response);
                                     //System.out.println(response);
-                                    System.out.println("response usado en el try"+jsonObject);
+                                    System.out.println("response usado en el try"+jsonObject);                              
                                     if (jsonObject.names().get(0).equals("usuarios")) {
                                         Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
                                         //m.guardarPreferencias(getBaseContext(), email.getText().toString());
