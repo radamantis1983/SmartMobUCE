@@ -31,14 +31,15 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
+import ec.edu.uce.smartmobuce.controlador.Constantes;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
-    private RequestQueue requestQueue;
-    private StringRequest request;
-    private String URL_REGISTRO="https://movilidad.000webhostapp.com/login/registro.php";
+    public RequestQueue requestQueue;
+    public StringRequest request;
+
     View focusView = null;
     boolean cancel = false;
     EditText _emailText,_passwordText,_reEnterPasswordText,_year;
@@ -148,7 +149,7 @@ public class RegistroActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        request = new StringRequest(Request.Method.POST, URL_REGISTRO, new Response.Listener<String>() {
+                        request = new StringRequest(Request.Method.POST, Constantes.URL_REGISTRO, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
@@ -157,8 +158,8 @@ public class RegistroActivity extends AppCompatActivity {
                                     //me permite obtener el id del usuario para registrar en el gps
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                    System.out.println("inicia responce"+response);
-                                    System.out.println(jsonObject);
+//                                    System.out.println("inicia responce"+response);
+  //                                  System.out.println(jsonObject);
                                     if (jsonObject.names().get(0).equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
@@ -177,7 +178,9 @@ public class RegistroActivity extends AppCompatActivity {
 
 
                                 } catch (JSONException e) {
+                                    Log.e(TAG, e.toString());
                                     e.printStackTrace();
+
                                 }
 
 
@@ -185,7 +188,7 @@ public class RegistroActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-
+                                Log.e(TAG, error.toString());
                             }
                         })
                         {

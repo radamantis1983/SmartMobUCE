@@ -31,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
-    private String URL_CAPTURA_DATOS_GPS="https://movilidad.000webhostapp.com/movilidad/registrogps.php";
+
 
     private double aux1=0,aux2=0;
     public boolean lastlocation(double last_latitud, double last_longitud){
@@ -268,7 +268,7 @@ public class Metodos {
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
-                client.post(URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
+                client.post(Constantes.URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
