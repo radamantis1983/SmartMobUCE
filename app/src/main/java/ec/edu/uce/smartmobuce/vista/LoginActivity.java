@@ -29,7 +29,6 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.controlador.Constantes;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.modelo.Usuarios;
 
@@ -40,16 +39,16 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
 public class LoginActivity extends AppCompatActivity {
     Metodos m = new Metodos();
     static  String TAG = "LoginActivity";
-    public RequestQueue requestQueue;
+    RequestQueue requestQueue;
 
-    public StringRequest request;
+    StringRequest request;
     View focusView = null;
     boolean cancel = false;
     String usuarioid="";
     EditText _emailText,_passwordText;
     Button _loginButton;
     TextView _signupLink;
-
+    final String URL_LOGIN="https://movilidad.000webhostapp.com/login/login.php";
 
 
     @Override
@@ -124,8 +123,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         //onLoginSuccess();
                         // On complete call either onLoginSuccess or onLoginFailed
-                        System.out.println(Constantes.URL_LOGIN);
-                        request = new StringRequest(Request.Method.POST,Constantes.URL_LOGIN, new Response.Listener<String>() {
+                        System.out.println(URL_LOGIN);
+                        request = new StringRequest(Request.Method.POST,URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
@@ -134,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //me permite obtener el id del usuario para registrar en el gps
                                     JSONObject jsonObject = new JSONObject(response);
                                     //System.out.println(response);
-                                   // System.out.println("response usado en el try"+jsonObject);
+                                    System.out.println("response usado en el try"+jsonObject);
                                     if (jsonObject.names().get(0).equals("usuarios")) {
                                         Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
                                         //m.guardarPreferencias(getBaseContext(), email.getText().toString());
