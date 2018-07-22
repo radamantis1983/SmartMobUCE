@@ -43,6 +43,14 @@ public class GpsService extends Service implements
     private TextView mSpeedText;
     private TextView mProviderText;
     private TextView mDatetext;
+    //horas que permite guardar datos en la base interna
+    public static final String horaInicial = "06:00:00";
+    public static final String horaFinal = "22:00:00";
+    //Horas en la cual se ejecuta automaticamente la actualizacion
+    public static final String horaActualizacion = "01:00:00";//hora de inicio para sincronizar datos
+    public static final String horaActualizacionf = "01:30:00";//hora de fin para sincronizar datos
+    public static final long INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS = 1000; //1000 MILISEGUNDOS EQUIVALE A UN SEGUNDO(5*60*1000) EQUIVALE A 5 MIN
+
 
     public GpsService() {
     }
@@ -106,7 +114,7 @@ public class GpsService extends Service implements
 
             mLocationRequest = LocationRequest.create();
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            mLocationRequest.setInterval(Constants.INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS);
+            mLocationRequest.setInterval(INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
 
 
@@ -139,10 +147,14 @@ public class GpsService extends Service implements
         mDatetext.setText(String.valueOf(m.getFechaActual()));
         fecha = m.getFechaActual();
         Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
+
+        System.out.println("comprueba si hay cambio de lugar");
+        if (m.lastlocation(location.getLatitude(),location.getLongitude())) {
+
         //si se encuentra dentro del area capturamos los datos
         if (area1) {
             //si la aplicacion esta en el horario definido guardamos los datos
-            if (m.rangoHoras(m.getHoraActual(), Constants.horaInicial, Constants.horaFinal)) {
+            if (m.rangoHoras(m.getHoraActual(), horaInicial, horaFinal)) {
                 //prepara los datos a ser enviados al query de insertar datos a la base
                 HashMap<String, String> queryValues = new HashMap<String, String>();
                 queryValues.put("usu_id", usr);
@@ -157,7 +169,7 @@ public class GpsService extends Service implements
             }
 
             //comprueba la hora para sincronizacón con la base de datos
-            if (m.rangoHorassincronizacion(m.getHoraActual(), Constants.horaActualizacion, Constants.horaActualizacionf)) {
+            if (m.rangoHorassincronizacion(m.getHoraActual(), horaActualizacion, horaActualizacionf)) {
                 //lista los datos para sincronizar
                 ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
                 if (userList.size() != 0) {
@@ -165,6 +177,33 @@ public class GpsService extends Service implements
                 m.syncSQLiteMySQLDB(getApplicationContext());
             }
         }
+        }
+        else{
+            System.out.println("el celular no esta en movimiento y tampoco hubo cambio de lugar");
+            //mostramos los datos en cero
+            mLatitudeText.setText("0");
+            mLongitudeText.setText("0");
+            mAccuracyText.setText("0");
+            mAltitudeText.setText("0");
+            mSpeedText.setText("0");
+            mProviderText.setText("0");
+            mDatetext.setText(String.valueOf(m.getFechaActual()));
+
+            //insertamos los datos en cero
+            HashMap<String, String> queryValues = new HashMap<String, String>();
+            queryValues.put("usu_id", usr);
+            queryValues.put("dat_latitud", "0.0");
+            queryValues.put("dat_longitud", "0.0");
+            queryValues.put("dat_precision", "0.0");
+            queryValues.put("dat_altitud", "0.0");
+            queryValues.put("dat_velocidad", "0.0");
+            queryValues.put("dat_proveedor", "n/a");
+            queryValues.put("dat_fechahora_lectura", fecha);
+            controller.insertDatos(queryValues);
+            System.out.println(" Latitud0 = " + location.getLatitude()
+                    + "\n Longitud0 = " + location.getLongitude());
+        }
+
     }
 
     protected synchronized void buildGoogleApiClient() {

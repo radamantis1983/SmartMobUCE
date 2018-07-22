@@ -1,10 +1,7 @@
 package ec.edu.uce.smartmobuce.vista;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,12 +25,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.controlador.Constants;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.modelo.Usuarios;
 
@@ -42,17 +37,19 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    private final Metodos m = new Metodos();
-    private static final String TAG = "LoginActivity";
-    private RequestQueue requestQueue;
+    Metodos m = new Metodos();
+    static  String TAG = "LoginActivity";
+    RequestQueue requestQueue;
 
-    private StringRequest request;
+    StringRequest request;
     View focusView = null;
     boolean cancel = false;
-    private String usuarioid="";
+    String usuarioid="";
     EditText _emailText,_passwordText;
     Button _loginButton;
     TextView _signupLink;
+    final String URL_LOGIN="https://movilidad.000webhostapp.com/login/login.php";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +123,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         //onLoginSuccess();
                         // On complete call either onLoginSuccess or onLoginFailed
-                        request = new StringRequest(Request.Method.POST,Constants.URL_LOGIN, new Response.Listener<String>() {
+                        System.out.println(URL_LOGIN);
+                        request = new StringRequest(Request.Method.POST,URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
@@ -134,11 +132,9 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
                                     //me permite obtener el id del usuario para registrar en el gps
                                     JSONObject jsonObject = new JSONObject(response);
-                                    System.out.println(response);
-                                    System.out.println("response usado en el try"+jsonObject);
+                                    //System.out.println(response);
+                                    //System.out.println("response usado en el try"+jsonObject);
                                     if (jsonObject.names().get(0).equals("usuarios")) {
-
-
                                         Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
                                         //m.guardarPreferencias(getBaseContext(), email.getText().toString());
                                         JSONArray jArray=jsonObject.getJSONArray("usuarios");
@@ -161,9 +157,8 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
-
-                                        cancel = true;
                                         Toast.makeText(getApplicationContext(), "usuario no registrado o " + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        cancel = true;
                                         onLoginFailed();
                                     }
                                     if (cancel) {
@@ -187,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                         }) {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
-                                HashMap<String, String> hashMap = new HashMap<String, String>();
+                                HashMap<String, String> hashMap = new HashMap<>();
                                 hashMap.put("usu_email", email);
                                 hashMap.put("usu_password", password);
 

@@ -1,8 +1,11 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,8 +50,19 @@ public class GPSActivity extends AppCompatActivity {
         mSpeedText = (TextView) findViewById(R.id.speed_text);
         mProviderText = (TextView) findViewById(R.id.provider_text);
         mDatetext = (TextView) findViewById(R.id.date_text);
-        Intent i = new Intent(getApplicationContext(), GpsService.class);
-        startService(i);
+        int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permissionCheck==-1) {
+            ActivityCompat.requestPermissions((GPSActivity) getBaseContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            permissionCheck= ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+
+        }
+        if (permissionCheck==-0) {
+            Intent i = new Intent(getApplicationContext(), GpsService.class);
+            startService(i);
+        }
+
+
 
     }
 

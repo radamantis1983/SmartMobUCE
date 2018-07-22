@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,41 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
+    private String URL_CAPTURA_DATOS_GPS="https://movilidad.000webhostapp.com/movilidad/registrogps.php";
 
+    private double aux1=0,aux2=0;
+    public boolean lastlocation(double last_latitud, double last_longitud){
+
+        double a=truncateDecimal(last_latitud,4);
+        double b=truncateDecimal(last_longitud,4);
+        System.out.println("latitud a comparar"+a);
+        System.out.println("longitud a comparar"+b);
+        System.out.println("latitud anterior" + aux1);//alamacenar solo 4 digitos0.0000
+        System.out.println("longitud anterior" + aux2);//alamacenar solo 4 digitos
+
+        if(aux1!=a || aux2!=b){
+            aux1= truncateDecimal(last_latitud,4);
+            aux2= truncateDecimal(last_longitud,4);
+
+            System.out.println("cambio de lugar true");
+
+            return true;
+        }
+        else{
+            System.out.println("no cambio de lugar");
+
+            return false;
+        }
+
+    }
+    public static double truncateDecimal(double x,int numberofDecimals)
+    {
+        if ( x > 0) {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR).doubleValue();
+        } else {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING).doubleValue();
+        }
+    }
     //permite guardar en archivo de preferencias
     public void guardarPreferencias(Context context, String text) {
 
@@ -233,7 +268,7 @@ public class Metodos {
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
-                client.post(Constants.URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
+                client.post(URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
