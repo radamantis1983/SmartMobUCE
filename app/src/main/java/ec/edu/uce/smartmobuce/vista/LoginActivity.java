@@ -29,6 +29,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
+import ec.edu.uce.smartmobuce.controlador.Constantes;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 import ec.edu.uce.smartmobuce.modelo.Usuarios;
 
@@ -37,18 +38,19 @@ import ec.edu.uce.smartmobuce.modelo.Usuarios;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    Metodos m = new Metodos();
-    static  String TAG = "LoginActivity";
-    RequestQueue requestQueue;
+    private final Metodos m = new Metodos();
+    private static final String TAG = "LoginActivity";
+    private RequestQueue requestQueue;
 
-    StringRequest request;
-    View focusView = null;
-    boolean cancel = false;
-    String usuarioid="";
-    EditText _emailText,_passwordText;
-    Button _loginButton;
-    TextView _signupLink;
-    final String URL_LOGIN="https://movilidad.000webhostapp.com/login/login.php";
+    private StringRequest request;
+    private View focusView = null;
+    private boolean cancel = false;
+    private String usuarioid="";
+    private EditText _emailText;
+    private EditText _passwordText;
+    private Button _loginButton;
+    private TextView _signupLink;
+
 
 
     @Override
@@ -98,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
-    public void login() {
+    private void login() {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -123,8 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         //onLoginSuccess();
                         // On complete call either onLoginSuccess or onLoginFailed
-                        System.out.println(URL_LOGIN);
-                        request = new StringRequest(Request.Method.POST,URL_LOGIN, new Response.Listener<String>() {
+                        System.out.println(Constantes.URL_LOGIN);
+                        request = new StringRequest(Request.Method.POST,Constantes.URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
@@ -206,18 +208,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    public void onLoginSuccess() {
+    private void onLoginSuccess() {
         _loginButton.setEnabled(true);
         finish();
     }
 
-    public void onLoginFailed() {
+    private void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String email = _emailText.getText().toString();

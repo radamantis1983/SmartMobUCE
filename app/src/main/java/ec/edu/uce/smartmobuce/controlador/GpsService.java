@@ -29,11 +29,11 @@ import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
 public class GpsService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    protected static final String LOG_TAG = "Servicio";
-    protected GoogleApiClient mGoogleApiClient;
-    protected Location mLastLocation;
+    private static final String LOG_TAG = "Servicio";
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
     private String usr,fecha;
-    protected LocationRequest mLocationRequest;
+    private LocationRequest mLocationRequest;
     private final Metodos m = new Metodos();
     private final ControladorSQLite controller = new ControladorSQLite(this);
 
@@ -181,7 +181,7 @@ public class GpsService extends Service implements
             i.putExtra("Altitud","0 m");
             i.putExtra("Velocidad","0 m/s");
             i.putExtra("Proveedor","n/a");
-            i.putExtra( "fecha","n/a");
+            i.putExtra( "fecha",fecha);
             sendBroadcast(i);
 
             //insertamos los datos en cero
@@ -193,7 +193,7 @@ public class GpsService extends Service implements
             queryValues.put("dat_altitud", "0.0");
             queryValues.put("dat_velocidad", "0.0");
             queryValues.put("dat_proveedor", "n/a");
-            queryValues.put("dat_fechahora_lectura", "n/a");
+            queryValues.put("dat_fechahora_lectura", fecha);
             controller.insertDatos(queryValues);
             Log.e(LOG_TAG,"Latitud0 = " + location.getLatitude()
                     + "\n Longitud0 = " + location.getLongitude());
@@ -203,7 +203,7 @@ public class GpsService extends Service implements
 
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         Log.e(LOG_TAG,"Mensaje Build Google API");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

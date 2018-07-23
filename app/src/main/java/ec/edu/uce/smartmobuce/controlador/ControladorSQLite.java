@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class ControladorSQLite extends SQLiteOpenHelper {
     //variable para almecenar
 
-    String sqlCreate = "CREATE TABLE `DatosGPS` (`dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+    private final String sqlCreate = "CREATE TABLE `DatosGPS` (`dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "`usu_id` INTEGER," +
             "`dat_latitud` REAL," +
             "`dat_longitud` REAL," +
