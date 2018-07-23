@@ -29,11 +29,11 @@ import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
 public class GpsService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    protected static final String LOG_TAG = "Servicio";
-    protected GoogleApiClient mGoogleApiClient;
-    protected Location mLastLocation;
+    private static final String LOG_TAG = "Servicio";
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
     private String usr,fecha;
-    protected LocationRequest mLocationRequest;
+    private LocationRequest mLocationRequest;
     private final Metodos m = new Metodos();
     private final ControladorSQLite controller = new ControladorSQLite(this);
 
@@ -203,7 +203,7 @@ public class GpsService extends Service implements
 
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         Log.e(LOG_TAG,"Mensaje Build Google API");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

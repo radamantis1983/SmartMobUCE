@@ -29,8 +29,8 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Metodos {
-    SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
+    private final SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
 
 
     private double aux1=0,aux2=0;
@@ -58,7 +58,7 @@ public class Metodos {
         }
 
     }
-    public static double truncateDecimal(double x,int numberofDecimals)
+    private static double truncateDecimal(double x, int numberofDecimals)
     {
         if ( x > 0) {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR).doubleValue();

@@ -37,16 +37,22 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
-    public RequestQueue requestQueue;
-    public StringRequest request;
+    private RequestQueue requestQueue;
+    private StringRequest request;
 
     View focusView = null;
     boolean cancel = false;
-    EditText _emailText,_passwordText,_reEnterPasswordText,_year;
-    Spinner _genero, _facultad, _tipo, _sector;
-    MultiSelectSpinner _actividad;
-    Button _signupButton;
-    TextView _loginLink;
+    private EditText _emailText;
+    private EditText _passwordText;
+    private EditText _reEnterPasswordText;
+    private EditText _year;
+    private Spinner _genero;
+    private Spinner _facultad;
+    private Spinner _tipo;
+    private Spinner _sector;
+    private MultiSelectSpinner _actividad;
+    private Button _signupButton;
+    private TextView _loginLink;
 
 
     @Override
@@ -114,7 +120,7 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    public void signup() {
+    private void signup() {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
@@ -219,20 +225,20 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
-    public void onSignupSuccess() {
+    private void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
 
     }
 
-    public void onSignupFailed() {
+    private void onSignupFailed() {
         Toast.makeText(getBaseContext(), "create user failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String email = _emailText.getText().toString();
