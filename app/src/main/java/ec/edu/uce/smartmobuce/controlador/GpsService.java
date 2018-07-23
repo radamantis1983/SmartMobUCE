@@ -181,7 +181,7 @@ public class GpsService extends Service implements
             i.putExtra("Altitud","0 m");
             i.putExtra("Velocidad","0 m/s");
             i.putExtra("Proveedor","n/a");
-            i.putExtra( "fecha","n/a");
+            i.putExtra( "fecha",fecha);
             sendBroadcast(i);
 
             //insertamos los datos en cero
@@ -193,7 +193,7 @@ public class GpsService extends Service implements
             queryValues.put("dat_altitud", "0.0");
             queryValues.put("dat_velocidad", "0.0");
             queryValues.put("dat_proveedor", "n/a");
-            queryValues.put("dat_fechahora_lectura", "n/a");
+            queryValues.put("dat_fechahora_lectura", fecha);
             controller.insertDatos(queryValues);
             Log.e(LOG_TAG,"Latitud0 = " + location.getLatitude()
                     + "\n Longitud0 = " + location.getLongitude());
