@@ -4,24 +4,42 @@
 
     <string name="action_settings">About</string>
     <string name="action_sync">synchronize</string>
+
+    <!-- Strings Produced by -->
+    <string name="author">Produced by Henry Guamán</string>
     <!-- Strings related to login -->
+    <string name="authenticate">Authenticating...</string>
+    <string name="success">Login Successful</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="unregistered">Unregistered user or</string>
+    <string name="error_login">Login failed</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short between 4 and 10 alphanumeric characters</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">register</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="str_languaje">Change Language</string>
     <!-- Strings registro -->
     <string name="renterpwd">Re-enter Password</string>
-    <string name="reyear">year</string>
+    <string name="error_invalid_password_match">Password Do not match</string>
+    <string name="year">year</string>
+    <string name="re_year">enter the year</string>
+    <string name="re_year_valid">enter the valid year</string>
     <string name="reaccount">No account yet? Create one</string>
     <string name="recrea">Create Account</string>
+    <string name="recrea1">Creating Account...</string>
+    <string name="error_create_user">create user failed</string>
     <string name="realready">Already a member? Login</string>
-
+    <string name="all_types">Studies,Sport,Work,Other</string>
+    <string name="error" translatable="false">Error</string>
+    <string name="select_faculty">Select Faculty</string>
+    <string name="select_gender">Select Gender</string>
+    <string name="select_type">Select Type</string>
+    <string name="select_sector">Select Sector</string>
+    <string name="select_activity">Select Activity</string>
     <!-- Strings facultad -->
     <string name="faculty">Faculty</string>
     <string name="fac2">Administrative Sciences</string>
@@ -51,7 +69,7 @@
     <string name="g02">Female</string>
 
     <!-- Strings tipo -->
-    <string name="type">TYPE</string>
+    <string name="type">Type</string>
     <string name="t01">Student</string>
     <string name="t02">Theacher</string>
     <string name="t03">Administrative</string>
@@ -64,7 +82,7 @@
 
     <!-- Strings actividad -->
     <string name="activity">Activity</string>
-    <string name="a01">Sstudies</string>
+    <string name="a01">Studies</string>
     <string name="a02">Sport</string>
     <string name="a03">Work</string>
     <string name="a04">Other</string>
@@ -76,6 +94,7 @@
         <item>@string/str_en</item>
         <item>@string/str_es</item>
     </string-array>
+    <!-- Strings change of location -->
 
     <string name="coordenadas1">Coordinates</string>
     <string name="latitude">Latitude</string>
@@ -87,22 +106,17 @@
     <string name="provider">Provider</string>
     <string name="date">Date</string>
     <string name="hour">Hour</string>
-    <string name="coordenadas">
-        Coordinates\n
-        Latitude =  -0.0 \n
-        Longitude =  -0.0\n
-        Accuracy =  0.0\n
-        Altitude =  0.0\n
-        Speed =  0.0\n
-        Provider = n/a\n
-        x:0\n
-        y:0\n
-        z:0\n
-        dop:\n
-        doph:\n
-        dopv:
-    </string>
-
+    <string name="marca">Manufactured</string>
+    <string name="model">Model</string>
+    <string name="version" translatable="false">Version</string>
+    <!-- Strings Sincronización -->
+    <string name="db_synchronization">DB Synchronization completed!!</string>
+    <string name="error_synchronization">Error Occurred [Server JSON request possibly invalidates]!</string>
+    <string name="error_request">request for the resource not found</string>
+    <string name="error_server">something may have happened on the server</string>
+    <string name="error_server1">Unexpected error has occurred! [Most common error: could the device is not connected to the Internet or could not find the service]</string>
+    <string name="error1_db_synchronization">SQLite and Remote MySQL DBs are Synchronized!!</string>
+    <string name="error2_db_synchronization">No data in SQLite DB,please wait for the action of Synchronization!</string>
 
     <string-array name="genero">
         <item>@string/gender</item>

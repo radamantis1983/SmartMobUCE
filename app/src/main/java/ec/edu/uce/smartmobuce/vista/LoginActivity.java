@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         File fichero = new File(sFichero);
 
         if (fichero.exists()) {
-            System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
+          //  System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
             //  mEmailView.setText(m.cargarPreferencias(getBaseContext()).toString());
             Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
             startActivity(intent);
@@ -90,10 +90,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    // Start the Signup activity
+                    // Inicia Registro activity
                     startActivity(new Intent(getApplicationContext(), RegistroActivity.class));
-                    //Intent intent = new Intent(getApplicationContext(), RegistroActivity.class);
-                    //startActivityForResult(intent, REQUEST_SIGNUP);
                     finish();
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
@@ -113,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage(getString(R.string.authenticate));
         progressDialog.show();
 
         final String email = _emailText.getText().toString();
@@ -123,8 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        //onLoginSuccess();
-                        // On complete call either onLoginSuccess or onLoginFailed
                         System.out.println(Constantes.URL_LOGIN);
                         request = new StringRequest(Request.Method.POST,Constantes.URL_LOGIN, new Response.Listener<String>() {
 
@@ -134,38 +130,32 @@ public class LoginActivity extends AppCompatActivity {
                                   try {
                                     //me permite obtener el id del usuario para registrar en el gps
                                     JSONObject jsonObject = new JSONObject(response);
-                                    //System.out.println(response);
-                                    System.out.println("response usado en el try"+jsonObject);                              
+
                                     if (jsonObject.names().get(0).equals("usuarios")) {
-                                        Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
-                                        //m.guardarPreferencias(getBaseContext(), email.getText().toString());
+                                        Toast.makeText(getApplicationContext(), getString(R.string.success) + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
+
                                         JSONArray jArray=jsonObject.getJSONArray("usuarios");
                                         for(int i=0;i<jArray.length();i++){
                                             JSONObject object =jArray.getJSONObject(i);
                                             Usuarios rev=new Usuarios();
                                             rev.setUsu_id(object.getString("usu_id"));
-                                            System.out.println("usuario codigo"+rev.getUsu_id());
                                             usuarioid=rev.getUsu_id();
-
                                         }
-
-                                        System.out.println("ejecuta json"+jsonObject);
-
                                         m.guardarPreferencias(getBaseContext(),usuarioid);
                                         onLoginSuccess();
                                         startActivity(new Intent(getApplicationContext(), GPSActivity.class));
-
                                         finish();
                                     } else {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
-                                        Toast.makeText(getApplicationContext(), "usuario no registrado o " + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.unregistered) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        //cambiar idioma jsonObject.getString
                                         cancel = true;
                                         onLoginFailed();
                                     }
                                     if (cancel) {
-                                        // There was an error; don't attempt login and focus the first
-                                        // form field with an error.
+                                        // Hubo un error; no intente iniciar sesión y enfoque el primer
+                                        // campo de formulario con un error.
                                         focusView.requestFocus();
                                     }
 
@@ -214,8 +204,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getBaseContext(), getString(R.string.error_login), Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
@@ -226,14 +215,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || !email.contains("@uce.edu.ec")) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getString(R.string.error_invalid_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getString(R.string.error_incorrect_password));
             valid = false;
         } else {
             _passwordText.setError(null);

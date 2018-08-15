@@ -18,7 +18,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:contentDescription="TODO" />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/reyear"
+                android:hint="@string/year"
                 android:inputType="number"
                 android:maxLength="4" />
 

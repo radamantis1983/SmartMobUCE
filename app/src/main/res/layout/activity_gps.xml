@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/latitude_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/longitude_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/accuracy_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/altitude_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -53,7 +53,7 @@
 
     <TextView
         android:id="@+id/speed_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -64,7 +64,7 @@
 
     <TextView
         android:id="@+id/provider_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -75,7 +75,7 @@
 
     <TextView
         android:id="@+id/date_label"
-        android:layout_width="77dp"
+        android:layout_width="100dp"
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -84,6 +84,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/provider_label" />
 
+
+    <TextView
+        android:id="@+id/marca_label"
+        android:layout_width="100dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/marca"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_label" />
+
+    <TextView
+        android:id="@+id/modelo_label"
+        android:layout_width="100dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/model"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/marca_label" />
+
+    <TextView
+        android:id="@+id/version_label"
+        android:layout_width="100dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/version"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modelo_label" />
 
     <TextView
         android:id="@+id/latitude_text"
@@ -162,6 +195,38 @@
         app:layout_constraintStart_toEndOf="@+id/date_label"
         app:layout_constraintTop_toBottomOf="@+id/provider_text" />
 
+    <TextView
+        android:id="@+id/marca_text"
+        android:layout_width="141dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/marca"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/marca_label"
+        app:layout_constraintTop_toBottomOf="@+id/date_text" />
+
+    <TextView
+        android:id="@+id/modelo_text"
+        android:layout_width="141dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/model"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/modelo_label"
+        app:layout_constraintTop_toBottomOf="@+id/marca_text" />
+
+    <TextView
+        android:id="@+id/version_text"
+        android:layout_width="141dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/version"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/version_label"
+        app:layout_constraintTop_toBottomOf="@+id/modelo_text" />
 
 
 </android.support.constraint.ConstraintLayout>

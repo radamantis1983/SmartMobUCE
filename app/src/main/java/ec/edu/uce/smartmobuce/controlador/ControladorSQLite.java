@@ -138,11 +138,11 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         //Use GSON to serialize Array List to JSON
         return gson.toJson(wordList);
     }
+    /*
+        /**
+         * Get Sync status of SQLite
+         * @return
 
-    /**
-     * Get Sync status of SQLite
-     * @return
-     */
     public String getSyncStatus(){
         String msg = null;
         if(this.dbSyncCount() == 0){
@@ -152,7 +152,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         }
         return msg;
     }
-
+*/
     /**
      * Get SQLite records that are yet to be Synced
      * @return
