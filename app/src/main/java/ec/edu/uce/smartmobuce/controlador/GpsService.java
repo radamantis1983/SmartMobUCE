@@ -133,7 +133,7 @@ public class GpsService extends Service implements
         Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
         Log.e(LOG_TAG,"msg comprueba si hay cambio de lugar");
         System.out.println("comprueba si hay cambio de lugar");
-        if(mLastLocation!=null){
+
             if (m.lastlocation(location.getLatitude(),location.getLongitude())) {
 
                 Intent i = new Intent("location_update");
@@ -163,6 +163,9 @@ public class GpsService extends Service implements
                         queryValues.put("dat_velocidad", String.valueOf(location.getSpeed()));
                         queryValues.put("dat_proveedor", location.getProvider());
                         queryValues.put("dat_fechahora_lectura", fecha);
+                        queryValues.put("dat_marca",String.valueOf(Build.MANUFACTURER));
+                        queryValues.put("dat_modelo",String.valueOf(Build.MODEL));
+                        queryValues.put("dat_version",String.valueOf(Build.VERSION.RELEASE));
                         controller.insertDatos(queryValues);
                     }
 
@@ -203,27 +206,16 @@ public class GpsService extends Service implements
                 queryValues.put("dat_velocidad", "0.0");
                 queryValues.put("dat_proveedor", "n/a");
                 queryValues.put("dat_fechahora_lectura", fecha);
+                queryValues.put("dat_marca","n/a");
+                queryValues.put("dat_modelo","n/a");
+                queryValues.put("dat_version","n/a");
                 controller.insertDatos(queryValues);
                 Log.e(LOG_TAG,"Latitud0 = " + location.getLatitude()
                         + "\n Longitud0 = " + location.getLongitude());
                 System.out.println(" Latitud0 = " + location.getLatitude()
                         + "\n Longitud0 = " + location.getLongitude());
             }
-        }else{
-            Intent i = new Intent("location_update");
-            i.putExtra("Latitud","0°");
-            i.putExtra("Longitud","0°");
-            i.putExtra("Precision","0 m");
-            i.putExtra("Altitud","0 m");
-            i.putExtra("Velocidad","0 m/s");
-            i.putExtra("Proveedor","n/a");
-            i.putExtra( "fecha",fecha);
-            i.putExtra( "Marca",String.valueOf("n/a"));
-            i.putExtra( "Modelo",String.valueOf("n/a"));
-            i.putExtra( "Version",String.valueOf("n/a"));
-            sendBroadcast(i);
 
-        }
     }
 
     private synchronized void buildGoogleApiClient() {
