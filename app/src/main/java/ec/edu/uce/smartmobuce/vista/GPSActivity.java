@@ -110,6 +110,30 @@ public class GPSActivity extends AppCompatActivity  {
 
 
         }
+        if (broadcastReceiver == null) {
+
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    mLatitudeText.setText(""+intent.getExtras().get("Latitud"));
+                    mLongitudeText.setText(""+intent.getExtras().get("Longitud"));
+                    mAccuracyText.setText(""+intent.getExtras().get("Precision"));
+                    mAltitudeText.setText(""+intent.getExtras().get("Altitud"));
+                    mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
+                    mProviderText.setText(""+intent.getExtras().get("Proveedor"));
+                    mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                    mMarcaText.setText(""+intent.getExtras().get( "Marca"));
+                    mModeloText.setText(""+intent.getExtras().get( "Modelo"));
+                    mVersionText.setText(""+intent.getExtras().get( "Version"));
+                }
+            };
+        }
+
+
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+        Log.d(LOG_TAG, "GPSActivity");
+
 
 
     }

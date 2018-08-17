@@ -10,18 +10,15 @@ public class Constantes {
 
     }
 
-   // public static final String URL_LOGIN="http://smartmobuce.000webhostapp.com/movilidad1/login.php";
-   // public static final String URL_REGISTRO="http://smartmobuce.000webhostapp.com/movilidad1/registro.php";
-    //public static final String URL_CAPTURA_DATOS_GPS="http://smartmobuce.000webhostapp.com/movilidad1/registrogps.php";
-    //otros host
-    //mcnamara.mipropia.com
-    //5ld6gmrx.epizy.com
+    public static final String URL_LOGIN="http://movilidad.000webhostapp.com/movilidad1/login.php";
+    public static final String URL_REGISTRO="http://movilidad.000webhostapp.com/movilidad1/registro.php";
+    public static final String URL_CAPTURA_DATOS_GPS="http://movilidad.000webhostapp.com/movilidad1/registrogps.php";
     //para uso modo local para manual de instalacion
-    //192.168.2.156
-    public static final String HOST="192.168.2.156";//colocar ip o host que se haya definido como servidor
-    public static final String URL_LOGIN="http://"+HOST+"/movilidad/login.php";
-    public static final String URL_REGISTRO="http://"+HOST+"/movilidad/registro.php";
-    public static final String URL_CAPTURA_DATOS_GPS="http://"+HOST+"/movilidad/registrogps.php";
+    //public static final String HOST="192.168.2.156";//colocar ip o host que se haya definido como servidor
+    //public static final String URL_LOGIN="http://"+HOST+"/movilidad/login.php";
+    //public static final String URL_REGISTRO="http://"+HOST+"/movilidad/registro.php";
+    //public static final String URL_CAPTURA_DATOS_GPS="http://"+HOST+"/movilidad/registrogps.php";
+
     //horas que permite guardar datos en la base interna
     public static final String horaInicial = "06:00:00";
     public static final String horaFinal = "22:00:00";

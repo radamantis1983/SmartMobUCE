@@ -4,9 +4,12 @@ import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -31,6 +34,8 @@ public class GpsService extends Service implements
     private Location mLastLocation;
     private String usr,fecha;
     private LocationRequest mLocationRequest;
+
+
     private final Metodos m = new Metodos();
     private final ControladorSQLite controller = new ControladorSQLite(this);
 
@@ -71,15 +76,20 @@ public class GpsService extends Service implements
 
         int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
-
         if (permissionCheck==-1) {
             ActivityCompat.requestPermissions((GPSActivity) getBaseContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
             permissionCheck= ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+
         }
 
         if(permissionCheck==0){
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                SystemClock.sleep(8000);
+            }
             if(mLastLocation != null){
 
                 Intent i = new Intent("location_update");
@@ -94,7 +104,7 @@ public class GpsService extends Service implements
                 i.putExtra( "Modelo",String.valueOf(Build.MODEL));
                 i.putExtra( "Version",String.valueOf(Build.VERSION.RELEASE));
                 sendBroadcast(i);
-                Log.e(LOG_TAG," Coordenadas"+ "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
+                Log.e(LOG_TAG," Coordenadas fuse "+ "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
                         "Longitud"+String.valueOf(mLastLocation.getLongitude())+
                         "Precision"+String.valueOf(mLastLocation.getAccuracy())+
                         "Altitud"+String.valueOf(mLastLocation.getAltitude())+
@@ -107,6 +117,7 @@ public class GpsService extends Service implements
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             mLocationRequest.setInterval(Constantes.INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
+
 
 
         }
@@ -127,26 +138,29 @@ public class GpsService extends Service implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e(LOG_TAG,"Localizacion"+location.toString());
+        Log.e(LOG_TAG, "Localizacion :" + location.toString());
+        LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            SystemClock.sleep(8000);
+        }
         usr = m.cargarPreferencias(getBaseContext());
         fecha = m.getFechaActual();
         Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
-        Log.e(LOG_TAG,"msg comprueba si hay cambio de lugar");
-        System.out.println("comprueba si hay cambio de lugar");
-
-            if (m.lastlocation(location.getLatitude(),location.getLongitude())) {
-
+        if (mLastLocation != null) {
+            if (m.lastlocation(location.getLatitude(), location.getLongitude())) {
+                Log.e(LOG_TAG, "msg cambio de lugar");
                 Intent i = new Intent("location_update");
-                i.putExtra("Latitud",String.valueOf(mLastLocation.getLatitude())+"°");
-                i.putExtra("Longitud",String.valueOf(mLastLocation.getLongitude())+"°");
-                i.putExtra("Precision",String.valueOf(mLastLocation.getAccuracy())+"m");
-                i.putExtra("Altitud",String.valueOf(mLastLocation.getAltitude())+"m");
-                i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed())+"m/s");
-                i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
-                i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
-                i.putExtra( "Marca",String.valueOf(Build.MANUFACTURER));
-                i.putExtra( "Modelo",String.valueOf(Build.MODEL));
-                i.putExtra( "Version",String.valueOf(Build.VERSION.RELEASE));
+                i.putExtra("Latitud", String.valueOf(mLastLocation.getLatitude()) + "°");
+                i.putExtra("Longitud", String.valueOf(mLastLocation.getLongitude()) + "°");
+                i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
+                i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
+                i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
+                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()));
+                i.putExtra("fecha", String.valueOf(m.getFechaActual()));
+                i.putExtra("Marca", String.valueOf(Build.MANUFACTURER));
+                i.putExtra("Modelo", String.valueOf(Build.MODEL));
+                i.putExtra("Version", String.valueOf(Build.VERSION.RELEASE));
                 sendBroadcast(i);
 
                 //si se encuentra dentro del area capturamos los datos
@@ -163,9 +177,9 @@ public class GpsService extends Service implements
                         queryValues.put("dat_velocidad", String.valueOf(location.getSpeed()));
                         queryValues.put("dat_proveedor", location.getProvider());
                         queryValues.put("dat_fechahora_lectura", fecha);
-                        queryValues.put("dat_marca",String.valueOf(Build.MANUFACTURER));
-                        queryValues.put("dat_modelo",String.valueOf(Build.MODEL));
-                        queryValues.put("dat_version",String.valueOf(Build.VERSION.RELEASE));
+                        queryValues.put("dat_marca", String.valueOf(Build.MANUFACTURER));
+                        queryValues.put("dat_modelo", String.valueOf(Build.MODEL));
+                        queryValues.put("dat_version", String.valueOf(Build.VERSION.RELEASE));
                         controller.insertDatos(queryValues);
                     }
 
@@ -178,22 +192,21 @@ public class GpsService extends Service implements
                         m.syncSQLiteMySQLDB(getApplicationContext());
                     }
                 }
-            }
-            else{
-                Log.e(LOG_TAG,"msg NO hubo cambio de lugar");
-                System.out.println("NO hubo cambio de lugar");
+            } else {
+                Log.e(LOG_TAG, "msg NO hubo cambio de lugar");
+
                 //mostramos los datos en cero
                 Intent i = new Intent("location_update");
-                i.putExtra("Latitud","0°");
-                i.putExtra("Longitud","0°");
-                i.putExtra("Precision","0 m");
-                i.putExtra("Altitud","0 m");
-                i.putExtra("Velocidad","0 m/s");
-                i.putExtra("Proveedor","n/a");
-                i.putExtra( "fecha",fecha);
-                i.putExtra( "Marca",String.valueOf("n/a"));
-                i.putExtra( "Modelo",String.valueOf("n/a"));
-                i.putExtra( "Version",String.valueOf("n/a"));
+                i.putExtra("Latitud", "0°");
+                i.putExtra("Longitud", "0°");
+                i.putExtra("Precision", "0 m");
+                i.putExtra("Altitud", "0 m");
+                i.putExtra("Velocidad", "0 m/s");
+                i.putExtra("Proveedor", "n/a");
+                i.putExtra("fecha", fecha);
+                i.putExtra("Marca", String.valueOf("n/a"));
+                i.putExtra("Modelo", String.valueOf("n/a"));
+                i.putExtra("Version", String.valueOf("n/a"));
                 sendBroadcast(i);
 
                 //insertamos los datos en cero
@@ -206,17 +219,19 @@ public class GpsService extends Service implements
                 queryValues.put("dat_velocidad", "0.0");
                 queryValues.put("dat_proveedor", "n/a");
                 queryValues.put("dat_fechahora_lectura", fecha);
-                queryValues.put("dat_marca","n/a");
-                queryValues.put("dat_modelo","n/a");
-                queryValues.put("dat_version","n/a");
+                queryValues.put("dat_marca", "n/a");
+                queryValues.put("dat_modelo", "n/a");
+                queryValues.put("dat_version", "n/a");
                 controller.insertDatos(queryValues);
-                Log.e(LOG_TAG,"Latitud0 = " + location.getLatitude()
+                Log.e(LOG_TAG, "Latitud0 = " + location.getLatitude()
                         + "\n Longitud0 = " + location.getLongitude());
-                System.out.println(" Latitud0 = " + location.getLatitude()
-                        + "\n Longitud0 = " + location.getLongitude());
+
             }
+        }
 
     }
+
+
 
     private synchronized void buildGoogleApiClient() {
         Log.e(LOG_TAG,"Mensaje Build Google API");

@@ -89,7 +89,7 @@
     <string name="error_synchronization">Ocurrió un error [¡La solicitud del servidor JSON posiblemente invalida]!</string>
     <string name="error_request">solicitud del recurso no encontrado</string>
     <string name="error_server">algo puede haber sucedido en el servidor</string>
-    <string name="error_server1">Unexpected error has occurred! [Most common error: could the device is not connected to the Internet or could not find the service]</string>
+    <string name="error_server1">¡Se ha producido un error inesperado! [Error más común: podría el dispositivo no está conectado a Internet o no puede encontrar el servicio]</string>
     <string name="error1_db_synchronization">SQLite y Remote MySQL DBs están sincronizados!</string>
     <string name="error2_db_synchronization">No hay datos en DB SQLite, espere la acción de Sincronización!</string>
     <string name="marca">Marca</string>
