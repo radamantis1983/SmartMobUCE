@@ -19,7 +19,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:src="@drawable/logo"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/logo"
+            android:contentDescription="TODO" />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout

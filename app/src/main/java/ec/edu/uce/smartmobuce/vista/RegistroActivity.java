@@ -37,11 +37,11 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 public class RegistroActivity extends AppCompatActivity {
 
     private static final String TAG = "RegistroActivity";
-    private RequestQueue requestQueue;
-    private StringRequest request;
+    RequestQueue requestQueue;
+    StringRequest request;
 
-    View focusView = null;
-    boolean cancel = false;
+    //View focusView = null;
+    //boolean cancel = false;
     private EditText _emailText;
     private EditText _passwordText;
     private EditText _reEnterPasswordText;
@@ -96,7 +96,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                     }
                 })
-                .setAllCheckedText("All types")
+                .setAllCheckedText(getString(R.string.all_types))
                 .setAllUncheckedText(act)
                 .setSelectAll(false);
 
@@ -134,14 +134,14 @@ public class RegistroActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.recrea1));
         progressDialog.show();
 
 
 
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
-        final String reEnterPassword = _reEnterPasswordText.getText().toString();
+        //final String reEnterPassword = _reEnterPasswordText.getText().toString();
         final String year = _year.getText().toString();
         final int genero =_genero.getSelectedItemPosition();
 
@@ -164,11 +164,11 @@ public class RegistroActivity extends AppCompatActivity {
                                     //me permite obtener el id del usuario para registrar en el gps
 
                                     JSONObject jsonObject = new JSONObject(response);
-//                                    System.out.println("inicia responce"+response);
-  //                                  System.out.println(jsonObject);
+                                 //   System.out.println("inicia responce"+response);
+                                   // System.out.println(jsonObject);
                                     if (jsonObject.names().get(0).equals("success")) {
 
-                                        Toast.makeText(getApplicationContext(), "SUCCESS " + jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.success) + jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
@@ -176,7 +176,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                     }else{
 
-                                        Toast.makeText(getApplicationContext(), "Error" + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
@@ -233,7 +233,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "create user failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.error_create_user), Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -246,14 +246,14 @@ public class RegistroActivity extends AppCompatActivity {
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
       //  int genero =_genero.getSelectedItemPosition();
-        String facultad = _facultad.getSelectedItem().toString();
+        //String facultad = _facultad.getSelectedItem().toString();
         //int tipo = _tipo.getSelectedItemPosition();
         //int sector = _sector.getSelectedItemPosition();
         //String actividad = _actividad.getSelectedItem().toString();
-
+        _emailText.requestFocus();
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || !email.contains("@uce.edu.ec")) {
             _emailText.requestFocus();
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getString(R.string.error_invalid_email));
             valid = false;
         } else {
             _emailText.setError(null);
@@ -261,7 +261,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10 ) {
             _passwordText.requestFocus();
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getString(R.string.error_invalid_password));
             valid = false;
         } else {
             _passwordText.setError(null);
@@ -269,7 +269,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
             _reEnterPasswordText.requestFocus();
-            _reEnterPasswordText.setError("Password Do not match");
+            _reEnterPasswordText.setError(getString(R.string.error_invalid_password_match));
             valid = false;
         } else {
             _reEnterPasswordText.setError(null);
@@ -278,14 +278,14 @@ public class RegistroActivity extends AppCompatActivity {
 
         if (year.isEmpty() )  {
             _year.requestFocus();
-            _year.setError("ingrese año ");
+            _year.setError(getString(R.string.re_year));
             valid = false;
 
         } else {
             int y=Integer.parseInt(_year.getText().toString());
             if(y>=2000 ||y <=1950){
                 _year.requestFocus();
-                _year.setError("ingrese año válido");
+                _year.setError(getString(R.string.re_year_valid));
                 valid = false;
             }else{
                 _year.setError(null);
@@ -295,27 +295,27 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
         if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
-            Toast.makeText(this, "Error seleccione Genero", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_SHORT).show();
             valid = false;
         }
         if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
-            Toast.makeText(this, "Error seleccione Facultad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.select_faculty), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
         if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
-            Toast.makeText(this, "Error seleccione Tipo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.select_type), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
         if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
-            Toast.makeText(this, "Error seleccione sector", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.select_sector), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
 
         if (_actividad.getSelectedItem().toString().trim().equals("Activity")||_actividad.getSelectedItem().toString().trim().equals("Actividad")) {
-            Toast.makeText(this, "Error seleccione Actividad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.select_activity), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 

@@ -27,10 +27,13 @@ public class ControladorSQLite extends SQLiteOpenHelper {
             "`dat_velocidad` REAL," +
             "`dat_proveedor` TEXT," +
             "`dat_fechahora_lectura` TEXT," +
+            "`dat_marca` TEXT," +
+            "`dat_modelo` TEXT," +
+            "`dat_version` TEXT," +
             "`udpateStatus` TEXT" +
             ");";
 
-    //contexto referencia al activity, name nombre de base de datos SQLiteDatabase m=no utilizamos ponemos null
+    //contexto referencia al activity, name nombre de base de datos SQLiteDatabase factory no utilizamos ponemos null
     public ControladorSQLite(Context applicationcontext) {
         super(applicationcontext, "datosGPS.db", null, 1);
     }
@@ -69,9 +72,10 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         values.put("dat_velocidad", queryValues.get("dat_velocidad"));
         values.put("dat_proveedor", queryValues.get("dat_proveedor"));
         values.put("dat_fechahora_lectura", queryValues.get("dat_fechahora_lectura"));
+        values.put("dat_marca", queryValues.get("dat_marca"));
+        values.put("dat_modelo", queryValues.get("dat_modelo"));
+        values.put("dat_version", queryValues.get("dat_version"));
         values.put("udpateStatus", "no");
-
-
         database.insert("DatosGPS", null, values);
         database.close();
     }
@@ -98,7 +102,10 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_velocidad",cursor.getString(6));
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("udpateStatus",cursor.getString(9));
+                map.put("dat_marca",cursor.getString(9));
+                map.put("dat_modelo",cursor.getString(10));
+                map.put("dat_version",cursor.getString(11));
+                map.put("udpateStatus",cursor.getString(12));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -129,7 +136,10 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_velocidad",cursor.getString(6));
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("udpateStatus",cursor.getString(9));
+                map.put("dat_marca",cursor.getString(9));
+                map.put("dat_modelo",cursor.getString(10));
+                map.put("dat_version",cursor.getString(11));
+                map.put("udpateStatus",cursor.getString(12));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -138,11 +148,11 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         //Use GSON to serialize Array List to JSON
         return gson.toJson(wordList);
     }
+    /*
+        /**
+         * Get Sync status of SQLite
+         * @return
 
-    /**
-     * Get Sync status of SQLite
-     * @return
-     */
     public String getSyncStatus(){
         String msg = null;
         if(this.dbSyncCount() == 0){
@@ -152,7 +162,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         }
         return msg;
     }
-
+*/
     /**
      * Get SQLite records that are yet to be Synced
      * @return

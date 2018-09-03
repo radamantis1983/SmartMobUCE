@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import ec.edu.uce.smartmobuce.R;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -38,21 +40,21 @@ public class Metodos {
 
         double a=truncateDecimal(last_latitud,4);
         double b=truncateDecimal(last_longitud,4);
-        System.out.println("latitud a comparar"+a);
-        System.out.println("longitud a comparar"+b);
-        System.out.println("latitud anterior" + aux1);//alamacenar solo 4 digitos0.0000
-        System.out.println("longitud anterior" + aux2);//alamacenar solo 4 digitos
+      //  System.out.println("latitud a comparar"+a);
+      //  System.out.println("longitud a comparar"+b);
+      //  System.out.println("latitud anterior" + aux1);//alamacenar solo 4 digitos0.0000
+      //  System.out.println("longitud anterior" + aux2);//alamacenar solo 4 digitos
 
         if(aux1!=a || aux2!=b){
             aux1= truncateDecimal(last_latitud,4);
             aux2= truncateDecimal(last_longitud,4);
 
-            System.out.println("cambio de lugar true");
+            //System.out.println("cambio de lugar true");
 
             return true;
         }
         else{
-            System.out.println("no cambio de lugar");
+            //System.out.println("no cambio de lugar");
 
             return false;
         }
@@ -136,7 +138,7 @@ public class Metodos {
             horaFin = hformat.parse(horaFinal);
             if (horaIni.equals(horaFin)) {
                 // System.out.println("horas iguales procediendo a sincronizar");
-                System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
+              //  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
                 return true;
             } else {
                 //  System.out.println("no es hora de sincronizar");
@@ -145,7 +147,7 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            //Logger.getLogger(Main2.class.getName()).log(Level.SEVERE, null, ex);
+
             //System.out.println("Posee errores");
             return false;
         }
@@ -172,7 +174,7 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            //Logger.getLogger(Main2.class.getName()).log(Level.SEVERE, null, ex);
+
            // System.out.println("La hora Posee errores");
             return false;
         }
@@ -197,63 +199,6 @@ public class Metodos {
     }
     //saca una copia de la base de datos y lo guarda en mis documentos
 
-    public void backupdDatabase(Context aplicationcontext){
-
-        try {
-            Boolean sdDisponible=false;
-            Boolean sdEscritura=false;
-            File sd = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            }else{
-                sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            }
-            File data = Environment.getDataDirectory();
-
-            String packageName  = aplicationcontext.getPackageName();
-            String sourceDBName = "datosGPS.db";
-            String targetDBName = "vistadb";
-
-
-            String estado=Environment.getExternalStorageState();
-            if(estado.equals(Environment.MEDIA_MOUNTED)) {
-                sdDisponible=true;
-                sdEscritura=true;
-
-            }else
-            if(estado.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
-                sdDisponible=true;
-                sdEscritura=false;
-
-            }else {
-                sdDisponible=true;
-                sdEscritura=false;
-            }
-
-            if (sdDisponible.equals(true)&&sdEscritura.equals(true)) {
-
-                String currentDBPath = "data/" + packageName + "/databases/" + sourceDBName;
-                //Date now = new Date();
-                //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-                //String backupDBPath = targetDBName +"_"+ dateFormat.format(now) + ".db";
-                String backupDBPath = targetDBName+".db";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
-
-
-                Log.i("backup","backupDB=" + backupDB.getAbsolutePath());
-                Log.i("backup","sourceDB=" + currentDB.getAbsolutePath());
-
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-            }
-        } catch (Exception e) {
-            Log.i("Backup", e.toString());
-        }
-    }
 
 
     ///sincronizacion de la base de datos
@@ -275,7 +220,7 @@ public class Metodos {
                         System.out.println("dato response"+response);
                         try {
                             JSONArray arr = new JSONArray(response);
-                            System.out.println(arr.length());
+                            System.out.println("arreglo de"+arr.length());
                             for(int i=0; i<arr.length();i++){
                                 JSONObject obj = (JSONObject)arr.get(i);
                                //   System.out.println(obj.get("usu_id"));
@@ -284,9 +229,10 @@ public class Metodos {
 
                                 controller.updateSyncStatus(obj.get("usu_id").toString(),obj.get("dat_fechahora_lectura").toString(),obj.get("status").toString());
                             }
-                            Toast.makeText(appContext, "DB Sincronización completada!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(appContext,R.string.db_synchronization,Toast.LENGTH_SHORT).show();
+
                         } catch (JSONException e) {
-                             Toast.makeText(appContext, "Error Ocurrido [Server's JSON solicitud posiblemente invalida]!", Toast.LENGTH_LONG).show();
+                             Toast.makeText(appContext,R.string.error_synchronization , Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     }
@@ -295,19 +241,19 @@ public class Metodos {
                     public void onFailure(int statusCode, Throwable error,
                                           String content) {
                         if(statusCode == 404){
-                            Toast.makeText(appContext, "solicitud del recurso not found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(appContext, R.string.error_request, Toast.LENGTH_LONG).show();
                         }else if(statusCode == 500){
-                            Toast.makeText(appContext, "algo puedo haber ocurrido en el server end", Toast.LENGTH_LONG).show();
+                            Toast.makeText(appContext, R.string.error_server, Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(appContext, "Error inerperado a ocurido! [Error mas común: podría el dispositivo no esta conectado al Internet]", Toast.LENGTH_LONG).show();
+                            Toast.makeText(appContext, R.string.error_server1, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
             }else{
-                Toast.makeText(appContext, "SQLite y Remote MySQL DBs estan Sincronizada!", Toast.LENGTH_LONG).show();
+                Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
             }
         }else{
-            Toast.makeText(appContext, "No data in SQLite DB, \n por favor espere la accion \nde Sincronizacion ", Toast.LENGTH_LONG).show();
+            Toast.makeText(appContext, R.string.error2_db_synchronization, Toast.LENGTH_LONG).show();
         }
     }
 

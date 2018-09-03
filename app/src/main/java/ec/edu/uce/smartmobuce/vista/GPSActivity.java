@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -25,9 +26,8 @@ import ec.edu.uce.smartmobuce.controlador.Metodos;
 
 public class GPSActivity extends AppCompatActivity  {
 
-    protected static final String LOG_TAG = "TestApp2";
+    protected static final String LOG_TAG = "GPSActivity";
     private final Metodos m = new Metodos();
-    private final ControladorSQLite controller = new ControladorSQLite(this);
     private BroadcastReceiver broadcastReceiver;
     private TextView mLatitudeText;
     private TextView mLongitudeText;
@@ -36,6 +36,9 @@ public class GPSActivity extends AppCompatActivity  {
     private TextView mSpeedText;
     private TextView mProviderText;
     private TextView mDatetext;
+    private TextView mMarcaText;
+    private TextView mModeloText;
+    private TextView mVersionText;
 
 
 
@@ -56,13 +59,16 @@ public class GPSActivity extends AppCompatActivity  {
                     mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
                     mProviderText.setText(""+intent.getExtras().get("Proveedor"));
                     mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                    mMarcaText.setText(""+intent.getExtras().get( "Marca"));
+                    mModeloText.setText(""+intent.getExtras().get( "Modelo"));
+                    mVersionText.setText(""+intent.getExtras().get( "Version"));
                 }
             };
         }
 
 
         registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
-
+        Log.d(LOG_TAG, "GPSActivity");
     }
 
     @Override
@@ -86,6 +92,9 @@ public class GPSActivity extends AppCompatActivity  {
         mSpeedText = (TextView) findViewById(R.id.speed_text);
         mProviderText = (TextView) findViewById(R.id.provider_text);
         mDatetext = (TextView) findViewById(R.id.date_text);
+        mMarcaText = (TextView) findViewById(R.id.marca_text);
+        mModeloText = (TextView) findViewById(R.id.modelo_text);
+        mVersionText = (TextView) findViewById(R.id.version_text);
 
         int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -95,11 +104,36 @@ public class GPSActivity extends AppCompatActivity  {
 
         }
         if (permissionCheck==-0) {
+
             Intent i = new Intent(this, GpsService.class);
             startService(i);
 
 
         }
+        if (broadcastReceiver == null) {
+
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    mLatitudeText.setText(""+intent.getExtras().get("Latitud"));
+                    mLongitudeText.setText(""+intent.getExtras().get("Longitud"));
+                    mAccuracyText.setText(""+intent.getExtras().get("Precision"));
+                    mAltitudeText.setText(""+intent.getExtras().get("Altitud"));
+                    mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
+                    mProviderText.setText(""+intent.getExtras().get("Proveedor"));
+                    mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                    mMarcaText.setText(""+intent.getExtras().get( "Marca"));
+                    mModeloText.setText(""+intent.getExtras().get( "Modelo"));
+                    mVersionText.setText(""+intent.getExtras().get( "Version"));
+                }
+            };
+        }
+
+
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+        Log.d(LOG_TAG, "GPSActivity");
+
 
 
     }
@@ -131,7 +165,7 @@ public class GPSActivity extends AppCompatActivity  {
                 return true;
             case R.id.action_settings:
 
-                Toast.makeText(this, "Elaborado por Henry Guamán", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getString(R.string.author) , Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

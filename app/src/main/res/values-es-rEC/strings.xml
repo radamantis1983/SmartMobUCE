@@ -22,52 +22,36 @@
     <string name="provider">Proveedor</string>
     <string name="date">Fecha</string>
     <string name="hour">Hora</string>
-    <string name="coordenadas">
-        coordenadas:\n
-        Latitud =  -0.0\n
-        Longitud =  -0.0\n
-        Precision =  0.0\n
-        Altitud =  0.0\n
-        Velocidad =  0.0\n
-        Proveedor = n/a\n
-        x:0\n
-        y:0\n
-        z:0\n
-        dop\n
-        doph\n
-        dopv
-        </string>
 
     <string name="title_activity_login">Registrarse</string>
     <string name="action_settings">Acerca de</string>
     <string name="action_sync">Sincronizar</string>
     <string name="action_register">Registrar</string>
     <string name="renterpwd">Escriba la contraseña otra vez</string>
-    <string name="reyear">año</string>
     <string name="reaccount">¿No tienes cuenta aún? Crea una</string>
     <string name="recrea">Crear una cuenta</string>
     <string name="realready">¿Ya eres usuario? Iniciar sesión</string>
     <string name="faculty">Facultad</string>
-    <string name="fac4">Arquitectura y Urbanismo</string>
-    <string name="fac5">Artes</string>
-    <string name="fac2">Ciencias Administrativas</string>
-    <string name="fac3">Ciencias Agrícolas</string>
+    <string name="fac2">Arquitectura y Urbanismo</string>
+    <string name="fac3">Artes</string>
+    <string name="fac4">Ciencias Administrativas</string>
+    <string name="fac5">Ciencias Agrícolas</string>
     <string name="fac6">Ciencias Biológicas</string>
-    <string name="fac9">Ciencias de la Discapacidad</string>
-    <string name="fac14">Ciencias Médicas</string>
-    <string name="fac18">Ciencias Psicológicas</string>
-    <string name="fac8">Ciencias Químicas</string>
-    <string name="fac19">Ciencias Sociales y Humanas</string>
-    <string name="fac10">Cienicas Económicas</string>
-    <string name="fac20">Comunicación Social</string>
-    <string name="fac17">Cultura Física</string>
-    <string name="fac16">Filosofía, Letras y Ciencias de la Educación</string>
-    <string name="fac11">Ingeniería en Geología, Minas, Petroleo y Ambiental</string>
-    <string name="fac7">Ingeniería Química</string>
-    <string name="fac12">Ingeniería, Ciencias Físicas y Matemática</string>
-    <string name="fac13">Jurisprudencia, Ciencias Políticas y Sociales</string>
-    <string name="fac21">Medicina Veterinaria y Zootecnia</string>
-    <string name="fac15">Odontología</string>
+    <string name="fac7">Ciencias de la Discapacidad</string>
+    <string name="fac8">Ciencias Médicas</string>
+    <string name="fac9">Ciencias Psicológicas</string>
+    <string name="fac10">Ciencias Químicas</string>
+    <string name="fac11">Ciencias Sociales y Humanas</string>
+    <string name="fac12">Cienicas Económicas</string>
+    <string name="fac13">Comunicación Social</string>
+    <string name="fac14">Cultura Física</string>
+    <string name="fac15">Filosofía, Letras y Ciencias de la Educación</string>
+    <string name="fac16">Ingeniería en Geología, Minas, Petroleo y Ambiental</string>
+    <string name="fac17">Ingeniería Química</string>
+    <string name="fac18">Ingeniería, Ciencias Físicas y Matemática</string>
+    <string name="fac19">Jurisprudencia, Ciencias Políticas y Sociales</string>
+    <string name="fac20">Medicina Veterinaria y Zootecnia</string>
+    <string name="fac21">Odontología</string>
 
     <string name="gender">Género</string>
     <string name="g01">Hombre</string>
@@ -84,5 +68,31 @@
     <string name="a02">Deportes</string>
     <string name="a03">Trabajo</string>
     <string name="a04">Otro</string>
+    <string name="author">Creado por Henry Guamán</string>
+    <string name="authenticate">Autenticando...</string>
+    <string name="success">Login Exitoso</string>
+    <string name="unregistered">"Usuario no registrado o "</string>
+    <string name="error_login">error de inicio de sesion</string>
+    <string name="error_invalid_password_match">La contraseña no coincide</string>
+    <string name="year">Año</string>
+    <string name="re_year">Ingrese el año</string>
+    <string name="re_year_valid">Ingrese año válido</string>
+    <string name="recrea1">Creando cuenta...</string>
+    <string name="error_create_user">crear usuario fallido</string>
+    <string name="all_types">Estudios, Deporte, Trabajo, Otro</string>
+    <string name="select_faculty">Seleccionar Facultad</string>
+    <string name="select_gender">Seleccionar Género</string>
+    <string name="select_type">Seleccionar Tipo</string>
+    <string name="select_sector">Seleccionar Sector</string>
+    <string name="select_activity">Seleccionar Actividad</string>
+    <string name="db_synchronization">¡Sincronización DB completada!</string>
+    <string name="error_synchronization">Ocurrió un error [¡La solicitud del servidor JSON posiblemente invalida]!</string>
+    <string name="error_request">solicitud del recurso no encontrado</string>
+    <string name="error_server">algo puede haber sucedido en el servidor</string>
+    <string name="error_server1">¡Se ha producido un error inesperado! [Error más común: podría el dispositivo no está conectado a Internet o no puede encontrar el servicio]</string>
+    <string name="error1_db_synchronization">SQLite y Remote MySQL DBs están sincronizados!</string>
+    <string name="error2_db_synchronization">No hay datos en DB SQLite, espere la acción de Sincronización!</string>
+    <string name="marca">Marca</string>
+    <string name="model">Modelo</string>
 
 </resources>
