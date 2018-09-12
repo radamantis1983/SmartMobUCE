@@ -186,7 +186,7 @@ public class GpsService extends Service implements
                     //comprueba la hora para sincronizacón con la base de datos
                     if (m.rangoHorassincronizacion(m.getHoraActual(), Constantes.horaActualizacion, Constantes.horaActualizacionf)) {
                         //lista los datos para sincronizar
-                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                        ArrayList<HashMap<String, String>> userList = controller.getAllData();
                         if (userList.size() != 0) {
                         }
                         m.syncSQLiteMySQLDB(getApplicationContext());

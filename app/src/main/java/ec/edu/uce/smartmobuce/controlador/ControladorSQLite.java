@@ -84,7 +84,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      * Get list of datos from SQLite DB as Array List
      * @return
      */
-    public ArrayList<HashMap<String, String>> getAllUsers() {
+    public ArrayList<HashMap<String, String>> getAllData() {
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
         String selectQuery = "SELECT  * FROM DatosGPS";

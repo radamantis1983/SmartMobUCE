@@ -156,7 +156,7 @@ public class GPSActivity extends AppCompatActivity  {
             case R.id.refresh:
                 ControladorSQLite controller = new ControladorSQLite(this);
                 //lista los datos para sincronizar
-                ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                ArrayList<HashMap<String, String>> userList = controller.getAllData();
                 if (userList.size() != 0) {
 
                 }

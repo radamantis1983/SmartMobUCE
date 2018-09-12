@@ -2,8 +2,6 @@ package ec.edu.uce.smartmobuce.controlador;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -11,11 +9,8 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+
 import java.math.BigDecimal;
-import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,8 +203,12 @@ public class Metodos {
         //Create AsycHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        ArrayList<HashMap<String, String>> userList =  controller.getAllUsers();
-        if(userList.size()!=0){
+
+
+        //Esto hay que revisar - sacar select count
+
+        //ArrayList<HashMap<String, String>> dataList =  controller.getAllData();
+        //if(dataList.size()!=0){
             if(controller.dbSyncCount() != 0){
 
                 params.put("usersJSON", controller.composeJSONfromSQLite());
@@ -252,9 +251,9 @@ public class Metodos {
             }else{
                 Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
             }
-        }else{
-            Toast.makeText(appContext, R.string.error2_db_synchronization, Toast.LENGTH_LONG).show();
-        }
+       // }else{
+       //     Toast.makeText(appContext, R.string.error2_db_synchronization, Toast.LENGTH_LONG).show();
+       // }
     }
 
 
