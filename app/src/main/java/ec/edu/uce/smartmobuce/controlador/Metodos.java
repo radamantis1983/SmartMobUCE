@@ -211,7 +211,7 @@ public class Metodos {
         //if(dataList.size()!=0){
             if(controller.dbSyncCount() != 0){
 
-                params.put("usersJSON", controller.composeJSONfromSQLite());
+                params.put("gpsJSON", controller.composeJSONfromSQLite());
                 client.post(Constantes.URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {

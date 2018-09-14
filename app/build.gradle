@@ -34,6 +34,6 @@ dependencies {
     //compile 'com.github.laurachelaru:MultiSelectSpinner:-SNAPSHOT'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'io.apptik.widget:multiselectspinner:1.0.12'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
 
 }

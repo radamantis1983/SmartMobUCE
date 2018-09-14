@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -36,9 +39,7 @@ public class GPSActivity extends AppCompatActivity  {
     private TextView mSpeedText;
     private TextView mProviderText;
     private TextView mDatetext;
-    private TextView mMarcaText;
-    private TextView mModeloText;
-    private TextView mVersionText;
+
 
 
 
@@ -59,9 +60,7 @@ public class GPSActivity extends AppCompatActivity  {
                     mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
                     mProviderText.setText(""+intent.getExtras().get("Proveedor"));
                     mDatetext.setText(""+intent.getExtras().get( "fecha"));
-                    mMarcaText.setText(""+intent.getExtras().get( "Marca"));
-                    mModeloText.setText(""+intent.getExtras().get( "Modelo"));
-                    mVersionText.setText(""+intent.getExtras().get( "Version"));
+
                 }
             };
         }
@@ -92,9 +91,7 @@ public class GPSActivity extends AppCompatActivity  {
         mSpeedText = (TextView) findViewById(R.id.speed_text);
         mProviderText = (TextView) findViewById(R.id.provider_text);
         mDatetext = (TextView) findViewById(R.id.date_text);
-        mMarcaText = (TextView) findViewById(R.id.marca_text);
-        mModeloText = (TextView) findViewById(R.id.modelo_text);
-        mVersionText = (TextView) findViewById(R.id.version_text);
+
 
         int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -104,7 +101,11 @@ public class GPSActivity extends AppCompatActivity  {
 
         }
         if (permissionCheck==-0) {
-
+          //  LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+          //  if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+           //     startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            //    SystemClock.sleep(8000);
+            //}
             Intent i = new Intent(this, GpsService.class);
             startService(i);
 
@@ -123,9 +124,7 @@ public class GPSActivity extends AppCompatActivity  {
                     mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
                     mProviderText.setText(""+intent.getExtras().get("Proveedor"));
                     mDatetext.setText(""+intent.getExtras().get( "fecha"));
-                    mMarcaText.setText(""+intent.getExtras().get( "Marca"));
-                    mModeloText.setText(""+intent.getExtras().get( "Modelo"));
-                    mVersionText.setText(""+intent.getExtras().get( "Version"));
+
                 }
             };
         }
@@ -155,11 +154,7 @@ public class GPSActivity extends AppCompatActivity  {
         switch (item.getItemId()) {
             case R.id.refresh:
                 ControladorSQLite controller = new ControladorSQLite(this);
-                //lista los datos para sincronizar
-                ArrayList<HashMap<String, String>> userList = controller.getAllData();
-                if (userList.size() != 0) {
 
-                }
                 //Sync SQLite DB data to remote MySQL DB
                 m.syncSQLiteMySQLDB(getApplicationContext());
                 return true;

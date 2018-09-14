@@ -1,12 +1,15 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
+    private AlertDialog b;
 
 
 
@@ -76,6 +80,38 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         } else {
+
+// custom dialog
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+
+            LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad,null);
+            dialogBuilder.setView(dialogView);
+            final CheckBox _check=(CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
+            Button _acuerdo=(Button) dialogView.findViewById(R.id.button_aceptar);
+            Button _reject=(Button) dialogView.findViewById(R.id.button_cancelar);
+            dialogBuilder.setTitle(getString(R.string.Acuerdo));
+            b = dialogBuilder.create();
+            b.show();
+
+            _acuerdo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(_check.isChecked()==true){
+                        b.dismiss();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),getString(R.string.check),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            _reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
             _loginButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -132,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(response);
 
                                     if (jsonObject.names().get(0).equals("usuarios")) {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.success) + jsonObject.getString("usuarios"), Toast.LENGTH_SHORT).show();
+
+                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
 
                                         JSONArray jArray=jsonObject.getJSONArray("usuarios");
                                         for(int i=0;i<jArray.length();i++){
@@ -148,6 +185,8 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
+
+                                        //Revisar el mensaje que esta concatenado
                                         Toast.makeText(getApplicationContext(), getString(R.string.unregistered) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
                                         //cambiar idioma jsonObject.getString
                                         cancel = true;
