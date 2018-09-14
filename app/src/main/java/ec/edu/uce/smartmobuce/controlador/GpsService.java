@@ -86,6 +86,7 @@ public class GpsService extends Service implements
 
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            //revisar esta parte activar gps
             if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 SystemClock.sleep(8000);
@@ -100,9 +101,6 @@ public class GpsService extends Service implements
                 i.putExtra("Velocidad",String.valueOf(mLastLocation.getSpeed())+"m/s");
                 i.putExtra("Proveedor",String.valueOf(mLastLocation.getProvider()));
                 i.putExtra( "fecha",String.valueOf(m.getFechaActual()));
-                i.putExtra( "Marca",String.valueOf(Build.MANUFACTURER));
-                i.putExtra( "Modelo",String.valueOf(Build.MODEL));
-                i.putExtra( "Version",String.valueOf(Build.VERSION.RELEASE));
                 sendBroadcast(i);
                 Log.e(LOG_TAG," Coordenadas fuse "+ "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
                         "Longitud"+String.valueOf(mLastLocation.getLongitude())+
@@ -156,11 +154,8 @@ public class GpsService extends Service implements
                 i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
                 i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
                 i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()));
+                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()+" location API"));
                 i.putExtra("fecha", String.valueOf(m.getFechaActual()));
-                i.putExtra("Marca", String.valueOf(Build.MANUFACTURER));
-                i.putExtra("Modelo", String.valueOf(Build.MODEL));
-                i.putExtra("Version", String.valueOf(Build.VERSION.RELEASE));
                 sendBroadcast(i);
 
                 //si se encuentra dentro del area capturamos los datos
@@ -177,16 +172,13 @@ public class GpsService extends Service implements
                         queryValues.put("dat_velocidad", String.valueOf(location.getSpeed()));
                         queryValues.put("dat_proveedor", location.getProvider());
                         queryValues.put("dat_fechahora_lectura", fecha);
-                        queryValues.put("dat_marca", String.valueOf(Build.MANUFACTURER));
-                        queryValues.put("dat_modelo", String.valueOf(Build.MODEL));
-                        queryValues.put("dat_version", String.valueOf(Build.VERSION.RELEASE));
                         controller.insertDatos(queryValues);
                     }
 
                     //comprueba la hora para sincronizacón con la base de datos
                     if (m.rangoHorassincronizacion(m.getHoraActual(), Constantes.horaActualizacion, Constantes.horaActualizacionf)) {
                         //lista los datos para sincronizar
-                        ArrayList<HashMap<String, String>> userList = controller.getAllUsers();
+                        ArrayList<HashMap<String, String>> userList = controller.getAllData();
                         if (userList.size() != 0) {
                         }
                         m.syncSQLiteMySQLDB(getApplicationContext());
@@ -204,9 +196,6 @@ public class GpsService extends Service implements
                 i.putExtra("Velocidad", "0 m/s");
                 i.putExtra("Proveedor", "n/a");
                 i.putExtra("fecha", fecha);
-                i.putExtra("Marca", String.valueOf("n/a"));
-                i.putExtra("Modelo", String.valueOf("n/a"));
-                i.putExtra("Version", String.valueOf("n/a"));
                 sendBroadcast(i);
 
                 //insertamos los datos en cero
@@ -219,9 +208,6 @@ public class GpsService extends Service implements
                 queryValues.put("dat_velocidad", "0.0");
                 queryValues.put("dat_proveedor", "n/a");
                 queryValues.put("dat_fechahora_lectura", fecha);
-                queryValues.put("dat_marca", "n/a");
-                queryValues.put("dat_modelo", "n/a");
-                queryValues.put("dat_version", "n/a");
                 controller.insertDatos(queryValues);
                 Log.e(LOG_TAG, "Latitud0 = " + location.getLatitude()
                         + "\n Longitud0 = " + location.getLongitude());

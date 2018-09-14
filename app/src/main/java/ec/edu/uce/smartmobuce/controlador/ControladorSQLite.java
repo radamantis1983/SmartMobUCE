@@ -27,9 +27,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
             "`dat_velocidad` REAL," +
             "`dat_proveedor` TEXT," +
             "`dat_fechahora_lectura` TEXT," +
-            "`dat_marca` TEXT," +
-            "`dat_modelo` TEXT," +
-            "`dat_version` TEXT," +
             "`udpateStatus` TEXT" +
             ");";
 
@@ -72,9 +69,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         values.put("dat_velocidad", queryValues.get("dat_velocidad"));
         values.put("dat_proveedor", queryValues.get("dat_proveedor"));
         values.put("dat_fechahora_lectura", queryValues.get("dat_fechahora_lectura"));
-        values.put("dat_marca", queryValues.get("dat_marca"));
-        values.put("dat_modelo", queryValues.get("dat_modelo"));
-        values.put("dat_version", queryValues.get("dat_version"));
         values.put("udpateStatus", "no");
         database.insert("DatosGPS", null, values);
         database.close();
@@ -84,7 +78,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      * Get list of datos from SQLite DB as Array List
      * @return
      */
-    public ArrayList<HashMap<String, String>> getAllUsers() {
+    public ArrayList<HashMap<String, String>> getAllData() {
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
         String selectQuery = "SELECT  * FROM DatosGPS";
@@ -102,10 +96,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_velocidad",cursor.getString(6));
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("dat_marca",cursor.getString(9));
-                map.put("dat_modelo",cursor.getString(10));
-                map.put("dat_version",cursor.getString(11));
-                map.put("udpateStatus",cursor.getString(12));
+                map.put("udpateStatus",cursor.getString(9));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -136,10 +127,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 map.put("dat_velocidad",cursor.getString(6));
                 map.put("dat_proveedor",cursor.getString(7));
                 map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("dat_marca",cursor.getString(9));
-                map.put("dat_modelo",cursor.getString(10));
-                map.put("dat_version",cursor.getString(11));
-                map.put("udpateStatus",cursor.getString(12));
+                map.put("udpateStatus",cursor.getString(9));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -168,12 +156,16 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      * @return
      */
     public int dbSyncCount(){
+        System.out.println("aaa ingreso al metodo");
         int count =0;
-        String selectQuery = "SELECT  * FROM DatosGPS where udpateStatus = '"+"no"+"'";
+        String selectQuery = "SELECT  count (*) FROM DatosGPS where udpateStatus = '"+"no"+"'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
-        count = cursor.getCount();
+        cursor.moveToFirst();
+        count = cursor.getInt(0);
+        cursor.close();
         database.close();
+        System.out.println("numero de filas"+count);
         return count;
     }
 

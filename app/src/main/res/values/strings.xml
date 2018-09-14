@@ -3,13 +3,14 @@
     <string name="title_activity_login">Sign in</string>
 
     <string name="action_settings">About</string>
-    <string name="action_sync">synchronize</string>
+    <string name="action_sync">Synchronize</string>
 
     <!-- Strings Produced by -->
     <string name="author">Produced by Henry Guamán</string>
     <!-- Strings related to login -->
     <string name="authenticate">Authenticating...</string>
     <string name="success">Login Successful</string>
+    <string name="account">Account Created</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="unregistered">Unregistered user or</string>
     <string name="error_login">Login failed</string>
@@ -19,19 +20,19 @@
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_register">register</string>
+    <string name="action_register">Register</string>
     <string name="error_field_required">This field is required</string>
     <string name="str_languaje">Change Language</string>
     <!-- Strings registro -->
     <string name="renterpwd">Re-enter Password</string>
     <string name="error_invalid_password_match">Password Do not match</string>
-    <string name="year">year</string>
-    <string name="re_year">enter the year</string>
-    <string name="re_year_valid">enter the valid year</string>
+    <string name="year">Year</string>
+    <string name="re_year">Enter the year</string>
+    <string name="re_year_valid">Enter the valid year</string>
     <string name="reaccount">No account yet? Create one</string>
     <string name="recrea">Create Account</string>
     <string name="recrea1">Creating Account...</string>
-    <string name="error_create_user">create user failed</string>
+    <string name="error_create_user">Create user failed</string>
     <string name="realready">Already a member? Login</string>
     <string name="all_types">Studies,Sport,Work,Other</string>
     <string name="error" translatable="false">Error</string>
@@ -40,6 +41,11 @@
     <string name="select_type">Select Type</string>
     <string name="select_sector">Select Sector</string>
     <string name="select_activity">Select Activity</string>
+    <string name="Acuerdo">Confidentiality agreement</string>
+    <string name="lectura_acuerdo">I read the agreement</string>
+    <string name="check">Check agreement</string>
+    <string name="Accept">Accept</string>
+    <string name="Cancel">Cancel</string>
     <!-- Strings facultad -->
     <string name="faculty">Faculty</string>
     <string name="fac2">Administrative Sciences</string>
@@ -112,11 +118,12 @@
     <!-- Strings Sincronización -->
     <string name="db_synchronization">DB Synchronization completed!!</string>
     <string name="error_synchronization">Error Occurred [Server JSON request possibly invalidates]!</string>
-    <string name="error_request">request for the resource not found</string>
-    <string name="error_server">something may have happened on the server</string>
+    <string name="error_request">Request for the resource not found</string>
+    <string name="error_server">Something may have happened on the server</string>
     <string name="error_server1">Unexpected error has occurred! [Most common error: could the device is not connected to the Internet or could not find the service]</string>
     <string name="error1_db_synchronization">SQLite and Remote MySQL DBs are Synchronized!!</string>
     <string name="error2_db_synchronization">No data in SQLite DB,please wait for the action of Synchronization!</string>
+
 
     <string-array name="genero">
         <item>@string/gender</item>
@@ -168,5 +175,39 @@
         <item>@string/a03</item>
         <item>@string/a04</item>
     </string-array>
+    <string name="Terminos">SmartMobUCE terms and conditions \n
+        Last revision: September 13, 2018  \n
+        This contract describes the general terms and conditions
+        applicable to the use of the services offered by SmartMobUCE through https://movilidad.000webhostapp.com/acuerdo.html (hereinafter \"the application\" or \"SmartMobUCE\").\n
+        Any person (hereinafter \"User\") who wishes to use or use the SmartMobUCE application or the Services may do so subject to the respective General Terms and Conditions.\n
+        Anyone who does not accept these terms and conditions, which are mandatory and binding, can not use the application and / or services. \n
+        The User must read, understand and accept all the conditions established in the General Terms and Conditions prior to registering as User of the application. \n
+        SmartMobUCE may modify the General Terms and Conditions at any time by making public on the website https://movilidad.000webhostapp.com/acuerdo.html the modified terms. \n
+        Users \n\n
+        The Services are only available to people who have the legal capacity to contract. \n
+        The services and / or the application may not be used by persons who do not have that capacity, minors or Users of the application who have been temporarily or indefinitely suspended.\n
+        The user acknowledges being over 18 years of age when he / she signs up to use the application \n
+        The service  \n\n
+        The service offered by SmartMobUCE through the application is free, but SmartMobUCE reserves the right to implement new services to users, free or Payments. \n
+        SmartMobUCE reserves the right to disable or suspend users of the application, without being obliged to communicate or explain the reasons for its decision and without generating any right to compensation or compensation.\n
+        Without prejudice to other measures, SmartMobUCE may warn, temporarily suspend or disable a User or a publication, initiate the actions it deems appropriate and / or suspend the provision of its Services if:\n
+        (1)Any law, or any of the stipulations of the General Terms and Conditions will be violated;\n
+        (2)If you breach your commitments as a User;\n
+        (3)If it is incurred, at the discretion of SmartMobUCE, in fraudulent or fraudulent behavior or acts;\n
+        (4)The identity of the User or any information provided by the User could not be verified erroneously;
+        \nThe use of the service \n
+        A journey in which service users can not hold SmartMobUCE responsible. Neither SmartMobUCE will be responsible for the mobility conditions of the users, in any way whatsoever: the service provided by SmartMobUCE through the application is only as a statistical means. \n
+        SmartMobUCE does not assume the realization, ownership, or responsibility of the provision of the services that it intermediates, neither in front of the users of the same, nor in front of third parties.\n
+        \n Interruptions and failures of the service\n
+        SmartMobUCE is part of a research project and in this phase its permanence in the application and web access will be for approximately 15 days for piloting purposes of the application, within this trial period it may happen that access to the web or to the service is interrupted in the course of maintenance operations, hardware and software updates, emergency repairs of the web, or due to circumstances beyond the control of SmartMobUCE (such as Internet failure). \n
+        That is why SmartMobUCE does not guarantee access and continued or uninterrupted use of your site. The Users acknowledge and accept that SmartMobUCE does not assume any liability towards him for any lack, suspension or interruption of the web or of the service. \n
+        SmartMobUCE is not responsible for any damage, loss or loss to the User caused by failures in the system, on the server or on the Internet. SmartMobUCE will not be responsible for any virus that could infect the Users\' equipment as a result of access, use or examination of its website or as a result of any transfer of data, files, images, texts, or audio contained in it. \n
+        The Users can not impute to SmartMobUCE any responsibility or demand payment for lost profits, due to damages resulting from technical difficulties or failures in the systems or on the Internet.  \n
+        \n System violations \n
+        No action or use of device, software, or other means is allowed to interfere in both the activities and operations of the SmartMobUCE application and services and in descriptions or databases associated with the site or the web https: //movilidad.000webhostapp .com / agreement.html.\n
+        Any interference, attempt or activity that violates or contravenes the laws on intellectual property rights and / or the prohibitions stipulated in this contract will make it possible for the person responsible for the pertinent legal actions, and for the sanctions provided for in this agreement, as well as he will be responsible for indemnifying the damages caused.  \n
+        Intellectual property The contents of the screens related to the SmartMobUCE services as well as the programs, databases, networks, files that allow the User to make use of the application, are property of SmartMobUCE and are protected by the laws and international treaties of law. of author, brands, patents, models and industrial designs. \n
+        The improper use and total or partial reproduction of said contents are prohibited, unless expressly authorized in writing by SmartMobUCE.\n
+    </string>
 
 </resources>

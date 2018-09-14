@@ -2,6 +2,7 @@ package ec.edu.uce.smartmobuce.vista;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,8 +41,6 @@ public class RegistroActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest request;
 
-    //View focusView = null;
-    //boolean cancel = false;
     private EditText _emailText;
     private EditText _passwordText;
     private EditText _reEnterPasswordText;
@@ -71,8 +70,7 @@ public class RegistroActivity extends AppCompatActivity {
         _sector= findViewById(R.id.input_sector);
 
         final List<String> list = Arrays.asList(getResources().getStringArray(R.array.actividad));
-        //_actividad= (Spinner) findViewById(R.id.input_actividad);
-        _actividad = findViewById(R.id.input_actividad);
+         _actividad = findViewById(R.id.input_actividad);
         _signupButton = findViewById(R.id.btn_signup);
         _loginLink = findViewById(R.id.link_login);
 
@@ -141,7 +139,6 @@ public class RegistroActivity extends AppCompatActivity {
 
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
-        //final String reEnterPassword = _reEnterPasswordText.getText().toString();
         final String year = _year.getText().toString();
         final int genero =_genero.getSelectedItemPosition();
 
@@ -164,11 +161,9 @@ public class RegistroActivity extends AppCompatActivity {
                                     //me permite obtener el id del usuario para registrar en el gps
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                 //   System.out.println("inicia responce"+response);
-                                   // System.out.println(jsonObject);
                                     if (jsonObject.names().get(0).equals("success")) {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.success) + jsonObject.getString("success"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.success) , Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
@@ -176,7 +171,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                     }else{
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
@@ -209,6 +204,9 @@ public class RegistroActivity extends AppCompatActivity {
                                 hashMap.put("usu_tipo",String.valueOf(tipo));
                                 hashMap.put("usu_sector",String.valueOf(sector));
                                 hashMap.put("usu_actividades",actividad);
+                                hashMap.put("usu_marca",String.valueOf(Build.MANUFACTURER));
+                                hashMap.put("usu_modelo",String.valueOf(Build.MODEL));
+                                hashMap.put("usu_version_android",String.valueOf(Build.VERSION.RELEASE));
 
                                 return hashMap;
                             }
@@ -245,7 +243,7 @@ public class RegistroActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
-      //  int genero =_genero.getSelectedItemPosition();
+       // int genero =_genero.getSelectedItemPosition();
         //String facultad = _facultad.getSelectedItem().toString();
         //int tipo = _tipo.getSelectedItemPosition();
         //int sector = _sector.getSelectedItemPosition();
@@ -294,27 +292,35 @@ public class RegistroActivity extends AppCompatActivity {
 
         }
 
-        if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
+        //Cambiar los textos de las comparaciones, que sea en función de la posición
+
+        //if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
+        if(_genero.getSelectedItemPosition()==0){
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_SHORT).show();
             valid = false;
         }
-        if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
+        //if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
+        if(_facultad.getSelectedItemPosition()==0){
             Toast.makeText(this, getString(R.string.select_faculty), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
+        //if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
+          if(_tipo.getSelectedItemPosition()==0){
             Toast.makeText(this, getString(R.string.select_type), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
+        //if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
+          if(_sector.getSelectedItemPosition()==0){
             Toast.makeText(this, getString(R.string.select_sector), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
 
-        if (_actividad.getSelectedItem().toString().trim().equals("Activity")||_actividad.getSelectedItem().toString().trim().equals("Actividad")) {
+        if (_actividad.getSelectedItem().toString().trim().equals("Activity")
+                ||_actividad.getSelectedItem().toString().trim().equals("Actividad")) {
+
             Toast.makeText(this, getString(R.string.select_activity), Toast.LENGTH_SHORT).show();
             valid = false;
         }
