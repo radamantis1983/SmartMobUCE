@@ -87,10 +87,12 @@ public class LoginActivity extends AppCompatActivity {
             LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad,null);
             dialogBuilder.setView(dialogView);
+
             final CheckBox _check=(CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
             Button _acuerdo=(Button) dialogView.findViewById(R.id.button_aceptar);
             Button _reject=(Button) dialogView.findViewById(R.id.button_cancelar);
             dialogBuilder.setTitle(getString(R.string.Acuerdo));
+            dialogBuilder.setCancelable(false);
             b = dialogBuilder.create();
             b.show();
 
