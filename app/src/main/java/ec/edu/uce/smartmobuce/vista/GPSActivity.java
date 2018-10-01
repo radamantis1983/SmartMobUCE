@@ -1,8 +1,10 @@
 package ec.edu.uce.smartmobuce.vista;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -27,7 +29,7 @@ import ec.edu.uce.smartmobuce.controlador.ControladorSQLite;
 import ec.edu.uce.smartmobuce.controlador.GpsService;
 import ec.edu.uce.smartmobuce.controlador.Metodos;
 
-public class GPSActivity extends AppCompatActivity  {
+public class GPSActivity extends AppCompatActivity {
 
     protected static final String LOG_TAG = "GPSActivity";
     private final Metodos m = new Metodos();
@@ -41,25 +43,26 @@ public class GPSActivity extends AppCompatActivity  {
     private TextView mDatetext;
 
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
+        LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
+            promptEnableGps();
+        }
         if (broadcastReceiver == null) {
 
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    mLatitudeText.setText(""+intent.getExtras().get("Latitud"));
-                    mLongitudeText.setText(""+intent.getExtras().get("Longitud"));
-                    mAccuracyText.setText(""+intent.getExtras().get("Precision"));
-                    mAltitudeText.setText(""+intent.getExtras().get("Altitud"));
-                    mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
-                    mProviderText.setText(""+intent.getExtras().get("Proveedor"));
-                    mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                    mLatitudeText.setText("" + intent.getExtras().get("Latitud"));
+                    mLongitudeText.setText("" + intent.getExtras().get("Longitud"));
+                    mAccuracyText.setText("" + intent.getExtras().get("Precision"));
+                    mAltitudeText.setText("" + intent.getExtras().get("Altitud"));
+                    mSpeedText.setText("" + intent.getExtras().get("Velocidad"));
+                    mProviderText.setText("" + intent.getExtras().get("Proveedor"));
+                    mDatetext.setText("" + intent.getExtras().get("fecha"));
 
                 }
             };
@@ -93,19 +96,20 @@ public class GPSActivity extends AppCompatActivity  {
         mDatetext = (TextView) findViewById(R.id.date_text);
 
 
-        int permissionCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
-        if (permissionCheck==-1) {
+        if (permissionCheck == -1) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-            permissionCheck= ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         }
-        if (permissionCheck==-0) {
-          //  LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-          //  if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-           //     startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            //    SystemClock.sleep(8000);
-            //}
+        if (permissionCheck == -0) {
+            LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            Log.e(LOG_TAG, "GPPActi" + manager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+            if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
+                promptEnableGps();
+            }
+            SystemClock.sleep(8000);
             Intent i = new Intent(this, GpsService.class);
             startService(i);
 
@@ -117,13 +121,13 @@ public class GPSActivity extends AppCompatActivity  {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    mLatitudeText.setText(""+intent.getExtras().get("Latitud"));
-                    mLongitudeText.setText(""+intent.getExtras().get("Longitud"));
-                    mAccuracyText.setText(""+intent.getExtras().get("Precision"));
-                    mAltitudeText.setText(""+intent.getExtras().get("Altitud"));
-                    mSpeedText.setText(""+intent.getExtras().get("Velocidad"));
-                    mProviderText.setText(""+intent.getExtras().get("Proveedor"));
-                    mDatetext.setText(""+intent.getExtras().get( "fecha"));
+                    mLatitudeText.setText("" + intent.getExtras().get("Latitud"));
+                    mLongitudeText.setText("" + intent.getExtras().get("Longitud"));
+                    mAccuracyText.setText("" + intent.getExtras().get("Precision"));
+                    mAltitudeText.setText("" + intent.getExtras().get("Altitud"));
+                    mSpeedText.setText("" + intent.getExtras().get("Velocidad"));
+                    mProviderText.setText("" + intent.getExtras().get("Proveedor"));
+                    mDatetext.setText("" + intent.getExtras().get("fecha"));
 
                 }
             };
@@ -132,7 +136,6 @@ public class GPSActivity extends AppCompatActivity  {
 
         registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
         Log.d(LOG_TAG, "GPSActivity");
-
 
 
     }
@@ -145,7 +148,8 @@ public class GPSActivity extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-//seleccion de opciones del menu
+
+    //seleccion de opciones del menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -160,7 +164,7 @@ public class GPSActivity extends AppCompatActivity  {
                 return true;
             case R.id.action_settings:
 
-                Toast.makeText(this,getString(R.string.author) , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.author), Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -168,5 +172,10 @@ public class GPSActivity extends AppCompatActivity  {
 
     }
 
+    private void promptEnableGps() {
+        Intent intent = new Intent(
+                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+    }
 
 }
