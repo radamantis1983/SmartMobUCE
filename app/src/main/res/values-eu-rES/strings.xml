@@ -52,6 +52,7 @@
     <string name="fac19">Jurisprudencia, Ciencias Políticas y Sociales</string>
     <string name="fac20">Medicina Veterinaria y Zootecnia</string>
     <string name="fac21">Odontología</string>
+
     <string name="gender">Género</string>
     <string name="g01">Hombre</string>
     <string name="g02">Mujer</string>
@@ -221,4 +222,5 @@
         expresa y por escrito de SmartMobUCE.\n
     </string>
     <string name="check">Verificar acuerdo</string>
+
 </resources>
