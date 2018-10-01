@@ -64,29 +64,29 @@ public class RegistroActivity extends AppCompatActivity {
         _reEnterPasswordText = findViewById(R.id.input_reEnterPassword);
         _year = findViewById(R.id.input_year);
 
-        _genero= findViewById(R.id.input_genero);
-        _facultad= findViewById(R.id.input_facultad);
-        _tipo= findViewById(R.id.input_tipo);
-        _sector= findViewById(R.id.input_sector);
+        _genero = findViewById(R.id.input_genero);
+        _facultad = findViewById(R.id.input_facultad);
+        _tipo = findViewById(R.id.input_tipo);
+        _sector = findViewById(R.id.input_sector);
 
         final List<String> list = Arrays.asList(getResources().getStringArray(R.array.actividad));
-         _actividad = findViewById(R.id.input_actividad);
+        _actividad = findViewById(R.id.input_actividad);
         _signupButton = findViewById(R.id.btn_signup);
         _loginLink = findViewById(R.id.link_login);
 
         requestQueue = Volley.newRequestQueue(this);
 
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.genero,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.genero, android.R.layout.simple_spinner_item);
         _genero.setAdapter(adapter);
-        ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.facultad,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.facultad, android.R.layout.simple_spinner_item);
         _facultad.setAdapter(adapter1);
-        ArrayAdapter<CharSequence> adapter2= ArrayAdapter.createFromResource(this,R.array.tipo,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_spinner_item);
         _tipo.setAdapter(adapter2);
-        ArrayAdapter<CharSequence> adapter3= ArrayAdapter.createFromResource(this,R.array.sector,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this, R.array.sector, android.R.layout.simple_spinner_item);
         _sector.setAdapter(adapter3);
 
-        String act=getString(R.string.activity);
-        ArrayAdapter<String> adapter4 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_multiple_choice, list);
+        String act = getString(R.string.activity);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list);
         _actividad.setListAdapter(adapter4)
                 .setListener(new MultiSelectSpinner.MultiSpinnerListener() {
                     @Override
@@ -110,7 +110,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -136,11 +136,10 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
         final String year = _year.getText().toString();
-        final int genero =_genero.getSelectedItemPosition();
+        final int genero = _genero.getSelectedItemPosition();
 
         final String facultad = _facultad.getSelectedItem().toString();
         final int tipo = _tipo.getSelectedItemPosition();
@@ -163,19 +162,18 @@ public class RegistroActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(response);
                                     if (jsonObject.names().get(0).equals("success")) {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.success) , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                                         finish();
 
-                                    }else{
+                                    } else {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.error) + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
-
 
 
                                 } catch (JSONException e) {
@@ -191,22 +189,21 @@ public class RegistroActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.toString());
                             }
-                        })
-                        {
+                        }) {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> hashMap = new HashMap<String, String>();
-                                hashMap.put("usu_email",email);
-                                hashMap.put("usu_password",password);
-                                hashMap.put("usu_year",year);
-                                hashMap.put("usu_genero",String.valueOf(genero));
-                                hashMap.put("usu_facultad",facultad);
-                                hashMap.put("usu_tipo",String.valueOf(tipo));
-                                hashMap.put("usu_sector",String.valueOf(sector));
-                                hashMap.put("usu_actividades",actividad);
-                                hashMap.put("usu_marca",String.valueOf(Build.MANUFACTURER));
-                                hashMap.put("usu_modelo",String.valueOf(Build.MODEL));
-                                hashMap.put("usu_version_android",String.valueOf(Build.VERSION.RELEASE));
+                                hashMap.put("usu_email", email);
+                                hashMap.put("usu_password", password);
+                                hashMap.put("usu_year", year);
+                                hashMap.put("usu_genero", String.valueOf(genero));
+                                hashMap.put("usu_facultad", facultad);
+                                hashMap.put("usu_tipo", String.valueOf(tipo));
+                                hashMap.put("usu_sector", String.valueOf(sector));
+                                hashMap.put("usu_actividades", actividad);
+                                hashMap.put("usu_marca", String.valueOf(Build.MANUFACTURER));
+                                hashMap.put("usu_modelo", String.valueOf(Build.MODEL));
+                                hashMap.put("usu_version_android", String.valueOf(Build.VERSION.RELEASE));
 
                                 return hashMap;
                             }
@@ -243,7 +240,7 @@ public class RegistroActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
-       // int genero =_genero.getSelectedItemPosition();
+        // int genero =_genero.getSelectedItemPosition();
         //String facultad = _facultad.getSelectedItem().toString();
         //int tipo = _tipo.getSelectedItemPosition();
         //int sector = _sector.getSelectedItemPosition();
@@ -257,7 +254,7 @@ public class RegistroActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10 ) {
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             _passwordText.requestFocus();
             _passwordText.setError(getString(R.string.error_invalid_password));
             valid = false;
@@ -274,18 +271,18 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
 
-        if (year.isEmpty() )  {
+        if (year.isEmpty()) {
             _year.requestFocus();
             _year.setError(getString(R.string.re_year));
             valid = false;
 
         } else {
-            int y=Integer.parseInt(_year.getText().toString());
-            if(y>=2000 ||y <=1950){
+            int y = Integer.parseInt(_year.getText().toString());
+            if (y >= 2000 || y <= 1940) {
                 _year.requestFocus();
                 _year.setError(getString(R.string.re_year_valid));
                 valid = false;
-            }else{
+            } else {
                 _year.setError(null);
             }
 
@@ -295,31 +292,31 @@ public class RegistroActivity extends AppCompatActivity {
         //Cambiar los textos de las comparaciones, que sea en función de la posición
 
         //if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
-        if(_genero.getSelectedItemPosition()==0){
+        if (_genero.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_SHORT).show();
             valid = false;
         }
         //if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
-        if(_facultad.getSelectedItemPosition()==0){
+        if (_facultad.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_faculty), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
         //if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
-          if(_tipo.getSelectedItemPosition()==0){
+        if (_tipo.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_type), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
         //if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
-          if(_sector.getSelectedItemPosition()==0){
+        if (_sector.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_sector), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
 
         if (_actividad.getSelectedItem().toString().trim().equals("Activity")
-                ||_actividad.getSelectedItem().toString().trim().equals("Actividad")) {
+                || _actividad.getSelectedItem().toString().trim().equals("Actividad")) {
 
             Toast.makeText(this, getString(R.string.select_activity), Toast.LENGTH_SHORT).show();
             valid = false;
@@ -327,8 +324,6 @@ public class RegistroActivity extends AppCompatActivity {
 
         return valid;
     }
-
-
 
 
 }

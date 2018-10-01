@@ -48,13 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     private StringRequest request;
     private View focusView = null;
     private boolean cancel = false;
-    private String usuarioid="";
+    private String usuarioid = "";
     private EditText _emailText;
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
     private AlertDialog b;
-
 
 
     @Override
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         File fichero = new File(sFichero);
 
         if (fichero.exists()) {
-          //  System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
+            //  System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
             //  mEmailView.setText(m.cargarPreferencias(getBaseContext()).toString());
             Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
             startActivity(intent);
@@ -82,38 +81,42 @@ public class LoginActivity extends AppCompatActivity {
         } else {
 
 // custom dialog
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+            if (m.cargarPreferenciasAcuerdo(getBaseContext()) == false) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
 
-            LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad,null);
-            dialogBuilder.setView(dialogView);
+                LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
+                dialogBuilder.setView(dialogView);
 
-            final CheckBox _check=(CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
-            Button _acuerdo=(Button) dialogView.findViewById(R.id.button_aceptar);
-            Button _reject=(Button) dialogView.findViewById(R.id.button_cancelar);
-            dialogBuilder.setTitle(getString(R.string.Acuerdo));
-            dialogBuilder.setCancelable(false);
-            b = dialogBuilder.create();
-            b.show();
+                final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
+                Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
+                Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
+                dialogBuilder.setTitle(getString(R.string.Acuerdo));
 
-            _acuerdo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(_check.isChecked()==true){
-                        b.dismiss();
+                dialogBuilder.setCancelable(false);
+                b = dialogBuilder.create();
+                b.show();
+
+                _acuerdo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (_check.isChecked() == true) {
+
+                            b.dismiss();
+                            m.guardarPreferenciasAcuerdo(getBaseContext(), true);
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.check), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else{
-                        Toast.makeText(getApplicationContext(),getString(R.string.check),Toast.LENGTH_SHORT).show();
+                });
+                _reject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
                     }
-                }
-            });
-            _reject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-
+                });
+            }
+//login
             _loginButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -136,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
+
     private void login() {
         Log.d(TAG, "Login");
 
@@ -143,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
             onLoginFailed();
             return;
         }
-
 
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
@@ -160,12 +163,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
 
                         System.out.println(Constantes.URL_LOGIN);
-                        request = new StringRequest(Request.Method.POST,Constantes.URL_LOGIN, new Response.Listener<String>() {
+                        request = new StringRequest(Request.Method.POST, Constantes.URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
                             public void onResponse(String response) {
 
-                                  try {
+                                try {
                                     //me permite obtener el id del usuario para registrar en el gps
                                     JSONObject jsonObject = new JSONObject(response);
 
@@ -173,14 +176,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
 
-                                        JSONArray jArray=jsonObject.getJSONArray("usuarios");
-                                        for(int i=0;i<jArray.length();i++){
-                                            JSONObject object =jArray.getJSONObject(i);
-                                            Usuarios rev=new Usuarios();
+                                        JSONArray jArray = jsonObject.getJSONArray("usuarios");
+                                        for (int i = 0; i < jArray.length(); i++) {
+                                            JSONObject object = jArray.getJSONObject(i);
+                                            Usuarios rev = new Usuarios();
                                             rev.setUsu_id(object.getString("usu_id"));
-                                            usuarioid=rev.getUsu_id();
+                                            usuarioid = rev.getUsu_id();
                                         }
-                                        m.guardarPreferencias(getBaseContext(),usuarioid);
+                                        m.guardarPreferencias(getBaseContext(), usuarioid);
                                         onLoginSuccess();
                                         startActivity(new Intent(getApplicationContext(), GPSActivity.class));
                                         finish();
@@ -235,8 +238,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void onLoginSuccess() {

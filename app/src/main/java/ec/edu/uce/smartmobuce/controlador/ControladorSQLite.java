@@ -53,8 +53,10 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         db.execSQL(query);
         onCreate(db);
     }
+
     /**
      * Inserts datos into SQLite DB
+     *
      * @param queryValues
      */
     public void insertDatos(HashMap<String, String> queryValues) {
@@ -76,6 +78,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
 
     /**
      * Get list of datos from SQLite DB as Array List
+     *
      * @return
      */
     public ArrayList<HashMap<String, String>> getAllData() {
@@ -89,14 +92,14 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("dat_id", cursor.getString(0));
                 map.put("usu_id", cursor.getString(1));
-                map.put("dat_latitud",cursor.getString(2));
-                map.put("dat_longitud",cursor.getString(3));
-                map.put("dat_precision",cursor.getString(4));
-                map.put("dat_altitud",cursor.getString(5));
-                map.put("dat_velocidad",cursor.getString(6));
-                map.put("dat_proveedor",cursor.getString(7));
-                map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("udpateStatus",cursor.getString(9));
+                map.put("dat_latitud", cursor.getString(2));
+                map.put("dat_longitud", cursor.getString(3));
+                map.put("dat_precision", cursor.getString(4));
+                map.put("dat_altitud", cursor.getString(5));
+                map.put("dat_velocidad", cursor.getString(6));
+                map.put("dat_proveedor", cursor.getString(7));
+                map.put("dat_fechahora_lectura", cursor.getString(8));
+                map.put("udpateStatus", cursor.getString(9));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -107,12 +110,13 @@ public class ControladorSQLite extends SQLiteOpenHelper {
 
     /**
      * Compose JSON out of SQLite records
+     *
      * @return
      */
-    public String composeJSONfromSQLite(){
+    public String composeJSONfromSQLite() {
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT  * FROM DatosGPS where udpateStatus = '"+"no"+"'";
+        String selectQuery = "SELECT  * FROM DatosGPS where udpateStatus = '" + "no" + "'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -120,14 +124,14 @@ public class ControladorSQLite extends SQLiteOpenHelper {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("dat_id", cursor.getString(0));
                 map.put("usu_id", cursor.getString(1));
-                map.put("dat_latitud",cursor.getString(2));
-                map.put("dat_longitud",cursor.getString(3));
-                map.put("dat_precision",cursor.getString(4));
-                map.put("dat_altitud",cursor.getString(5));
-                map.put("dat_velocidad",cursor.getString(6));
-                map.put("dat_proveedor",cursor.getString(7));
-                map.put("dat_fechahora_lectura",cursor.getString(8));
-                map.put("udpateStatus",cursor.getString(9));
+                map.put("dat_latitud", cursor.getString(2));
+                map.put("dat_longitud", cursor.getString(3));
+                map.put("dat_precision", cursor.getString(4));
+                map.put("dat_altitud", cursor.getString(5));
+                map.put("dat_velocidad", cursor.getString(6));
+                map.put("dat_proveedor", cursor.getString(7));
+                map.put("dat_fechahora_lectura", cursor.getString(8));
+                map.put("udpateStatus", cursor.getString(9));
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -136,49 +140,46 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         //Use GSON to serialize Array List to JSON
         return gson.toJson(wordList);
     }
-    /*
-        /**
-         * Get Sync status of SQLite
-         * @return
 
-    public String getSyncStatus(){
-        String msg = null;
-        if(this.dbSyncCount() == 0){
-            msg = "SQLite and Remote MySQL DBs \nestan sincronizados!";
-        }else{
-            msg = "La Base de Datos \nnecesita Sincronizar";
-        }
-        return msg;
-    }
-*/
+
     /**
      * Get SQLite records that are yet to be Synced
+     *
      * @return
      */
-    public int dbSyncCount(){
+    public int dbSyncCount() {
         System.out.println("aaa ingreso al metodo");
-        int count =0;
-        String selectQuery = "SELECT  count (*) FROM DatosGPS where udpateStatus = '"+"no"+"'";
+        int count = 0;
+        String selectQuery = "SELECT  count (*) FROM DatosGPS where udpateStatus = '" + "no" + "'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         cursor.moveToFirst();
         count = cursor.getInt(0);
         cursor.close();
         database.close();
-        System.out.println("numero de filas"+count);
+        System.out.println("numero de filas" + count);
         return count;
     }
 
     /**
      * Update Sync status against each User ID
+     *
      * @param usu_id
      * @param dat_fechahora_lectura
      * @param status
      */
-    public void updateSyncStatus(String usu_id,String dat_fechahora_lectura, String status){
+    public void updateSyncStatus(String usu_id, String dat_fechahora_lectura, String status) {
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update DatosGPS set udpateStatus = '"+ status +"' where usu_id='"+ usu_id +"'" +" and dat_fechahora_lectura='"+dat_fechahora_lectura+"'" ;
-        //Log.d("query",updateQuery);
+        String updateQuery = "Update DatosGPS set udpateStatus = '" + status + "' where usu_id='" + usu_id + "'" + " and dat_fechahora_lectura='" + dat_fechahora_lectura + "'";
+
+        database.execSQL(updateQuery);
+        database.close();
+    }
+
+    public void eraseSync() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String updateQuery = "DELETE FROM DatosGPS WHERE udpateStatus = 'yes'";
+
         database.execSQL(updateQuery);
         database.close();
     }

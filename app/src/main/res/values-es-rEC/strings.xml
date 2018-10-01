@@ -26,7 +26,7 @@
     <string name="title_activity_login">Registrarse</string>
     <string name="action_settings">Acerca de</string>
     <string name="action_sync">Sincronizar</string>
-    <string name="action_register">Registrar</string>
+    <string name="action_register">Cuenta Creada</string>
     <string name="renterpwd">Escriba la contraseña otra vez</string>
     <string name="reaccount">¿No tienes cuenta aún? Crea una</string>
     <string name="recrea">Crear una cuenta</string>
@@ -98,9 +98,8 @@
     <string name="lectura_acuerdo">He leído el acuerdo</string>
     <string name="Cancel">Cancelar</string>
     <string name="Accept">Aceptar</string>
-    <string name="Acuerdo">Acuerdo de confidencialidad</string>
-    <string name="Terminos">Términos y condiciones de SmartMobUCE
-        Última revisión: 13 de Septiembre de 2018
+    <string name="Acuerdo">SmartMobUCE terminos y condiciones</string>
+    <string name="Terminos1">Última revisión: 13 de Septiembre de 2018\n
         Este contrato describe los términos y condiciones
         generales aplicables al uso de los servicios ofrecidos
         por SmartMobUCE mediante
@@ -118,7 +117,10 @@
         podrá modificar los Términos y Condiciones Generales en
         cualquier momento haciendo públicos en la web
         https://movilidad.000webhostapp.com/acuerdo.html
-        los términos modificados. Usuarios  Los Servicios
+        los términos modificados.\n
+    </string>
+    <string name="Terminos2">Usuarios</string>
+    <string name="Terminos3">Los Servicios
         sólo están disponibles para personas que tengan
         capacidad legal para contratar. No podrán utilizar
         los servicios y/o la aplicación las personas que no
@@ -126,7 +128,10 @@
         Usuarios dla aplicación que hayan sido suspendidos
         temporalmente o indefinidamente. El usuario reconoce
         ser mayor de 18 años cuando se inscribe para usar la
-        aplicación El servicio  El servicio ofrecido por
+        aplicación\n
+    </string>
+    <string name="Terminos4">El servicio</string>
+    <string name="Terminos5">El servicio ofrecido por
         SmartMobUCE a través dla aplicación es gratuito,
         pero SmartMobUCE se reserva el derecho de implementar
         nuevos servicios a los Usuarios, gratis o pagos.
@@ -139,17 +144,18 @@
         en forma temporal o inhabilitar un Usuario o una
         publicación, iniciar las acciones que estime
         pertinentes y/o suspender la prestación de sus
-        Servicios si:
+        Servicios si:\n
         (1)Se quebrantará alguna ley, o cualquiera de las
-        estipulaciones de los Términos y Condiciones Generales;
-        (2)Si incumpliera sus compromisos como Usuario;
+        estipulaciones de los Términos y Condiciones Generales;\n
+        (2)Si incumpliera sus compromisos como Usuario;\n
         (3)Si se incurriera, a criterio de SmartMobUCE,
-        en conductas o actos dolosos o fraudulentos;
+        en conductas o actos dolosos o fraudulentos;\n
         (4)No pudiera verificarse la identidad del Usuario
         o cualquier información proporcionada por el mismo
-        fuere errónea;
-        El uso del servicio
-        Un trayecto en el que los usuarios del servicio
+        fuere errónea;\n
+    </string>
+    <string name="Terminos6">El uso del servicio</string>
+    <string name="Terminos7">Un trayecto en el que los usuarios del servicio
         no puede hacer responsable a SmartMobUCE.
         Tampoco SmartMobUCE será responsable de las condiciones
         de movilidad de los usuarios, en cualquier forma que fuere:
@@ -157,9 +163,10 @@
         es sólo como medio de estadístico. SmartMobUCE no asume
         la realización, titularidad, ni responsabilidad de la
         prestación de los servicios que intermedia, ni frente
-        a los usuarios de lo mismos, ni frente a terceros.
-        Interrupciones y fallas del servicio
-        SmartMobUCE es parte de un proyecto de investigación
+        a los usuarios de lo mismos, ni frente a terceros.\n
+    </string>
+    <string name="Terminos8">Interrupciones y fallas del servicio</string>
+    <string name="Terminos9">SmartMobUCE es parte de un proyecto de investigación
         y en esta fase su permanencia en la aplicacion y
         acceso web será por aproximadamente 15 días para
         fines de pilotaje de la aplicación, dentro de este
@@ -185,9 +192,10 @@
         el mismo. Los Usuarios no podrán imputarle a SmartMobUCE
         responsabilidad alguna ni exigir pago por lucro cesante,
         en virtud de perjuicios resultantes de dificultades
-        técnicas o fallas en los sistemas o en Internet.
-        Violaciones del sistema
-        No está permitida ninguna acción o uso de dispositivo,
+        técnicas o fallas en los sistemas o en Internet.\n
+    </string>
+    <string name="Terminos10">Violaciones del sistema</string>
+    <string name="Terminos11">No está permitida ninguna acción o uso de dispositivo,
         software, u otro medio tendiente a interferir tanto en
         las actividades y operatoria dla aplicación y servicios
         de SmartMobUCE como en descripciones o bases de datos
@@ -199,9 +207,10 @@
         este contrato harán posible a su responsable de las
         acciones legales pertinentes, y a las sanciones
         previstas por este acuerdo, así como lo hará responsable
-        de indemnizar los daños ocasionados.
-        Propiedad intelectual
-        Los contenidos de las pantallas relativas a los
+        de indemnizar los daños ocasionados.\n
+    </string>
+    <string name="Terminos12">Propiedad intelectual</string>
+    <string name="Terminos13">Los contenidos de las pantallas relativas a los
         servicios de SmartMobUCE como así también los
         programas, bases de datos, redes, archivos que
         permiten al Usuario hacer uso dla aplicación,
@@ -210,7 +219,7 @@
         de autor, marcas, patentes, modelos y diseños industriales.
         El uso indebido y la reproducción total o parcial de
         dichos contenidos quedan prohibidos, salvo autorización
-        expresa y por escrito de SmartMobUCE.
+        expresa y por escrito de SmartMobUCE.\n
     </string>
     <string name="check">Verificar acuerdo</string>
 

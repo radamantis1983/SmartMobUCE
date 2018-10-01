@@ -20,7 +20,7 @@
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_register">Register</string>
+    <string name="action_register">Account created</string>
     <string name="error_field_required">This field is required</string>
     <string name="str_languaje">Change Language</string>
     <!-- Strings registro -->
@@ -41,7 +41,7 @@
     <string name="select_type">Select Type</string>
     <string name="select_sector">Select Sector</string>
     <string name="select_activity">Select Activity</string>
-    <string name="Acuerdo">Confidentiality agreement</string>
+    <string name="Acuerdo">SmartMobUCE terms and conditions</string>
     <string name="lectura_acuerdo">I read the agreement</string>
     <string name="check">Check agreement</string>
     <string name="Accept">Accept</string>
@@ -153,7 +153,7 @@
         <item>@string/fac19</item>
         <item>@string/fac20</item>
         <item>@string/fac21</item>
-        </string-array>
+    </string-array>
 
     <string-array name="tipo">
         <item>@string/type</item>
@@ -175,39 +175,49 @@
         <item>@string/a03</item>
         <item>@string/a04</item>
     </string-array>
-    <string name="Terminos">SmartMobUCE terms and conditions \n
-        Last revision: September 13, 2018  \n
+    <string name="Terminos1">Last revision: September 13, 2018  \n
         This contract describes the general terms and conditions
-        applicable to the use of the services offered by SmartMobUCE through https://movilidad.000webhostapp.com/acuerdo.html (hereinafter \"the application\" or \"SmartMobUCE\").\n
-        Any person (hereinafter \"User\") who wishes to use or use the SmartMobUCE application or the Services may do so subject to the respective General Terms and Conditions.\n
-        Anyone who does not accept these terms and conditions, which are mandatory and binding, can not use the application and / or services. \n
-        The User must read, understand and accept all the conditions established in the General Terms and Conditions prior to registering as User of the application. \n
-        SmartMobUCE may modify the General Terms and Conditions at any time by making public on the website https://movilidad.000webhostapp.com/acuerdo.html the modified terms. \n
-        Users \n\n
-        The Services are only available to people who have the legal capacity to contract. \n
-        The services and / or the application may not be used by persons who do not have that capacity, minors or Users of the application who have been temporarily or indefinitely suspended.\n
-        The user acknowledges being over 18 years of age when he / she signs up to use the application \n
-        The service  \n\n
-        The service offered by SmartMobUCE through the application is free, but SmartMobUCE reserves the right to implement new services to users, free or Payments. \n
-        SmartMobUCE reserves the right to disable or suspend users of the application, without being obliged to communicate or explain the reasons for its decision and without generating any right to compensation or compensation.\n
+        applicable to the use of the services offered by SmartMobUCE through https://movilidad.000webhostapp.com/acuerdo.html (hereinafter \"the application\" or \"SmartMobUCE\").
+        Any person (hereinafter \"User\") who wishes to use or use the SmartMobUCE application or the Services may do so subject to the respective General Terms and Conditions.
+        Anyone who does not accept these terms and conditions, which are mandatory and binding, can not use the application and / or services.
+        The User must read, understand and accept all the conditions established in the General Terms and Conditions prior to registering as User of the application.
+        SmartMobUCE may modify the General Terms and Conditions at any time by making public on the website https://movilidad.000webhostapp.com/acuerdo.html the modified terms.\n
+        </string>
+    <string name="Terminos2">Users</string>
+    <string name="Terminos3">The Services are only available to people who have the legal capacity to contract.
+        The services and / or the application may not be used by persons who do not have that capacity, minors or Users of the application who have been temporarily or indefinitely suspended.
+        The user acknowledges being over 18 years of age when he / she signs up to use the application\n
+        </string>
+    <string name="Terminos4">The service</string>
+    <string name="Terminos5">The service offered by SmartMobUCE through the application is free, but SmartMobUCE reserves the right to implement new services to users, free or Payments.
+        SmartMobUCE reserves the right to disable or suspend users of the application, without being obliged to communicate or explain the reasons for its decision and without generating any right to compensation or compensation.
         Without prejudice to other measures, SmartMobUCE may warn, temporarily suspend or disable a User or a publication, initiate the actions it deems appropriate and / or suspend the provision of its Services if:\n
         (1)Any law, or any of the stipulations of the General Terms and Conditions will be violated;\n
         (2)If you breach your commitments as a User;\n
         (3)If it is incurred, at the discretion of SmartMobUCE, in fraudulent or fraudulent behavior or acts;\n
-        (4)The identity of the User or any information provided by the User could not be verified erroneously;
-        \nThe use of the service \n
-        A journey in which service users can not hold SmartMobUCE responsible. Neither SmartMobUCE will be responsible for the mobility conditions of the users, in any way whatsoever: the service provided by SmartMobUCE through the application is only as a statistical means. \n
+        (4)The identity of the User or any information provided by the User could not be verified erroneously;\n
+    </string>
+    <string name="Terminos6">The use of the service </string>
+    <string name="Terminos7">        A journey in which service users can not hold SmartMobUCE responsible. Neither SmartMobUCE will be responsible for the mobility conditions of the users, in any way whatsoever: the service provided by SmartMobUCE through the application is only as a statistical means.
         SmartMobUCE does not assume the realization, ownership, or responsibility of the provision of the services that it intermediates, neither in front of the users of the same, nor in front of third parties.\n
-        \n Interruptions and failures of the service\n
-        SmartMobUCE is part of a research project and in this phase its permanence in the application and web access will be for approximately 15 days for piloting purposes of the application, within this trial period it may happen that access to the web or to the service is interrupted in the course of maintenance operations, hardware and software updates, emergency repairs of the web, or due to circumstances beyond the control of SmartMobUCE (such as Internet failure). \n
-        That is why SmartMobUCE does not guarantee access and continued or uninterrupted use of your site. The Users acknowledge and accept that SmartMobUCE does not assume any liability towards him for any lack, suspension or interruption of the web or of the service. \n
-        SmartMobUCE is not responsible for any damage, loss or loss to the User caused by failures in the system, on the server or on the Internet. SmartMobUCE will not be responsible for any virus that could infect the Users\' equipment as a result of access, use or examination of its website or as a result of any transfer of data, files, images, texts, or audio contained in it. \n
-        The Users can not impute to SmartMobUCE any responsibility or demand payment for lost profits, due to damages resulting from technical difficulties or failures in the systems or on the Internet.  \n
-        \n System violations \n
-        No action or use of device, software, or other means is allowed to interfere in both the activities and operations of the SmartMobUCE application and services and in descriptions or databases associated with the site or the web https: //movilidad.000webhostapp .com / agreement.html.\n
-        Any interference, attempt or activity that violates or contravenes the laws on intellectual property rights and / or the prohibitions stipulated in this contract will make it possible for the person responsible for the pertinent legal actions, and for the sanctions provided for in this agreement, as well as he will be responsible for indemnifying the damages caused.  \n
-        Intellectual property The contents of the screens related to the SmartMobUCE services as well as the programs, databases, networks, files that allow the User to make use of the application, are property of SmartMobUCE and are protected by the laws and international treaties of law. of author, brands, patents, models and industrial designs. \n
+    </string>
+    <string name="Terminos8"> Interruptions and failures of the service</string>
+    <string name="Terminos9">SmartMobUCE is part of a research project and in this phase its permanence in the application and web access will be for approximately 15 days for piloting purposes of the application, within this trial period it may happen that access to the web or to the service is interrupted in the course of maintenance operations, hardware and software updates, emergency repairs of the web, or due to circumstances beyond the control of SmartMobUCE (such as Internet failure).
+        That is why SmartMobUCE does not guarantee access and continued or uninterrupted use of your site. The Users acknowledge and accept that SmartMobUCE does not assume any liability towards him for any lack, suspension or interruption of the web or of the service.
+        SmartMobUCE is not responsible for any damage, loss or loss to the User caused by failures in the system, on the server or on the Internet. SmartMobUCE will not be responsible for any virus that could infect the Users\' equipment as a result of access, use or examination of its website or as a result of any transfer of data, files, images, texts, or audio contained in it.
+        The Users can not impute to SmartMobUCE any responsibility or demand payment for lost profits, due to damages resulting from technical difficulties or failures in the systems or on the Internet.\n
+        </string>
+    <string name="Terminos10"> System violations </string>
+    <string name="Terminos11">No action or use of device, software, or other means is allowed to interfere in both the activities and operations of the SmartMobUCE application and services and in descriptions or databases associated with the site or the web https: //movilidad.000webhostapp .com / agreement.html.
+        Any interference, attempt or activity that violates or contravenes the laws on intellectual property rights and / or the prohibitions stipulated in this contract will make it possible for the person responsible for the pertinent legal actions, and for the sanctions provided for in this agreement, as well as he will be responsible for indemnifying the damages caused.\n
+    </string>
+    <string name="Terminos12">   Intellectual property
+    </string>
+    <string name="Terminos13">The contents of the screens related to the SmartMobUCE services as well as the programs, databases, networks, files that allow the User to make use of the application, are property of SmartMobUCE and are protected by the laws and international treaties of law. of author, brands, patents, models and industrial designs.
         The improper use and total or partial reproduction of said contents are prohibited, unless expressly authorized in writing by SmartMobUCE.\n
     </string>
+    <string name="en_gps_message" translatable="false">GPS is disabled. Enable it now?</string>
+    <string name="en_gps_positive_button" translatable="false">Enable GPS</string>
+    <string name="en_gps_negative_button" translatable="false">No</string>
 
 </resources>

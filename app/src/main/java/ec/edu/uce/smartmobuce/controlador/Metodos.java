@@ -3,9 +3,11 @@ package ec.edu.uce.smartmobuce.controlador;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +15,7 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import ec.edu.uce.smartmobuce.R;
 
@@ -30,39 +30,31 @@ public class Metodos {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
 
 
-    private double aux1=0,aux2=0;
-    public boolean lastlocation(double last_latitud, double last_longitud){
+    private double aux1 = 0, aux2 = 0;
 
-        double a=truncateDecimal(last_latitud,4);
-        double b=truncateDecimal(last_longitud,4);
-      //  System.out.println("latitud a comparar"+a);
-      //  System.out.println("longitud a comparar"+b);
-      //  System.out.println("latitud anterior" + aux1);//alamacenar solo 4 digitos0.0000
-      //  System.out.println("longitud anterior" + aux2);//alamacenar solo 4 digitos
+    public boolean lastlocation(double last_latitud, double last_longitud) {
 
-        if(aux1!=a || aux2!=b){
-            aux1= truncateDecimal(last_latitud,4);
-            aux2= truncateDecimal(last_longitud,4);
+        double a = truncateDecimal(last_latitud, 4);
+        double b = truncateDecimal(last_longitud, 4);
 
-            //System.out.println("cambio de lugar true");
-
+        if (aux1 != a || aux2 != b) {
+            aux1 = truncateDecimal(last_latitud, 4);
+            aux2 = truncateDecimal(last_longitud, 4);
             return true;
-        }
-        else{
-            //System.out.println("no cambio de lugar");
-
+        } else {
             return false;
         }
 
     }
-    private static double truncateDecimal(double x, int numberofDecimals)
-    {
-        if ( x > 0) {
+
+    private static double truncateDecimal(double x, int numberofDecimals) {
+        if (x > 0) {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR).doubleValue();
         } else {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING).doubleValue();
         }
     }
+
     //permite guardar en archivo de preferencias
     public void guardarPreferencias(Context context, String text) {
 
@@ -73,17 +65,37 @@ public class Metodos {
     }
 
 
-    //permite cargar el archivo de preferencias (email usuario)
+    //permite cargar el archivo de preferencias (usuario)
     public String cargarPreferencias(Context context) {
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
-        return  preferencia.getString("usu_id", "");
+        return preferencia.getString("usu_id", "");
     }
+
+    //segundo archivo de preferencias
+    //permite guardar en archivo de preferencias
+    public void guardarPreferenciasAcuerdo(Context context, Boolean est) {
+
+        SharedPreferences preferencia = context.getSharedPreferences("Acuerdo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencia.edit();
+        editor.putBoolean("acuerdo", est);
+        editor.apply();
+    }
+
+
+    //permite cargar el archivo de preferencias (Acuerdo de confidencialidad)
+    public boolean cargarPreferenciasAcuerdo(Context context) {
+        SharedPreferences preferencia = context.getSharedPreferences("Acuerdo", MODE_PRIVATE);
+        return preferencia.getBoolean("acuerdo", false);
+    }
+
+
     //recupera la hora actual
     public String getHoraActual() {
         Date ahora = new Date();
 
         return hformat.format(ahora);
     }
+
     //recupera la fecha actual
     public String getFechaActual() {
         Date afecha = new Date();
@@ -92,7 +104,7 @@ public class Metodos {
     }
 
     //compara horas de funcionamiento para guardar datos
-    public boolean rangoHorassincronizacion(String horaActual,String horaInicial,String horaFinal) {
+    public boolean rangoHorassincronizacion(String horaActual, String horaInicial, String horaFinal) {
 
         try {
 
@@ -103,7 +115,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni))&&(horaAct.before(horaFin))) {
+            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
 
                 return true;
             } else {
@@ -122,7 +134,7 @@ public class Metodos {
 
 
     //compara horas para proceder a la sincronizadion de la base de datos
-    public boolean compararHoras(String horaInicial,String horaFinal) {
+    public boolean compararHoras(String horaInicial, String horaFinal) {
 
         try {
 
@@ -133,7 +145,7 @@ public class Metodos {
             horaFin = hformat.parse(horaFinal);
             if (horaIni.equals(horaFin)) {
                 // System.out.println("horas iguales procediendo a sincronizar");
-              //  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
+                //  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
                 return true;
             } else {
                 //  System.out.println("no es hora de sincronizar");
@@ -147,9 +159,10 @@ public class Metodos {
             return false;
         }
     }
+
     //compara horas de funcionamiento para guardar datos
-    public boolean rangoHoras(String horaActual,String horaInicial,String horaFinal) {
-    /*
+    public boolean rangoHoras(String horaActual, String horaInicial, String horaFinal) {
+
         try {
 
             Date horaAct;
@@ -159,7 +172,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni))&&(horaAct.before(horaFin))) {
+            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
 
                 return true;
             } else {
@@ -170,15 +183,14 @@ public class Metodos {
 
         } catch (ParseException ex) {
 
-           // System.out.println("La hora Posee errores");
+            // System.out.println("La hora Posee errores");
             return false;
         }
-        */
-        return true;
+
     }
 
     ////activa la funcion de guardar si se encuentra en el rango del area seleccionada
-    public Boolean revisarArea(Double lat,Double longi){
+    public Boolean revisarArea(Double lat, Double longi) {
       /*  boolean estado=false;
         //gps area uce
 
@@ -192,12 +204,10 @@ public class Metodos {
 */
         return true;
     }
-    //saca una copia de la base de datos y lo guarda en mis documentos
-
 
 
     ///sincronizacion de la base de datos
-    public void syncSQLiteMySQLDB(final Context appContext){
+    public void syncSQLiteMySQLDB(final Context appContext) {
         final ControladorSQLite controller = new ControladorSQLite(appContext);
 
         //Create AsycHttpClient object
@@ -205,58 +215,49 @@ public class Metodos {
         RequestParams params = new RequestParams();
 
 
-        //Esto hay que revisar - sacar select count
+        if (controller.dbSyncCount() != 0) {
 
-        //ArrayList<HashMap<String, String>> dataList =  controller.getAllData();
-        //if(dataList.size()!=0){
-            if(controller.dbSyncCount() != 0){
+            params.put("gpsJSON", controller.composeJSONfromSQLite());
+            client.post(Constantes.URL_CAPTURA_DATOS_GPS, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
 
-                params.put("gpsJSON", controller.composeJSONfromSQLite());
-                client.post(Constantes.URL_CAPTURA_DATOS_GPS,params ,new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-
-                        System.out.println("dato response"+response);
-                        try {
-                            JSONArray arr = new JSONArray(response);
-                            System.out.println("arreglo de"+arr.length());
-                            for(int i=0; i<arr.length();i++){
-                                JSONObject obj = (JSONObject)arr.get(i);
-                               //   System.out.println(obj.get("usu_id"));
-                               //   System.out.println(obj.get("dat_fechahora_lectura"));
-                                // System.out.println(obj.get("status"));
-
-                                controller.updateSyncStatus(obj.get("usu_id").toString(),obj.get("dat_fechahora_lectura").toString(),obj.get("status").toString());
-                            }
-                            Toast.makeText(appContext,R.string.db_synchronization,Toast.LENGTH_SHORT).show();
-
-                        } catch (JSONException e) {
-                             Toast.makeText(appContext,R.string.error_synchronization , Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
+                    System.out.println("dato response" + response);
+                    try {
+                        JSONArray arr = new JSONArray(response);
+                        System.out.println("arreglo de" + arr.length());
+                        for (int i = 0; i < arr.length(); i++) {
+                            JSONObject obj = (JSONObject) arr.get(i);
+                            controller.updateSyncStatus(obj.get("usu_id").toString(), obj.get("dat_fechahora_lectura").toString(), obj.get("status").toString());
                         }
-                    }
+                        Toast.makeText(appContext, R.string.db_synchronization, Toast.LENGTH_SHORT).show();
+                        controller.eraseSync();
 
-                    @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
-                        if(statusCode == 404){
-                            Toast.makeText(appContext, R.string.error_request, Toast.LENGTH_LONG).show();
-                        }else if(statusCode == 500){
-                            Toast.makeText(appContext, R.string.error_server, Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(appContext, R.string.error_server1, Toast.LENGTH_LONG).show();
-                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(appContext, R.string.error_synchronization, Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
                     }
-                });
-            }else{
-                Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
-            }
-       // }else{
-       //     Toast.makeText(appContext, R.string.error2_db_synchronization, Toast.LENGTH_LONG).show();
-       // }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Throwable error,
+                                      String content) {
+                    if (statusCode == 404) {
+                        Toast.makeText(appContext, R.string.error_request, Toast.LENGTH_LONG).show();
+                    } else if (statusCode == 500) {
+                        Toast.makeText(appContext, R.string.error_server, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(appContext, R.string.error_server1, Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+
+            Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
+
+        }
+
     }
-
-
 
 
 }
