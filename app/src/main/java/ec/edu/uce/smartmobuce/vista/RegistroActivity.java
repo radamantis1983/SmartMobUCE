@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -127,7 +128,7 @@ public class RegistroActivity extends AppCompatActivity {
             return;
         }
 
-        _signupButton.setEnabled(false);
+       // _signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -155,12 +156,14 @@ public class RegistroActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-
+                                Log.e(TAG,"la respuesta fue: "+response);
                                 try {
-                                    //me permite obtener el id del usuario para registrar en el gps
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                    if (jsonObject.names().get(0).equals("success")) {
+                                    String res=jsonObject.names().get(0).toString();
+                                    Log.e(TAG,"la respuesta fue: "+res);
+
+                                    if (res.equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
@@ -170,7 +173,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                     } else {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) +" "+ getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
@@ -187,7 +190,7 @@ public class RegistroActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e(TAG, error.toString());
+                                Log.e(TAG, "onErrorResponse"+error.toString());
                             }
                         }) {
                             @Override
@@ -209,14 +212,16 @@ public class RegistroActivity extends AppCompatActivity {
                             }
 
                         };
-
+                        request.setRetryPolicy(new DefaultRetryPolicy( 5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                         requestQueue.add(request);
+                        Log.e(TAG,"solicitud"+request);
 
 
-                        progressDialog.dismiss();
+
+                                progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 5000);
     }
 
 
