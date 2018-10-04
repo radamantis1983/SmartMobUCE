@@ -41,7 +41,7 @@
     <string name="select_type">Select Type</string>
     <string name="select_sector">Select Sector</string>
     <string name="select_activity">Select Activity</string>
-    <string name="Acuerdo">SmartMobUCE terms and conditions</string>
+    <string name="Acuerdo">Terms and Conditions</string>
     <string name="lectura_acuerdo">I read the agreement</string>
     <string name="check">Check agreement</string>
     <string name="Accept">Accept</string>
@@ -85,6 +85,7 @@
     <string name="s01">North</string>
     <string name="s02">Center</string>
     <string name="s03">South</string>
+    <string name="s04">Valleys</string>
 
     <!-- Strings actividad -->
     <string name="activity">Activity</string>
@@ -114,7 +115,6 @@
     <string name="hour">Hour</string>
     <string name="marca">Manufactured</string>
     <string name="model">Model</string>
-    <string name="version" translatable="false">Version</string>
     <!-- Strings Sincronización -->
     <string name="db_synchronization">DB Synchronization completed!!</string>
     <string name="error_synchronization">Error Occurred [Server JSON request possibly invalidates]!</string>
@@ -167,6 +167,7 @@
         <item>@string/s01</item>
         <item>@string/s02</item>
         <item>@string/s03</item>
+        <item>@string/s04</item>
     </string-array>
 
     <string-array name="actividad">
@@ -198,26 +199,26 @@
         (4)The identity of the User or any information provided by the User could not be verified erroneously;\n
     </string>
     <string name="Terminos6">The use of the service </string>
-    <string name="Terminos7">        A journey in which service users can not hold SmartMobUCE responsible. Neither SmartMobUCE will be responsible for the mobility conditions of the users, in any way whatsoever: the service provided by SmartMobUCE through the application is only as a statistical means.
+    <string name="Terminos7">A journey in which service users can not hold SmartMobUCE responsible. Neither SmartMobUCE will be responsible for the mobility conditions of the users, in any way whatsoever: the service provided by SmartMobUCE through the application is only as a statistical means.
         SmartMobUCE does not assume the realization, ownership, or responsibility of the provision of the services that it intermediates, neither in front of the users of the same, nor in front of third parties.\n
     </string>
-    <string name="Terminos8"> Interruptions and failures of the service</string>
+    <string name="Terminos8">Interruptions and failures of the service</string>
     <string name="Terminos9">SmartMobUCE is part of a research project and in this phase its permanence in the application and web access will be for approximately 15 days for piloting purposes of the application, within this trial period it may happen that access to the web or to the service is interrupted in the course of maintenance operations, hardware and software updates, emergency repairs of the web, or due to circumstances beyond the control of SmartMobUCE (such as Internet failure).
         That is why SmartMobUCE does not guarantee access and continued or uninterrupted use of your site. The Users acknowledge and accept that SmartMobUCE does not assume any liability towards him for any lack, suspension or interruption of the web or of the service.
         SmartMobUCE is not responsible for any damage, loss or loss to the User caused by failures in the system, on the server or on the Internet. SmartMobUCE will not be responsible for any virus that could infect the Users\' equipment as a result of access, use or examination of its website or as a result of any transfer of data, files, images, texts, or audio contained in it.
         The Users can not impute to SmartMobUCE any responsibility or demand payment for lost profits, due to damages resulting from technical difficulties or failures in the systems or on the Internet.\n
         </string>
-    <string name="Terminos10"> System violations </string>
+    <string name="Terminos10">System violations</string>
     <string name="Terminos11">No action or use of device, software, or other means is allowed to interfere in both the activities and operations of the SmartMobUCE application and services and in descriptions or databases associated with the site or the web http://gmoncayoresearch.com/smartmobuce/acuerdo.html
         Any interference, attempt or activity that violates or contravenes the laws on intellectual property rights and / or the prohibitions stipulated in this contract will make it possible for the person responsible for the pertinent legal actions, and for the sanctions provided for in this agreement, as well as he will be responsible for indemnifying the damages caused.\n
     </string>
-    <string name="Terminos12">   Intellectual property
-    </string>
+    <string name="Terminos12">Intellectual property</string>
     <string name="Terminos13">The contents of the screens related to the SmartMobUCE services as well as the programs, databases, networks, files that allow the User to make use of the application, are property of SmartMobUCE and are protected by the laws and international treaties of law. of author, brands, patents, models and industrial designs.
         The improper use and total or partial reproduction of said contents are prohibited, unless expressly authorized in writing by SmartMobUCE.\n
     </string>
     <string name="en_gps_message" translatable="false">GPS is disabled. Enable it now?</string>
     <string name="en_gps_positive_button" translatable="false">Enable GPS</string>
     <string name="en_gps_negative_button" translatable="false">No</string>
+    <string name="version">Android Version</string>
 
 </resources>

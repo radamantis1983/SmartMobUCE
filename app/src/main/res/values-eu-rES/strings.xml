@@ -98,7 +98,7 @@
     <string name="lectura_acuerdo">He leído el acuerdo</string>
     <string name="Cancel">Cancelar</string>
     <string name="Accept">Aceptar</string>
-    <string name="Acuerdo">SmartMobUCE terminos y condiciones</string>
+    <string name="Acuerdo">Terminos y Condiciones</string>
     <string name="Terminos1">Última revisión: 13 de Septiembre de 2018\n
         Este contrato describe los términos y condiciones
         generales aplicables al uso de los servicios ofrecidos
@@ -222,5 +222,7 @@
         expresa y por escrito de SmartMobUCE.\n
     </string>
     <string name="check">Verificar acuerdo</string>
+    <string name="s04">Valles</string>
+    <string name="version" translatable="false">Version Android</string>
 
 </resources>

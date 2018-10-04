@@ -156,14 +156,12 @@ public class RegistroActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-                                Log.e(TAG,"la respuesta fue: "+response);
+
                                 try {
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                    String res=jsonObject.names().get(0).toString();
-                                    Log.e(TAG,"la respuesta fue: "+res);
 
-                                    if (res.equals("success")) {
+                                    if (jsonObject.names().get(0).equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
@@ -190,7 +188,7 @@ public class RegistroActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e(TAG, "onErrorResponse"+error.toString());
+                                Log.e(TAG, error.toString());
                             }
                         }) {
                             @Override
@@ -215,7 +213,7 @@ public class RegistroActivity extends AppCompatActivity {
                         request.setRetryPolicy(new DefaultRetryPolicy( 5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                         requestQueue.add(request);
-                        Log.e(TAG,"solicitud"+request);
+
 
 
 
@@ -245,11 +243,7 @@ public class RegistroActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
-        // int genero =_genero.getSelectedItemPosition();
-        //String facultad = _facultad.getSelectedItem().toString();
-        //int tipo = _tipo.getSelectedItemPosition();
-        //int sector = _sector.getSelectedItemPosition();
-        //String actividad = _actividad.getSelectedItem().toString();
+
         _emailText.requestFocus();
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || !email.contains("@uce.edu.ec")) {
             _emailText.requestFocus();
@@ -294,26 +288,24 @@ public class RegistroActivity extends AppCompatActivity {
 
         }
 
-        //Cambiar los textos de las comparaciones, que sea en función de la posición
 
-        //if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
         if (_genero.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_SHORT).show();
             valid = false;
         }
-        //if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
+
         if (_facultad.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_faculty), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        //if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
+
         if (_tipo.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_type), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        //if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
+
         if (_sector.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_sector), Toast.LENGTH_SHORT).show();
             valid = false;

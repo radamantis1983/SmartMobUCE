@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
+    private TextView _acuerdoLink;
     private AlertDialog b;
 
 
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         _passwordText = findViewById(R.id.input_password);
         _loginButton = findViewById(R.id.btn_login);
         _signupLink = findViewById(R.id.link_signup);
+        _acuerdoLink = findViewById(R.id.link_acuerdo);
 
 
         requestQueue = Volley.newRequestQueue(this);
@@ -137,6 +140,48 @@ public class LoginActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
             });
+
+            _acuerdoLink.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+
+                    LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+                    final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
+                    dialogBuilder.setView(dialogView);
+
+                    final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
+                    Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
+                    Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
+                    dialogBuilder.setTitle(getString(R.string.Acuerdo));
+
+                    dialogBuilder.setCancelable(false);
+                    b = dialogBuilder.create();
+                    b.show();
+
+                    _acuerdo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (_check.isChecked() == true) {
+
+                                b.dismiss();
+                                m.guardarPreferenciasAcuerdo(getBaseContext(), true);
+                            } else {
+                                Toast.makeText(getApplicationContext(), getString(R.string.check), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    _reject.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            b.dismiss();
+                        }
+                    });
+
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+            });
         }
     }
 
@@ -191,15 +236,14 @@ public class LoginActivity extends AppCompatActivity {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
 
-                                        //Revisar el mensaje que esta concatenado
-                                        Toast.makeText(getApplicationContext(), getString(R.string.unregistered) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                        //cambiar idioma jsonObject.getString
+
+                                        Toast.makeText(getApplicationContext(), getString(R.string.unregistered), Toast.LENGTH_SHORT).show();
+
                                         cancel = true;
                                         onLoginFailed();
                                     }
                                     if (cancel) {
-                                        // Hubo un error; no intente iniciar sesión y enfoque el primer
-                                        // campo de formulario con un error.
+
                                         focusView.requestFocus();
                                     }
 
@@ -227,7 +271,7 @@ public class LoginActivity extends AppCompatActivity {
                                 return hashMap;
                             }
                         };
-
+                        request.setRetryPolicy(new DefaultRetryPolicy( 5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(request);
 
 
