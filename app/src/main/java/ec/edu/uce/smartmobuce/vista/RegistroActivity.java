@@ -154,11 +154,11 @@ public class RegistroActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-
+                                Log.e(TAG,""+request);
                                 try {
 
                                     JSONObject jsonObject = new JSONObject(response);
-
+                                    Log.e(TAG,response);
                                     if (jsonObject.names().get(0).equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
@@ -187,6 +187,11 @@ public class RegistroActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.toString());
+                                Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
+                                onSignupSuccess();
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+                                finish();
                             }
                         }) {
                             @Override
@@ -208,8 +213,7 @@ public class RegistroActivity extends AppCompatActivity {
                             }
 
                         };
-                        request.setRetryPolicy(new DefaultRetryPolicy( 5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
+                        //request.setRetryPolicy(new DefaultRetryPolicy( 5000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(request);
 
 
@@ -217,7 +221,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                 progressDialog.dismiss();
                     }
-                }, 5000);
+                }, 7000);
     }
 
 

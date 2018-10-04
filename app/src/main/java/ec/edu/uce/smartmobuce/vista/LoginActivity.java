@@ -268,7 +268,7 @@ public class LoginActivity extends AppCompatActivity {
                                 return hashMap;
                             }
                         };
-                        request.setRetryPolicy(new DefaultRetryPolicy(5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
                         requestQueue.add(request);
 
 
