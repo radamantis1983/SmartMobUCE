@@ -110,7 +110,6 @@ public class RegistroActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -130,8 +129,7 @@ public class RegistroActivity extends AppCompatActivity {
 
        // _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.recrea1));
         progressDialog.show();

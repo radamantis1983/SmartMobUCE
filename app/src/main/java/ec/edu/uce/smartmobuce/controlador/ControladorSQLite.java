@@ -36,9 +36,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
     }
 
 
-    //se ejecuta en el momento que llamemos a la base de datos
-    //construira por primera vez la base de datos
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //crea la dase de datos si no existe y ejecuta los comandos sql
@@ -148,7 +145,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      * @return
      */
     public int dbSyncCount() {
-        System.out.println("aaa ingreso al metodo");
+
         int count = 0;
         String selectQuery = "SELECT  count (*) FROM DatosGPS where udpateStatus = '" + "no" + "'";
         SQLiteDatabase database = this.getWritableDatabase();
@@ -157,7 +154,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         count = cursor.getInt(0);
         cursor.close();
         database.close();
-        System.out.println("numero de filas" + count);
         return count;
     }
 

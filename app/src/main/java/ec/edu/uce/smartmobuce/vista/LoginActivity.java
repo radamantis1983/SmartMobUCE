@@ -75,15 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         File fichero = new File(sFichero);
 
         if (fichero.exists()) {
-            //  System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
-            //  mEmailView.setText(m.cargarPreferencias(getBaseContext()).toString());
             Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
             startActivity(intent);
             finish();
 
         } else {
 
-// custom dialog
+
             if (m.cargarPreferenciasAcuerdo(getBaseContext()) == false) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
 
@@ -119,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-//login
+
             _loginButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -134,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    // Inicia Registro activity
                     startActivity(new Intent(getApplicationContext(), RegistroActivity.class));
                     finish();
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -214,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onResponse(String response) {
 
                                 try {
-                                    //me permite obtener el id del usuario para registrar en el gps
+
                                     JSONObject jsonObject = new JSONObject(response);
 
                                     if (jsonObject.names().get(0).equals("usuarios")) {
@@ -271,7 +268,7 @@ public class LoginActivity extends AppCompatActivity {
                                 return hashMap;
                             }
                         };
-                        request.setRetryPolicy(new DefaultRetryPolicy( 5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                        request.setRetryPolicy(new DefaultRetryPolicy(5000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(request);
 
 

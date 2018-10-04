@@ -55,7 +55,7 @@ public class Metodos {
         }
     }
 
-    //permite guardar en archivo de preferencias
+    //permite guardar en archivo de preferencias (usuario)
     public void guardarPreferencias(Context context, String text) {
 
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
@@ -71,8 +71,8 @@ public class Metodos {
         return preferencia.getString("usu_id", "");
     }
 
-    //segundo archivo de preferencias
-    //permite guardar en archivo de preferencias
+
+    //permite guardar en archivo de preferencias (Acuerdo de confidencialidad)
     public void guardarPreferenciasAcuerdo(Context context, Boolean est) {
 
         SharedPreferences preferencia = context.getSharedPreferences("Acuerdo", MODE_PRIVATE);

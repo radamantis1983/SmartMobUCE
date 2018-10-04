@@ -71,7 +71,7 @@
     <string name="author">Creado por Henry Guamán</string>
     <string name="authenticate">Autenticando...</string>
     <string name="success">Login Exitoso</string>
-    <string name="unregistered">"Usuario no registrado o "</string>
+    <string name="unregistered">Usuario no registrado o cuenta no activa</string>
     <string name="error_login">error de inicio de sesion</string>
     <string name="error_invalid_password_match">La contraseña no coincide</string>
     <string name="year">Año</string>

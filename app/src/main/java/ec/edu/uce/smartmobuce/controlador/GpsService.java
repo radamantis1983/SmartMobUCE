@@ -90,8 +90,6 @@ public class GpsService extends Service implements
             LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
 
 
-            Log.e(LOG_TAG, "GPS" + manager.isProviderEnabled(LocationManager.GPS_PROVIDER));
-            //revisar esta parte activar gps
             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
                 promptEnableGps();
                 SystemClock.sleep(8000);
@@ -105,7 +103,7 @@ public class GpsService extends Service implements
                 i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
                 i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
                 i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()));
+                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
                 i.putExtra("fecha", String.valueOf(m.getFechaActual()));
                 sendBroadcast(i);
                 Log.e(LOG_TAG, " Coordenadas fuse " + "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
@@ -165,7 +163,7 @@ public class GpsService extends Service implements
                         i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
                         i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
                         i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                        i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider() + " location API"));
+                        i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
                         i.putExtra("fecha", String.valueOf(m.getFechaActual()));
                         sendBroadcast(i);
 
@@ -217,10 +215,6 @@ public class GpsService extends Service implements
         }
         //comprueba la hora para sincronizacón con la base de datos
         if (m.rangoHorassincronizacion(m.getHoraActual(), Constantes.horaActualizacion, Constantes.horaActualizacionf)) {
-            //lista los datos para sincronizar
-            //  ArrayList<HashMap<String, String>> userList = controller.getAllData();
-            //  if (userList.size() != 0) {
-            //  }
             m.syncSQLiteMySQLDB(getApplicationContext());
         }
 

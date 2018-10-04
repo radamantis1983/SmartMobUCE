@@ -10,14 +10,11 @@ public class Constantes {
 
     }
 
-    public static final String URL_LOGIN = "http://movilidad.000webhostapp.com/movilidad1/login.php";
-    public static final String URL_REGISTRO = "http://movilidad.000webhostapp.com/movilidad1/registro.php";
-    public static final String URL_CAPTURA_DATOS_GPS = "http://movilidad.000webhostapp.com/movilidad1/registrogps.php";
     //para uso modo local para manual de instalacion
-    //public static final String HOST="192.168.2.156";//colocar ip o host que se haya definido como servidor
-    //public static final String URL_LOGIN="http://"+HOST+"/movilidad/login.php";
-    //public static final String URL_REGISTRO="http://"+HOST+"/movilidad/registro.php";
-    //public static final String URL_CAPTURA_DATOS_GPS="http://"+HOST+"/movilidad/registrogps.php";
+    public static final String HOST = "gmoncayoresearch.com";//colocar ip o host que se haya definido como servidor
+    public static final String URL_LOGIN = "http://" + HOST + "/smartmobuce1/login.php";
+    public static final String URL_REGISTRO = "http://" + HOST + "/smartmobuce1/registro.php";
+    public static final String URL_CAPTURA_DATOS_GPS = "http://" + HOST + "/smartmobuce1/registrogps.php";
 
     //horas que permite guardar datos en la base interna
     public static final String horaInicial = "06:00:00";

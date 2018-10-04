@@ -12,7 +12,7 @@
     <string name="success">Login Successful</string>
     <string name="account">Account Created</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="unregistered">Unregistered user or</string>
+    <string name="unregistered">Unregistered user or not active account</string>
     <string name="error_login">Login failed</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short between 4 and 10 alphanumeric characters</string>
