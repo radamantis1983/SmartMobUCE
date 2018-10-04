@@ -22,6 +22,6 @@ public class Constantes {
     //Horas en la cual se ejecuta automaticamente la actualizacion
     public static final String horaActualizacion = "01:00:00";//hora de inicio para sincronizar datos
     public static final String horaActualizacionf = "01:30:00";//hora de fin para sincronizar datos
-    public static final long INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS = 60 * 1000; //60*1000 MILISEGUNDOS EQUIVALE A 10 SEGUNDOS
+    public static final long INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS = 10 * 1000; //10*1000 MILISEGUNDOS EQUIVALE A 10 SEGUNDOS
 
 }
