@@ -83,39 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             if (m.cargarPreferenciasAcuerdo(getBaseContext()) == false) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-
-                LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
-                dialogBuilder.setView(dialogView);
-
-                final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
-                Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
-                Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
-                dialogBuilder.setTitle(getString(R.string.Acuerdo));
-
-                dialogBuilder.setCancelable(false);
-                b = dialogBuilder.create();
-                b.show();
-
-                _acuerdo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (_check.isChecked() == true) {
-
-                            b.dismiss();
-                            m.guardarPreferenciasAcuerdo(getBaseContext(), true);
-                        } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.check), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                _reject.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+               m.mensajeAcuerdo(LoginActivity.this,getBaseContext());
             }
 
             _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -142,40 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-
-                    LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-                    final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
-                    dialogBuilder.setView(dialogView);
-
-                    final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
-                    Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
-                    Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
-                    dialogBuilder.setTitle(getString(R.string.Acuerdo));
-
-                    dialogBuilder.setCancelable(false);
-                    b = dialogBuilder.create();
-                    b.show();
-
-                    _acuerdo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (_check.isChecked() == true) {
-
-                                b.dismiss();
-                                m.guardarPreferenciasAcuerdo(getBaseContext(), true);
-                            } else {
-                                Toast.makeText(getApplicationContext(), getString(R.string.check), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    _reject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            b.dismiss();
-                        }
-                    });
-
+                m.mensajeAcuerdo(LoginActivity.this,getBaseContext());
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
             });

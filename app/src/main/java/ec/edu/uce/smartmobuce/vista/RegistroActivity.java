@@ -1,14 +1,19 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +39,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.controlador.Constantes;
+import ec.edu.uce.smartmobuce.controlador.Metodos;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
@@ -41,7 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
     private static final String TAG = "RegistroActivity";
     RequestQueue requestQueue;
     StringRequest request;
-
+    private final Metodos m = new Metodos();
     private EditText _emailText;
     private EditText _passwordText;
     private EditText _reEnterPasswordText;
@@ -163,6 +169,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
+                                        m.mensajeEnvioCorreo(getBaseContext());
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                                         finish();
@@ -223,6 +230,8 @@ public class RegistroActivity extends AppCompatActivity {
                     }
                 }, 7000);
     }
+
+
 
 
     private void onSignupSuccess() {

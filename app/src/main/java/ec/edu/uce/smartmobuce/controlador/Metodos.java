@@ -1,7 +1,16 @@
 package ec.edu.uce.smartmobuce.controlador;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.design.widget.TabLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -18,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ec.edu.uce.smartmobuce.R;
+import ec.edu.uce.smartmobuce.vista.LoginActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,8 +38,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     private final SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
-
-
     private double aux1 = 0, aux2 = 0;
 
     public boolean lastlocation(double last_latitud, double last_longitud) {
@@ -259,5 +267,60 @@ public class Metodos {
 
     }
 
+    public void mensajeEnvioCorreo(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("se ha envia un email para activar la cuenta")
+                .setTitle("Atención!!")
+                .setCancelable(false)
+                .setNeutralButton("Aceptar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+
+    }
+
+    public void mensajeAcuerdo(final Activity activity, final Context context) {
+
+        final AlertDialog b;
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
+        dialogBuilder.setView(dialogView);
+
+        final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
+        Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
+        Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
+        dialogBuilder.setTitle(R.string.Acuerdo);
+
+        dialogBuilder.setCancelable(false);
+        b = dialogBuilder.create();
+        b.show();
+
+        _acuerdo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (_check.isChecked() == true) {
+
+                    b.dismiss();
+                    guardarPreferenciasAcuerdo(context, true);
+                } else {
+                    Toast.makeText(context, R.string.check, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        _reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.dismiss();
+            }
+        });
+
+    }
 
 }
