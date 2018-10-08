@@ -1,26 +1,26 @@
 package ec.edu.uce.smartmobuce.vista;
 
-import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,6 +48,7 @@ public class RegistroActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest request;
     private final Metodos m = new Metodos();
+
     private EditText _emailText;
     private EditText _passwordText;
     private EditText _reEnterPasswordText;
@@ -122,6 +123,7 @@ public class RegistroActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
     }
 
     private void signup() {
@@ -160,23 +162,21 @@ public class RegistroActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-                                Log.e(TAG,""+request);
                                 try {
 
                                     JSONObject jsonObject = new JSONObject(response);
-                                    Log.e(TAG,response);
+                                    Log.e(TAG, response);
                                     if (jsonObject.names().get(0).equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
-                                        m.mensajeEnvioCorreo(getBaseContext());
+                                        mensajeEnvioCorreo(getBaseContext());
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-
                                         finish();
 
                                     } else {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) +" "+ getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + " " + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
@@ -194,11 +194,11 @@ public class RegistroActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.toString());
-                                Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
-                                onSignupSuccess();
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                             //   Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
+                             //   onSignupSuccess();
+                             //   startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
-                                finish();
+                             //   finish();
                             }
                         }) {
                             @Override
@@ -331,6 +331,19 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+    public void mensajeEnvioCorreo(Context context) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mail.uce.edu.ec"));
+        PendingIntent pendingIntent = PendingIntent.getActivities(RegistroActivity.this,01, new Intent[]{intent},0);
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+        mBuilder.setContentTitle("SmartMobUCE");
+        mBuilder.setSmallIcon(android.R.drawable.ic_dialog_email);
+        mBuilder.setContentText(getString(R.string.m_correo));
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(198317, mBuilder.build());
+
     }
 
 

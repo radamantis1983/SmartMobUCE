@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 
 public class ControladorSQLite extends SQLiteOpenHelper {
-    private static final String TAG = "Sqlite Database";
+
     private static final String DB_NAME = "datosGPS.db";
     private static final int DB_VERSION = 1;
     //variable para almecenar

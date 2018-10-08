@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SmartMobUCE</string>
-    <string name="str_languaje">Cambiar Idioma</string>
-    <string name="str_en">Ingles</string>
-    <string name="str_es">Español</string>
     <string name="prompt_email">Correo Electrónico</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Inicie sesión o regístrese</string>
-    <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="error_invalid_email">El correo electrónico no es válida</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_invalid_password">La contraseña no es válida</string>
-    <string name="error_field_required">Este campo es obligatorio</string>
-    <string name="coordenadas1">Coordenadas</string>
     <string name="latitude">Latitud</string>
     <string name="longitude">Longitud</string>
-    <string name="bearing">Conducta</string>
     <string name="accuracy">Precisión</string>
     <string name="altitude">Altitud</string>
     <string name="speed">Velocidad</string>
     <string name="provider">Proveedor</string>
     <string name="date">Fecha</string>
-    <string name="hour">Hora</string>
 
-    <string name="title_activity_login">Registrarse</string>
     <string name="action_settings">Acerca de</string>
     <string name="action_sync">Sincronizar</string>
     <string name="action_register">Cuenta Creada</string>
@@ -69,7 +60,7 @@
     <string name="a03">Trabajo</string>
     <string name="a04">Otro</string>
     <string name="author">Creado por Henry Guamán</string>
-    <string name="authenticate">Autenticando...</string>
+    <string name="authenticate">Autenticando…</string>
     <string name="success">Login Exitoso</string>
     <string name="unregistered">Usuario no registrado o cuenta no activa</string>
     <string name="error_login">error de inicio de sesion</string>
@@ -77,7 +68,7 @@
     <string name="year">Año</string>
     <string name="re_year">Ingrese el año</string>
     <string name="re_year_valid">Ingrese año válido</string>
-    <string name="recrea1">Creando cuenta...</string>
+    <string name="recrea1">Creando cuenta…</string>
     <string name="error_create_user">crear usuario fallido</string>
     <string name="all_types">Estudios, Deporte, Trabajo, Otro</string>
     <string name="select_faculty">Seleccionar Facultad</string>
@@ -223,6 +214,13 @@
     </string>
     <string name="check">Verificar acuerdo</string>
     <string name="s04">Valles</string>
-    <string name="version" translatable="false">Version Android</string>
+    <string name="m_correo">Por favor revisar su correo para activar la cuenta</string>
+    <string name="gps_Latitude">La latitud va aquí</string>
+    <string name="gps_Longitude">La longitud va aquí</string>
+    <string name="gps_Accuracy">La precisión va aquí</string>
+    <string name="gps_Altitude">La altitud va aquí</string>
+    <string name="gps_Speed">La velocidad va aquí</string>
+    <string name="gps_Provider">El proveedor va aquí</string>
+    <string name="gps_Date">La fecha va aquí</string>
 
 </resources>

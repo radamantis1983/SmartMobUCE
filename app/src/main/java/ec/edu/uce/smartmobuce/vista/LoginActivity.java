@@ -1,21 +1,17 @@
 package ec.edu.uce.smartmobuce.vista;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -55,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button _loginButton;
     private TextView _signupLink;
     private TextView _acuerdoLink;
-    private AlertDialog b;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton = findViewById(R.id.btn_login);
         _signupLink = findViewById(R.id.link_signup);
         _acuerdoLink = findViewById(R.id.link_acuerdo);
-
 
         requestQueue = Volley.newRequestQueue(this);
         String sFichero = "/data/data/" + getPackageName() + "/shared_prefs/PreferenciasDeUsuario.xml";
@@ -114,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
             });
+
         }
     }
 
@@ -151,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     if (jsonObject.names().get(0).equals("usuarios")) {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_SHORT).show();
 
                                         JSONArray jArray = jsonObject.getJSONArray("usuarios");
                                         for (int i = 0; i < jArray.length(); i++) {

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SmartMobUCE</string>
-    <string name="title_activity_login">Sign in</string>
 
     <string name="action_settings">About</string>
     <string name="action_sync">Synchronize</string>
@@ -19,10 +18,8 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Account created</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="str_languaje">Change Language</string>
+
     <!-- Strings registro -->
     <string name="renterpwd">Re-enter Password</string>
     <string name="error_invalid_password_match">Password Do not match</string>
@@ -94,25 +91,16 @@
     <string name="a03">Work</string>
     <string name="a04">Other</string>
 
-    <!-- Strings idioma -->
-    <string name="str_en">English</string>
-    <string name="str_es">Spanish</string>
-    <string-array name="languages">
-        <item>@string/str_en</item>
-        <item>@string/str_es</item>
-    </string-array>
+
     <!-- Strings change of location -->
 
-    <string name="coordenadas1">Coordinates</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-    <string name="bearing">Bearing</string>
     <string name="accuracy">Accuracy</string>
     <string name="altitude">Altitude</string>
     <string name="speed">Speed</string>
     <string name="provider">Provider</string>
     <string name="date">Date</string>
-    <string name="hour">Hour</string>
     <string name="marca">Manufactured</string>
     <string name="model">Model</string>
     <!-- Strings Sincronización -->
@@ -219,6 +207,14 @@
     <string name="en_gps_message" translatable="false">GPS is disabled. Enable it now?</string>
     <string name="en_gps_positive_button" translatable="false">Enable GPS</string>
     <string name="en_gps_negative_button" translatable="false">No</string>
-    <string name="version">Android Version</string>
+    <string name="m_correo">Please check your email to activate the account</string>
+    <string name="gps_Latitude">Latitude Goes Here</string>
+    <string name="gps_Longitude">Longitude Goes Here</string>
+    <string name="gps_Accuracy">Accuracy Goes Here</string>
+    <string name="gps_Altitude">Altitude Goes Here</string>
+    <string name="gps_Speed">Speed Goes Here</string>
+    <string name="gps_Provider">Provider Goes Here</string>
+    <string name="gps_Date">Date Goes Here</string>
+
 
 </resources>

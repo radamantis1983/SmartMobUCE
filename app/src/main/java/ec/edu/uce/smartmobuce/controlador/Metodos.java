@@ -2,11 +2,11 @@ package ec.edu.uce.smartmobuce.controlador;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.support.design.widget.TabLayout;
-import android.util.Log;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ec.edu.uce.smartmobuce.R;
-import ec.edu.uce.smartmobuce.vista.LoginActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -123,13 +122,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
-
-                return true;
-            } else {
-
-                return false;
-            }
+            return (horaAct.after(horaIni)) && (horaAct.before(horaFin));
 
 
         } catch (ParseException ex) {
@@ -151,14 +144,10 @@ public class Metodos {
             Date horaFin;
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
-            if (horaIni.equals(horaFin)) {
-                // System.out.println("horas iguales procediendo a sincronizar");
-                //  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
-                return true;
-            } else {
-                //  System.out.println("no es hora de sincronizar");
-                return false;
-            }
+            // System.out.println("horas iguales procediendo a sincronizar");
+//  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
+//  System.out.println("no es hora de sincronizar");
+            return horaIni.equals(horaFin);
 
 
         } catch (ParseException ex) {
@@ -180,13 +169,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
-
-                return true;
-            } else {
-
-                return false;
-            }
+            return (horaAct.after(horaIni)) && (horaAct.before(horaFin));
 
 
         } catch (ParseException ex) {
@@ -267,22 +250,7 @@ public class Metodos {
 
     }
 
-    public void mensajeEnvioCorreo(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("se ha envia un email para activar la cuenta")
-                .setTitle("Atención!!")
-                .setCancelable(false)
-                .setNeutralButton("Aceptar",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
 
-
-    }
 
     public void mensajeAcuerdo(final Activity activity, final Context context) {
 
@@ -293,9 +261,9 @@ public class Metodos {
         final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
         dialogBuilder.setView(dialogView);
 
-        final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
-        Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
-        Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
+        final CheckBox _check = dialogView.findViewById(R.id.checkBox_acuerdo);
+        Button _acuerdo = dialogView.findViewById(R.id.button_aceptar);
+        Button _reject = dialogView.findViewById(R.id.button_cancelar);
         dialogBuilder.setTitle(R.string.Acuerdo);
 
         dialogBuilder.setCancelable(false);
@@ -322,5 +290,6 @@ public class Metodos {
         });
 
     }
+
 
 }
