@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context="ec.edu.uce.smartmobuce.vista.GPSActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO"
+        tools:ignore="ContentDescription,HardcodedText"
+        app:srcCompat="@drawable/logohg"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"/>
+
     <TextView
         android:id="@+id/latitude_label"
         android:layout_width="100dp"
@@ -98,7 +108,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Latitude Goes Here"
+        android:text="@string/gps_Latitude"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/latitude_label"
         app:layout_constraintTop_toTopOf="parent" />
@@ -109,7 +119,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Longitude Goes Here"
+        android:text="@string/gps_Longitude"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/longitude_label"
         app:layout_constraintTop_toBottomOf="@+id/latitude_text" />
@@ -120,7 +130,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Accuracy Goes Here"
+        android:text="@string/gps_Accuracy"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/accuracy_label"
         app:layout_constraintTop_toBottomOf="@+id/longitude_text" />
@@ -131,7 +141,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Altitude Goes Here"
+        android:text="@string/gps_Altitude"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/altitude_label"
         app:layout_constraintTop_toBottomOf="@+id/accuracy_text" />
@@ -142,7 +152,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Speed Goes Here"
+        android:text="@string/gps_Speed"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/speed_label"
         app:layout_constraintTop_toBottomOf="@+id/altitude_text" />
@@ -153,7 +163,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Provider Goes Here"
+        android:text="@string/gps_Provider"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/provider_label"
         app:layout_constraintTop_toBottomOf="@+id/speed_text" />
@@ -164,7 +174,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Date Goes Here"
+        android:text="@string/gps_Date"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/date_label"
         app:layout_constraintTop_toBottomOf="@+id/provider_text" />

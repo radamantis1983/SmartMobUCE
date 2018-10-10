@@ -1,15 +1,12 @@
 package ec.edu.uce.smartmobuce.vista;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,8 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
-    private AlertDialog b;
-
+    private TextView _acuerdoLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,58 +61,24 @@ public class LoginActivity extends AppCompatActivity {
         _passwordText = findViewById(R.id.input_password);
         _loginButton = findViewById(R.id.btn_login);
         _signupLink = findViewById(R.id.link_signup);
-
+        _acuerdoLink = findViewById(R.id.link_acuerdo);
 
         requestQueue = Volley.newRequestQueue(this);
         String sFichero = "/data/data/" + getPackageName() + "/shared_prefs/PreferenciasDeUsuario.xml";
         File fichero = new File(sFichero);
 
         if (fichero.exists()) {
-            //  System.out.println("El fichero " + sFichero + " existe" + getBaseContext());
-            //  mEmailView.setText(m.cargarPreferencias(getBaseContext()).toString());
             Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
             startActivity(intent);
             finish();
 
         } else {
 
-// custom dialog
+
             if (m.cargarPreferenciasAcuerdo(getBaseContext()) == false) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-
-                LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
-                dialogBuilder.setView(dialogView);
-
-                final CheckBox _check = (CheckBox) dialogView.findViewById(R.id.checkBox_acuerdo);
-                Button _acuerdo = (Button) dialogView.findViewById(R.id.button_aceptar);
-                Button _reject = (Button) dialogView.findViewById(R.id.button_cancelar);
-                dialogBuilder.setTitle(getString(R.string.Acuerdo));
-
-                dialogBuilder.setCancelable(false);
-                b = dialogBuilder.create();
-                b.show();
-
-                _acuerdo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (_check.isChecked() == true) {
-
-                            b.dismiss();
-                            m.guardarPreferenciasAcuerdo(getBaseContext(), true);
-                        } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.check), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                _reject.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+               m.mensajeAcuerdo(LoginActivity.this,getBaseContext());
             }
-//login
+
             _loginButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -131,12 +93,21 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    // Inicia Registro activity
                     startActivity(new Intent(getApplicationContext(), RegistroActivity.class));
                     finish();
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
             });
+
+            _acuerdoLink.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                m.mensajeAcuerdo(LoginActivity.this,getBaseContext());
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+            });
+
         }
     }
 
@@ -169,12 +140,12 @@ public class LoginActivity extends AppCompatActivity {
                             public void onResponse(String response) {
 
                                 try {
-                                    //me permite obtener el id del usuario para registrar en el gps
+
                                     JSONObject jsonObject = new JSONObject(response);
 
                                     if (jsonObject.names().get(0).equals("usuarios")) {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_SHORT).show();
 
                                         JSONArray jArray = jsonObject.getJSONArray("usuarios");
                                         for (int i = 0; i < jArray.length(); i++) {
@@ -191,15 +162,14 @@ public class LoginActivity extends AppCompatActivity {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
 
-                                        //Revisar el mensaje que esta concatenado
-                                        Toast.makeText(getApplicationContext(), getString(R.string.unregistered) + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                        //cambiar idioma jsonObject.getString
+
+                                        Toast.makeText(getApplicationContext(), getString(R.string.unregistered), Toast.LENGTH_SHORT).show();
+
                                         cancel = true;
                                         onLoginFailed();
                                     }
                                     if (cancel) {
-                                        // Hubo un error; no intente iniciar sesión y enfoque el primer
-                                        // campo de formulario con un error.
+
                                         focusView.requestFocus();
                                     }
 

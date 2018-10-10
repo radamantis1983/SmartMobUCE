@@ -1,8 +1,14 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +39,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.controlador.Constantes;
+import ec.edu.uce.smartmobuce.controlador.Metodos;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
@@ -40,6 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
     private static final String TAG = "RegistroActivity";
     RequestQueue requestQueue;
     StringRequest request;
+    private final Metodos m = new Metodos();
 
     private EditText _emailText;
     private EditText _passwordText;
@@ -109,13 +117,13 @@ public class RegistroActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
     }
 
     private void signup() {
@@ -127,10 +135,9 @@ public class RegistroActivity extends AppCompatActivity {
             return;
         }
 
-        _signupButton.setEnabled(false);
+       // _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.recrea1));
         progressDialog.show();
@@ -155,22 +162,21 @@ public class RegistroActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-
                                 try {
-                                    //me permite obtener el id del usuario para registrar en el gps
 
                                     JSONObject jsonObject = new JSONObject(response);
+                                    Log.e(TAG, response);
                                     if (jsonObject.names().get(0).equals("success")) {
 
                                         Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
                                         onSignupSuccess();
+                                        mensajeEnvioCorreo(getBaseContext());
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-
                                         finish();
 
                                     } else {
 
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + " " + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
 
                                     }
@@ -188,6 +194,11 @@ public class RegistroActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.toString());
+                             //   Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
+                             //   onSignupSuccess();
+                             //   startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+                             //   finish();
                             }
                         }) {
                             @Override
@@ -209,15 +220,18 @@ public class RegistroActivity extends AppCompatActivity {
                             }
 
                         };
-
-
+                        //request.setRetryPolicy(new DefaultRetryPolicy( 5000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(request);
 
 
-                        progressDialog.dismiss();
+
+
+                                progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 7000);
     }
+
+
 
 
     private void onSignupSuccess() {
@@ -240,11 +254,7 @@ public class RegistroActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         String year = _year.getText().toString();
-        // int genero =_genero.getSelectedItemPosition();
-        //String facultad = _facultad.getSelectedItem().toString();
-        //int tipo = _tipo.getSelectedItemPosition();
-        //int sector = _sector.getSelectedItemPosition();
-        //String actividad = _actividad.getSelectedItem().toString();
+
         _emailText.requestFocus();
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || !email.contains("@uce.edu.ec")) {
             _emailText.requestFocus();
@@ -289,26 +299,24 @@ public class RegistroActivity extends AppCompatActivity {
 
         }
 
-        //Cambiar los textos de las comparaciones, que sea en función de la posición
 
-        //if (_genero.getSelectedItem().toString().trim().equals("Gender")||_genero.getSelectedItem().toString().trim().equals("Género")) {
         if (_genero.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_SHORT).show();
             valid = false;
         }
-        //if (_facultad.getSelectedItem().toString().trim().equals("Faculty") || _facultad.getSelectedItem().toString().trim().equals("Facultad")) {
+
         if (_facultad.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_faculty), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        //if (_tipo.getSelectedItem().toString().trim().equals("Type")|| _tipo.getSelectedItem().toString().trim().equals("Tipo")) {
+
         if (_tipo.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_type), Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        //if (_sector.getSelectedItem().toString().trim().equals("Sector")) {
+
         if (_sector.getSelectedItemPosition() == 0) {
             Toast.makeText(this, getString(R.string.select_sector), Toast.LENGTH_SHORT).show();
             valid = false;
@@ -323,6 +331,19 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+    public void mensajeEnvioCorreo(Context context) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mail.uce.edu.ec"));
+        PendingIntent pendingIntent = PendingIntent.getActivities(RegistroActivity.this,01, new Intent[]{intent},0);
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+        mBuilder.setContentTitle("SmartMobUCE");
+        mBuilder.setSmallIcon(android.R.drawable.ic_dialog_email);
+        mBuilder.setContentText(getString(R.string.m_correo));
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(198317, mBuilder.build());
+
     }
 
 

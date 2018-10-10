@@ -16,9 +16,12 @@ import java.util.HashMap;
  */
 
 public class ControladorSQLite extends SQLiteOpenHelper {
+
+    private static final String DB_NAME = "datosGPS.db";
+    private static final int DB_VERSION = 1;
     //variable para almecenar
 
-    private final String sqlCreate = "CREATE TABLE `DatosGPS` (`dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+    private final String sqlCreate = "CREATE TABLE `DatosGPS` ( `dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "`usu_id` INTEGER," +
             "`dat_latitud` REAL," +
             "`dat_longitud` REAL," +
@@ -32,12 +35,9 @@ public class ControladorSQLite extends SQLiteOpenHelper {
 
     //contexto referencia al activity, name nombre de base de datos SQLiteDatabase factory no utilizamos ponemos null
     public ControladorSQLite(Context applicationcontext) {
-        super(applicationcontext, "datosGPS.db", null, 1);
+        super(applicationcontext, DB_NAME, null, DB_VERSION);
     }
 
-
-    //se ejecuta en el momento que llamemos a la base de datos
-    //construira por primera vez la base de datos
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -46,7 +46,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int version_old, int current_version) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String query;
         query = "DROP TABLE IF EXISTS DatosGPS";
         //For now, clear the database and re-create
@@ -148,7 +148,7 @@ public class ControladorSQLite extends SQLiteOpenHelper {
      * @return
      */
     public int dbSyncCount() {
-        System.out.println("aaa ingreso al metodo");
+
         int count = 0;
         String selectQuery = "SELECT  count (*) FROM DatosGPS where udpateStatus = '" + "no" + "'";
         SQLiteDatabase database = this.getWritableDatabase();
@@ -157,7 +157,6 @@ public class ControladorSQLite extends SQLiteOpenHelper {
         count = cursor.getInt(0);
         cursor.close();
         database.close();
-        System.out.println("numero de filas" + count);
         return count;
     }
 

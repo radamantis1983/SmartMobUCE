@@ -1,7 +1,16 @@
 package ec.edu.uce.smartmobuce.controlador;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -28,8 +37,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class Metodos {
     private final SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
-
-
     private double aux1 = 0, aux2 = 0;
 
     public boolean lastlocation(double last_latitud, double last_longitud) {
@@ -55,7 +62,7 @@ public class Metodos {
         }
     }
 
-    //permite guardar en archivo de preferencias
+    //permite guardar en archivo de preferencias (usuario)
     public void guardarPreferencias(Context context, String text) {
 
         SharedPreferences preferencia = context.getSharedPreferences("PreferenciasDeUsuario", MODE_PRIVATE);
@@ -71,8 +78,8 @@ public class Metodos {
         return preferencia.getString("usu_id", "");
     }
 
-    //segundo archivo de preferencias
-    //permite guardar en archivo de preferencias
+
+    //permite guardar en archivo de preferencias (Acuerdo de confidencialidad)
     public void guardarPreferenciasAcuerdo(Context context, Boolean est) {
 
         SharedPreferences preferencia = context.getSharedPreferences("Acuerdo", MODE_PRIVATE);
@@ -115,13 +122,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
-
-                return true;
-            } else {
-
-                return false;
-            }
+            return (horaAct.after(horaIni)) && (horaAct.before(horaFin));
 
 
         } catch (ParseException ex) {
@@ -143,14 +144,10 @@ public class Metodos {
             Date horaFin;
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
-            if (horaIni.equals(horaFin)) {
-                // System.out.println("horas iguales procediendo a sincronizar");
-                //  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
-                return true;
-            } else {
-                //  System.out.println("no es hora de sincronizar");
-                return false;
-            }
+            // System.out.println("horas iguales procediendo a sincronizar");
+//  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
+//  System.out.println("no es hora de sincronizar");
+            return horaIni.equals(horaFin);
 
 
         } catch (ParseException ex) {
@@ -172,13 +169,7 @@ public class Metodos {
             horaIni = hformat.parse(horaInicial);
             horaFin = hformat.parse(horaFinal);
 
-            if ((horaAct.after(horaIni)) && (horaAct.before(horaFin))) {
-
-                return true;
-            } else {
-
-                return false;
-            }
+            return (horaAct.after(horaIni)) && (horaAct.before(horaFin));
 
 
         } catch (ParseException ex) {
@@ -256,6 +247,47 @@ public class Metodos {
             Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
 
         }
+
+    }
+
+
+
+    public void mensajeAcuerdo(final Activity activity, final Context context) {
+
+        final AlertDialog b;
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.acuerdo_confidencialidad, null);
+        dialogBuilder.setView(dialogView);
+
+        final CheckBox _check = dialogView.findViewById(R.id.checkBox_acuerdo);
+        Button _acuerdo = dialogView.findViewById(R.id.button_aceptar);
+        Button _reject = dialogView.findViewById(R.id.button_cancelar);
+        dialogBuilder.setTitle(R.string.Acuerdo);
+
+        dialogBuilder.setCancelable(false);
+        b = dialogBuilder.create();
+        b.show();
+
+        _acuerdo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (_check.isChecked() == true) {
+
+                    b.dismiss();
+                    guardarPreferenciasAcuerdo(context, true);
+                } else {
+                    Toast.makeText(context, R.string.check, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        _reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.dismiss();
+            }
+        });
 
     }
 

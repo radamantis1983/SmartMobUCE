@@ -1,13 +1,10 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -24,10 +21,8 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.vista.GPSActivity;
 
 public class GpsService extends Service implements
@@ -87,11 +82,9 @@ public class GpsService extends Service implements
         if (permissionCheck == 0) {
 
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 
-            Log.e(LOG_TAG, "GPS" + manager.isProviderEnabled(LocationManager.GPS_PROVIDER));
-            //revisar esta parte activar gps
             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
                 promptEnableGps();
                 SystemClock.sleep(8000);
@@ -105,7 +98,7 @@ public class GpsService extends Service implements
                 i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
                 i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
                 i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()));
+                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
                 i.putExtra("fecha", String.valueOf(m.getFechaActual()));
                 sendBroadcast(i);
                 Log.e(LOG_TAG, " Coordenadas fuse " + "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
@@ -142,7 +135,7 @@ public class GpsService extends Service implements
     @Override
     public void onLocationChanged(Location location) {
         Log.e(LOG_TAG, "Localizacion :" + location.toString());
-        LocationManager manager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
             promptEnableGps();
         }
@@ -165,7 +158,7 @@ public class GpsService extends Service implements
                         i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
                         i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
                         i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                        i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider() + " location API"));
+                        i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
                         i.putExtra("fecha", String.valueOf(m.getFechaActual()));
                         sendBroadcast(i);
 
@@ -217,10 +210,6 @@ public class GpsService extends Service implements
         }
         //comprueba la hora para sincronizacón con la base de datos
         if (m.rangoHorassincronizacion(m.getHoraActual(), Constantes.horaActualizacion, Constantes.horaActualizacionf)) {
-            //lista los datos para sincronizar
-            //  ArrayList<HashMap<String, String>> userList = controller.getAllData();
-            //  if (userList.size() != 0) {
-            //  }
             m.syncSQLiteMySQLDB(getApplicationContext());
         }
 

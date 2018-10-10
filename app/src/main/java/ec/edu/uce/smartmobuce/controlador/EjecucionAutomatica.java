@@ -12,7 +12,7 @@ public class EjecucionAutomatica extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent service = new Intent(context,  GpsService.class);
+        Intent service = new Intent(context, GpsService.class);
         context.startService(service);
 
     }
