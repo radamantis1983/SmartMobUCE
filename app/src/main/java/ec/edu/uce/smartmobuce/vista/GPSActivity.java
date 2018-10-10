@@ -51,13 +51,13 @@ public class GPSActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    mLatitudeText.setText(intent.getExtras().get("Latitud")+"°".toString());
-                    mLongitudeText.setText(intent.getExtras().get("Longitud")+"°");
-                    mAccuracyText.setText(intent.getExtras().get("Precision")+"m");
-                    mAltitudeText.setText(intent.getExtras().get("Altitud")+"m");
-                    mSpeedText.setText(intent.getExtras().get("Velocidad")+"m/s");
-                    mProviderText.setText(intent.getExtras().get("Proveedor")+".");
-                    mDatetext.setText(intent.getExtras().get("fecha")+".");
+                    mLatitudeText.setText(intent.getExtras().get("Latitud")+"");
+                    mLongitudeText.setText(intent.getExtras().get("Longitud")+"");
+                    mAccuracyText.setText(intent.getExtras().get("Precision")+"");
+                    mAltitudeText.setText(intent.getExtras().get("Altitud")+"");
+                    mSpeedText.setText(intent.getExtras().get("Velocidad")+"");
+                    mProviderText.setText(intent.getExtras().get("Proveedor")+"");
+                    mDatetext.setText(intent.getExtras().get("fecha")+"");
 
                 }
             };
@@ -117,13 +117,13 @@ public class GPSActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    mLatitudeText.setText(intent.getExtras().get("Latitud")+"°");
-                    mLongitudeText.setText(intent.getExtras().get("Longitud")+"°");
-                    mAccuracyText.setText(intent.getExtras().get("Precision")+"m");
-                    mAltitudeText.setText(intent.getExtras().get("Altitud")+"m");
-                    mSpeedText.setText(intent.getExtras().get("Velocidad")+"m/s");
-                    mProviderText.setText(intent.getExtras().get("Proveedor")+".");
-                    mDatetext.setText(intent.getExtras().get("fecha")+".");
+                    mLatitudeText.setText(intent.getExtras().get("Latitud")+"");
+                    mLongitudeText.setText(intent.getExtras().get("Longitud")+"");
+                    mAccuracyText.setText(intent.getExtras().get("Precision")+"");
+                    mAltitudeText.setText(intent.getExtras().get("Altitud")+"");
+                    mSpeedText.setText(intent.getExtras().get("Velocidad")+"");
+                    mProviderText.setText(intent.getExtras().get("Proveedor")+"");
+                    mDatetext.setText(intent.getExtras().get("fecha")+"");
 
                 }
             };
