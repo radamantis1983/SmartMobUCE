@@ -4,37 +4,31 @@ ini_set('date.timezone','America/Guayaquil');
 class DB_Functions {
    
     private $db;
-   
+   private $connection;
 
-    //put your code here
-    // constructor
     function __construct() {
-        include_once './db_connectgps.php';
-        // connecting to database
-        $this->db = new DB_Connect();
-        $this->db->connect();
+		include_once 'connection.php';
+		$this -> db = new DB_Connection();
+		$this -> connection = $this->db->getConnection();
     }
 
-    // destructor
-    function __destruct() {
-        
-    }
-
+  
     /**
-     * Storing gps datos
-     * returns datos details
+     * Storing gps user
+     * returns user details
      */
     
-    public function storeusuario($dat_id,$usu_id,$dat_latitud,$dat_longitud,$dat_precision,$dat_altitud,$dat_velocidad,$dat_proveedor,$dat_fechahora_lectura,$dat_marca,$dat_modelo,$dat_version) {
+    public function storegps($dat_id,$usu_id,$dat_latitud,$dat_longitud,$dat_precision,$dat_altitud,$dat_velocidad,$dat_proveedor,$dat_fechahora_lectura) {
          $dat_fechahora_sync=date("Y-m-d H:i:s");
-        // Insert datos into database
-        $result = mysql_query("INSERT INTO datosgps (usu_id,dat_latitud,dat_longitud,dat_precision,dat_altitud,dat_velocidad,dat_proveedor,dat_fechahora_lectura,dat_marca,dat_modelo,dat_version,dat_fechahora_sync) 
-        VALUES ($usu_id,$dat_latitud,$dat_longitud,$dat_precision,$dat_altitud,$dat_velocidad,'$dat_proveedor','$dat_fechahora_lectura','$dat_marca','$dat_modelo','$dat_version','$dat_fechahora_sync')");
+        // Insert user into database
+		$query ="INSERT INTO datosgps (usu_id,dat_latitud,dat_longitud,dat_precision,dat_altitud,dat_velocidad,dat_proveedor,dat_fechahora_lectura,dat_fechahora_sync) VALUES 
+        ($usu_id,$dat_latitud,$dat_longitud,$dat_precision,$dat_altitud,$dat_velocidad,'$dat_proveedor','$dat_fechahora_lectura','$dat_fechahora_sync')";
+        $result = mysqli_query($this->connection, $query);
 	
         if ($result) {
 			return true;
         } else {
-			if( mysql_errno() == 1062) {
+			if( mysqli_errno($this->connection) == 1062) {
 				// Duplicate key - Primary Key Violation
 				return true;
 			} else {
@@ -43,13 +37,7 @@ class DB_Functions {
 			}            
         }
     }
-	 /**
-     * Getting all datos
-     */
-    public function getAllUsers() {
-        $result = mysql_query("select * FROM datosgps");
-        return $result;
-    }
+
 }
 
 ?>
