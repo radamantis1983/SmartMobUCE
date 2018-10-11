@@ -2,21 +2,16 @@ package ec.edu.uce.smartmobuce.controlador;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ec.edu.uce.smartmobuce.R;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -290,6 +284,7 @@ public class Metodos {
         });
 
     }
+
 
 
 }

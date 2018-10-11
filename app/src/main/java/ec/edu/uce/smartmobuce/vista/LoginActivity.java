@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        System.out.println(Constantes.URL_LOGIN);
+
                         request = new StringRequest(Request.Method.POST, Constantes.URL_LOGIN, new Response.Listener<String>() {
 
                             @Override
@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                                 return hashMap;
                             }
                         };
-
+                        request.setShouldCache(false);
                         requestQueue.add(request);
 
 

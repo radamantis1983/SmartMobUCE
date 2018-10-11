@@ -9,7 +9,6 @@
     <!-- Strings related to login -->
     <string name="authenticate">Authenticating...</string>
     <string name="success">Login Successful</string>
-    <string name="account">Account Created</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="unregistered">Unregistered user or not active account</string>
     <string name="error_login">Login failed</string>
@@ -208,6 +207,10 @@
     <string name="en_gps_positive_button" translatable="false">Enable GPS</string>
     <string name="en_gps_negative_button" translatable="false">No</string>
     <string name="m_correo">Please check your email to activate the account</string>
+    <string name="dialog_title">Attention!!!</string>
+    <string name="dialog_Instructive">An activation email has been sent. Check your email or junk mail to activate your account.
+Once activated your account can enter your username and password to access the application
+</string>
     <string name="gps_Latitude">Latitude Goes Here</string>
     <string name="gps_Longitude">Longitude Goes Here</string>
     <string name="gps_Accuracy">Accuracy Goes Here</string>
@@ -215,6 +218,7 @@
     <string name="gps_Speed">Speed Goes Here</string>
     <string name="gps_Provider">Provider Goes Here</string>
     <string name="gps_Date">Date Goes Here</string>
+
 
 
 </resources>

@@ -1,10 +1,12 @@
 package ec.edu.uce.smartmobuce.vista;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -167,25 +169,13 @@ public class RegistroActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(response);
                                     Log.e(TAG, response);
                                     if (jsonObject.names().get(0).equals("success")) {
-
-                                        Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
-                                        onSignupSuccess();
-                                        mensajeEnvioCorreo(getBaseContext());
-                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                        finish();
-
+                                    onSignupSuccess();
                                     } else {
-
-                                        Toast.makeText(getApplicationContext(), getString(R.string.error) + " " + getString(R.string.error_create_user), Toast.LENGTH_SHORT).show();
                                         onSignupFailed();
-
                                     }
-
-
                                 } catch (JSONException e) {
                                     Log.e(TAG, e.toString());
                                     e.printStackTrace();
-
                                 }
 
 
@@ -194,11 +184,7 @@ public class RegistroActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.toString());
-                             //   Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
-                             //   onSignupSuccess();
-                             //   startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
-                             //   finish();
                             }
                         }) {
                             @Override
@@ -220,7 +206,8 @@ public class RegistroActivity extends AppCompatActivity {
                             }
 
                         };
-                        //request.setRetryPolicy(new DefaultRetryPolicy( 5000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+                        request.setShouldCache(false);
                         requestQueue.add(request);
 
 
@@ -237,13 +224,15 @@ public class RegistroActivity extends AppCompatActivity {
     private void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+        mensajeEnvioCorreo(getBaseContext());
+        emailNotification();
+        Toast.makeText(getApplicationContext(), getString(R.string.action_register), Toast.LENGTH_SHORT).show();
+
 
     }
 
     private void onSignupFailed() {
         Toast.makeText(getBaseContext(), getString(R.string.error_create_user), Toast.LENGTH_LONG).show();
-
         _signupButton.setEnabled(true);
     }
 
@@ -345,6 +334,19 @@ public class RegistroActivity extends AppCompatActivity {
         notificationManager.notify(198317, mBuilder.build());
 
     }
+    public void emailNotification() {
 
+        new AlertDialog.Builder(RegistroActivity.this)
+                .setCancelable(false)
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_Instructive)
+                .setPositiveButton(R.string.Accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
 
 }
+
