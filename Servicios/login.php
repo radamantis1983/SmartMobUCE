@@ -1,31 +1,29 @@
 <?php
-include_once './db_connectgps.php';
+include_once 'connection.php';
 class User {
 		
 		private $db;
+		private $connection;
 		
 		function __construct() {
-		    
-			// connecting to database
-			$this->db = new DB_Connect();
-        	//$this -> connection = $this->db->connect();
-        	$this->db->connect();
+			$this -> db = new DB_Connection();
+			$this -> connection = $this->db->getConnection();
 		}
 		
 		public function does_user_exist($usu_email,$usu_password)
 		{
-			$query = "Select usu_id from usuarios where usu_email='$usu_email'and usu_password = '$usu_password'";
-			$result = mysql_query($query);
-			if(mysql_num_rows($result)>0){
-			 $registro=mysql_fetch_array($result);
+			$query = "Select usu_id from usuarios where usu_email='$usu_email'and usu_password = '$usu_password' and usu_estado=1";
+			$result = mysqli_query($this->connection, $query);
+			if(mysqli_num_rows($result)>0){
+			 $registro=mysqli_fetch_array($result);
 		     $json['usuarios'][]=$registro;
 	        
 			}	
 			else{
-				$json['error'] = 'Wrong password o usuario no registrado';
+				$json['error'] = 'Wrong password o usuario no registrado o cuenta no activada';
 			}
 			echo json_encode($json);
-			mysql_close($this->db->connect());
+			mysqli_close($this -> connection);
 			
 		}
 		
