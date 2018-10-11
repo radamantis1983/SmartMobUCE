@@ -85,7 +85,6 @@
     <string name="error2_db_synchronization">No hay datos en DB SQLite, espere la acción de Sincronización!</string>
     <string name="marca">Marca</string>
     <string name="model">Modelo</string>
-    <string name="account">Cuenta Creada</string>
     <string name="lectura_acuerdo">He leído el acuerdo</string>
     <string name="Cancel">Cancelar</string>
     <string name="Accept">Aceptar</string>
@@ -222,5 +221,7 @@
     <string name="gps_Speed">La velocidad va aquí</string>
     <string name="gps_Provider">El proveedor va aquí</string>
     <string name="gps_Date">La fecha va aquí</string>
+    <string name="dialog_Instructive">Se ha enviado un correo de activacion revise su bandeja de correo o correo no deseado para activar su cuenta. Una vez activada su cuenta podra ingresar su usuario y clave para acceder a la aplicacion</string>
+    <string name="dialog_title">Atención!!!</string>
 
 </resources>
