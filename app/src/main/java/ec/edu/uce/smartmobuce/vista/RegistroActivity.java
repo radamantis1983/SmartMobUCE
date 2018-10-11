@@ -41,7 +41,6 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import ec.edu.uce.smartmobuce.R;
 import ec.edu.uce.smartmobuce.controlador.Constantes;
-import ec.edu.uce.smartmobuce.controlador.Metodos;
 import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 public class RegistroActivity extends AppCompatActivity {
@@ -49,8 +48,6 @@ public class RegistroActivity extends AppCompatActivity {
     private static final String TAG = "RegistroActivity";
     RequestQueue requestQueue;
     StringRequest request;
-    private final Metodos m = new Metodos();
-
     private EditText _emailText;
     private EditText _passwordText;
     private EditText _reEnterPasswordText;
@@ -73,19 +70,15 @@ public class RegistroActivity extends AppCompatActivity {
         _passwordText = findViewById(R.id.input_password);
         _reEnterPasswordText = findViewById(R.id.input_reEnterPassword);
         _year = findViewById(R.id.input_year);
-
         _genero = findViewById(R.id.input_genero);
         _facultad = findViewById(R.id.input_facultad);
         _tipo = findViewById(R.id.input_tipo);
         _sector = findViewById(R.id.input_sector);
-
         final List<String> list = Arrays.asList(getResources().getStringArray(R.array.actividad));
         _actividad = findViewById(R.id.input_actividad);
         _signupButton = findViewById(R.id.btn_signup);
         _loginLink = findViewById(R.id.link_login);
-
         requestQueue = Volley.newRequestQueue(this);
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.genero, android.R.layout.simple_spinner_item);
         _genero.setAdapter(adapter);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.facultad, android.R.layout.simple_spinner_item);
@@ -94,7 +87,6 @@ public class RegistroActivity extends AppCompatActivity {
         _tipo.setAdapter(adapter2);
         ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this, R.array.sector, android.R.layout.simple_spinner_item);
         _sector.setAdapter(adapter3);
-
         String act = getString(R.string.activity);
         ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list);
         _actividad.setListAdapter(adapter4)
@@ -107,15 +99,12 @@ public class RegistroActivity extends AppCompatActivity {
                 .setAllCheckedText(getString(R.string.all_types))
                 .setAllUncheckedText(act)
                 .setSelectAll(false);
-
-
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signup();
             }
         });
-
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,20 +125,15 @@ public class RegistroActivity extends AppCompatActivity {
 
             return;
         }
-
-       // _signupButton.setEnabled(false);
-
+        // _signupButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.recrea1));
         progressDialog.show();
-
-
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
         final String year = _year.getText().toString();
         final int genero = _genero.getSelectedItemPosition();
-
         final String facultad = _facultad.getSelectedItem().toString();
         final int tipo = _tipo.getSelectedItemPosition();
         final int sector = _sector.getSelectedItemPosition();
@@ -169,7 +153,7 @@ public class RegistroActivity extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(response);
                                     Log.e(TAG, response);
                                     if (jsonObject.names().get(0).equals("success")) {
-                                    onSignupSuccess();
+                                        onSignupSuccess();
                                     } else {
                                         onSignupFailed();
                                     }
@@ -211,14 +195,10 @@ public class RegistroActivity extends AppCompatActivity {
                         requestQueue.add(request);
 
 
-
-
-                                progressDialog.dismiss();
+                        progressDialog.dismiss();
                     }
                 }, 7000);
     }
-
-
 
 
     private void onSignupSuccess() {
@@ -321,10 +301,11 @@ public class RegistroActivity extends AppCompatActivity {
 
         return valid;
     }
+
     public void mensajeEnvioCorreo(Context context) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mail.uce.edu.ec"));
-        PendingIntent pendingIntent = PendingIntent.getActivities(RegistroActivity.this,01, new Intent[]{intent},0);
+        PendingIntent pendingIntent = PendingIntent.getActivities(RegistroActivity.this, 01, new Intent[]{intent}, 0);
         mBuilder.setContentIntent(pendingIntent);
         mBuilder.setDefaults(Notification.DEFAULT_ALL);
         mBuilder.setContentTitle("SmartMobUCE");
@@ -334,6 +315,7 @@ public class RegistroActivity extends AppCompatActivity {
         notificationManager.notify(198317, mBuilder.build());
 
     }
+
     public void emailNotification() {
 
         new AlertDialog.Builder(RegistroActivity.this)
