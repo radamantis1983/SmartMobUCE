@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ec.edu.uce.smartmobuce.R;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -34,6 +37,7 @@ public class Metodos {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
     private double aux1 = 0, aux2 = 0;
     private static final String TAG = "Metodos";
+
     public boolean lastlocation(double last_latitud, double last_longitud) {
 
         double a = truncateDecimal(last_latitud, 4);
@@ -121,7 +125,7 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            Log.e(TAG,"rangoHorassincronizacion:");
+            Log.e(TAG, "rangoHorassincronizacion:");
             return false;
         }
 
@@ -143,7 +147,7 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            Log.e(TAG,"compararHoras:");
+            Log.e(TAG, "compararHoras:");
 
             return false;
         }
@@ -165,7 +169,7 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            Log.e(TAG,"rangoHoras:");
+            Log.e(TAG, "rangoHoras:");
 
             return false;
         }
@@ -176,9 +180,9 @@ public class Metodos {
     public Boolean revisarArea(Double lat, Double longi) {
 
         //gps area uce
-        if((lat>-0.20672000 && lat <-0.19329001 && longi>-78.51572000 && longi<-78.49808001)==true){
-             return true;
-        }else{
+        if ((lat > -0.20672000 && lat < -0.19329001 && longi > -78.51572000 && longi < -78.49808001) == true) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -199,10 +203,9 @@ public class Metodos {
                 @Override
                 public void onSuccess(String response) {
 
-                    System.out.println("dato response" + response);
                     try {
                         JSONArray arr = new JSONArray(response);
-                        System.out.println("arreglo de" + arr.length());
+
                         for (int i = 0; i < arr.length(); i++) {
                             JSONObject obj = (JSONObject) arr.get(i);
                             controller.updateSyncStatus(obj.get("usu_id").toString(), obj.get("dat_fechahora_lectura").toString(), obj.get("status").toString());
@@ -232,7 +235,6 @@ public class Metodos {
             Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
         }
     }
-
 
 
     public void mensajeAcuerdo(final Activity activity, final Context context) {
