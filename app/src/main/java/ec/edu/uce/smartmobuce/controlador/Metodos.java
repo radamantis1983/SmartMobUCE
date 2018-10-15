@@ -109,7 +109,7 @@ public class Metodos {
         return dateFormat.format(afecha);
     }
 
-    //compara horas de funcionamiento para guardar datos
+    //compara horas para proceder a la sincronizadion de la base de datos
     public boolean rangoHorassincronizacion(String horaActual, String horaInicial, String horaFinal) {
 
         try {
@@ -131,29 +131,7 @@ public class Metodos {
 
     }
 
-
-    //compara horas para proceder a la sincronizadion de la base de datos
-    public boolean compararHoras(String horaInicial, String horaFinal) {
-
-        try {
-
-
-            Date horaIni;
-            Date horaFin;
-            horaIni = hformat.parse(horaInicial);
-            horaFin = hformat.parse(horaFinal);
-
-            return horaIni.equals(horaFin);
-
-
-        } catch (ParseException ex) {
-            Log.e(TAG, "compararHoras:");
-
-            return false;
-        }
-    }
-
-    //compara horas de funcionamiento para guardar datos
+  //compara horas de funcionamiento para guardar datos
     public boolean rangoHoras(String horaActual, String horaInicial, String horaFinal) {
 
         try {
