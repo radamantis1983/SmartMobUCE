@@ -197,7 +197,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                     }
-                }, 7000);
+                }, 5000);
     }
 
 
