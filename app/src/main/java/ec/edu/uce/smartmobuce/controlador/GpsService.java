@@ -1,11 +1,14 @@
 package ec.edu.uce.smartmobuce.controlador;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -14,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,6 +34,7 @@ public class GpsService extends Service implements
     private static final String LOG_TAG = "Servicio";
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private long contador = 0;
     private String usr, fecha;
     private LocationRequest mLocationRequest;
 
@@ -58,6 +63,7 @@ public class GpsService extends Service implements
         if (!mGoogleApiClient.isConnected())
             mGoogleApiClient.connect();
 
+
         return START_STICKY;
     }
 
@@ -80,40 +86,47 @@ public class GpsService extends Service implements
         }
 
         if (permissionCheck == 0) {
-
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-
-            if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
-                promptEnableGps();
-                SystemClock.sleep(8000);
-            }
-
-            if (mLastLocation != null) {
-
-                Intent i = new Intent("location_update");
-                i.putExtra("Latitud", String.valueOf(mLastLocation.getLatitude()) + "°");
-                i.putExtra("Longitud", String.valueOf(mLastLocation.getLongitude()) + "°");
-                i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
-                i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
-                i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
-                i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
-                i.putExtra("fecha", String.valueOf(m.getFechaActual()));
-                sendBroadcast(i);
-                Log.e(LOG_TAG, " Coordenadas fuse " + "Latitud\",String.valueOf(mLastLocation.getLatitude()));\n" +
-                        "Longitud" + String.valueOf(mLastLocation.getLongitude()) +
-                        "Precision" + String.valueOf(mLastLocation.getAccuracy()) +
-                        "Altitud" + String.valueOf(mLastLocation.getAltitude()) +
-                        "Velocidad" + String.valueOf(mLastLocation.getSpeed()) +
-                        "Proveedor" + String.valueOf(mLastLocation.getProvider()) +
-                        "fecha" + String.valueOf(m.getFechaActual()));
-            }
-
             mLocationRequest = LocationRequest.create();
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             mLocationRequest.setInterval(Constantes.INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+            final CountDownTimer start = new CountDownTimer(Constantes.INTERVALOS_DETECCION_GPS_EN_MILISEGUNDOS, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    contador = (millisUntilFinished / 1000);
+
+                }
+
+                @SuppressLint("MissingPermission")
+                public void onFinish() {
+                    LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
+                        promptEnableGps();
+                        //SystemClock.sleep(8000);
+                    }
+
+                    if (mLastLocation != null) {
+
+                        Intent i = new Intent("location_update");
+                        i.putExtra("Latitud", String.valueOf(mLastLocation.getLatitude()) + "°");
+                        i.putExtra("Longitud", String.valueOf(mLastLocation.getLongitude()) + "°");
+                        i.putExtra("Precision", String.valueOf(mLastLocation.getAccuracy()) + "m");
+                        i.putExtra("Altitud", String.valueOf(mLastLocation.getAltitude()) + "m");
+                        i.putExtra("Velocidad", String.valueOf(mLastLocation.getSpeed()) + "m/s");
+                        i.putExtra("Proveedor", String.valueOf(mLastLocation.getProvider()) + " location API");
+                        i.putExtra("fecha", String.valueOf(m.getFechaActual()));
+                        sendBroadcast(i);
+
+                    }
+
+
+                    start();
+                }
+
+            }.start();
+
 
 
         }
@@ -227,8 +240,11 @@ public class GpsService extends Service implements
 
 
     private void promptEnableGps() {
-        Intent intent = new Intent(
-                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
+        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
+
+
+
 }
