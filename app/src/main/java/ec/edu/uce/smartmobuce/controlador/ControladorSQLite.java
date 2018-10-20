@@ -23,11 +23,11 @@ public class ControladorSQLite extends SQLiteOpenHelper {
 
     private final String sqlCreate = "CREATE TABLE `DatosGPS` ( `dat_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "`usu_id` INTEGER," +
-            "`dat_latitud` REAL," +
-            "`dat_longitud` REAL," +
-            "`dat_precision` REAL," +
-            "`dat_altitud` REAL," +
-            "`dat_velocidad` REAL," +
+            "`dat_latitud` TEXT," +
+            "`dat_longitud` TEXT," +
+            "`dat_precision` TEXT," +
+            "`dat_altitud` TEXT," +
+            "`dat_velocidad` TEXT," +
             "`dat_proveedor` TEXT," +
             "`dat_fechahora_lectura` TEXT," +
             "`udpateStatus` TEXT" +

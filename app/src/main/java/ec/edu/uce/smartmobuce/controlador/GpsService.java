@@ -104,6 +104,7 @@ public class GpsService extends Service implements
                     mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                     if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
                         promptEnableGps();
+
                         //SystemClock.sleep(8000);
                     }
 
@@ -157,7 +158,6 @@ public class GpsService extends Service implements
         fecha = m.getFechaActual();
         Boolean area1 = m.revisarArea(location.getLatitude(), location.getLongitude());
         if (area1) {//si se encuentra dentro del area capturamos los datos
-
 
             if (m.rangoHoras(m.getHoraActual(), Constantes.horaInicial, Constantes.horaFinal)) {
                 //si la aplicacion esta en el horario definido guardamos los datos
