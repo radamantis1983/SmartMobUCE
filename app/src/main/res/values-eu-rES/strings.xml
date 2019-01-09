@@ -221,8 +221,5 @@
     <string name="gps_Speed">La velocidad va aquí</string>
     <string name="gps_Provider">El proveedor va aquí</string>
     <string name="gps_Date">La fecha va aquí</string>
-    <string name="dialog_Instructive">Se ha enviado un correo de activación revise su bandeja de correo o correo no deseado para activar su cuenta. Una vez activada su cuenta podrá ingresar su usuario y clave para acceder a la aplicación</string>
-    <string name="dialog_title">Atención!!!</string>
-
 
 </resources>
