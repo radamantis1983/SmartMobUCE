@@ -33,11 +33,11 @@
     <string name="fac9">Ciencias Psicológicas</string>
     <string name="fac10">Ciencias Químicas</string>
     <string name="fac11">Ciencias Sociales y Humanas</string>
-    <string name="fac12">Cienicas Económicas</string>
+    <string name="fac12">Ciencias Económicas</string>
     <string name="fac13">Comunicación Social</string>
     <string name="fac14">Cultura Física</string>
     <string name="fac15">Filosofía, Letras y Ciencias de la Educación</string>
-    <string name="fac16">Ingeniería en Geología, Minas, Petroleo y Ambiental</string>
+    <string name="fac16">Ingeniería en Geología, Minas, Petróleo y Ambiental</string>
     <string name="fac17">Ingeniería Química</string>
     <string name="fac18">Ingeniería, Ciencias Físicas y Matemática</string>
     <string name="fac19">Jurisprudencia, Ciencias Políticas y Sociales</string>
@@ -63,7 +63,7 @@
     <string name="authenticate">Autenticando…</string>
     <string name="success">Login Exitoso</string>
     <string name="unregistered">Usuario no registrado o cuenta no activa</string>
-    <string name="error_login">error de inicio de sesion</string>
+    <string name="error_login">error de inicio de sesión</string>
     <string name="error_invalid_password_match">La contraseña no coincide</string>
     <string name="year">Año</string>
     <string name="re_year">Ingrese el año</string>
@@ -88,129 +88,129 @@
     <string name="lectura_acuerdo">He leído el acuerdo</string>
     <string name="Cancel">Cancelar</string>
     <string name="Accept">Aceptar</string>
-    <string name="Acuerdo">Terminos y Condiciones</string>
+    <string name="Acuerdo">Términos y Condiciones</string>
     <string name="Terminos1">Última revisión: 13 de Septiembre de 2018\n
-        Este contrato describe los términos y condiciones
-        generales aplicables al uso de los servicios ofrecidos
-        por SmartMobUCE mediante
-        http://gmoncayoresearch.com/smartmobuce/acuerdo.html
-        (en adelante \"la aplicación\" o “SmartMobUCE”).
-        Cualquier persona (en adelante \"Usuario\") que desee usar
-        o utilice la aplicación SmartMobUCE o los Servicios podrá
-        hacerlo sujetándose a los Términos y Condiciones Generales respectivos.
-        Cualquier persona que no acepte estos términos y condiciones generales,
-        los cuales tienen un carácter obligatorio y vinculante, no podrá utilizar
-        la aplicación y/o los servicios. El Usuario debe leer,
-        entender y aceptar todas las condiciones establecidas
-        en los Términos y Condiciones Generales previo a su
-        registración como Usuario de la aplicación. SmartMobUCE
-        podrá modificar los Términos y Condiciones Generales en
-        cualquier momento haciendo públicos en la web
-        http://gmoncayoresearch.com/smartmobuce/acuerdo.html
-        los términos modificados.\n
-    </string>
+    Este contrato describe los términos y condiciones
+    generales aplicables al uso de los servicios ofrecidos
+    por SmartMobUCE mediante
+    http://gmoncayoresearch.com/smartmobuce/acuerdo.html
+    (en adelante \"la aplicación\" o “SmartMobUCE”).
+    Cualquier persona (en adelante \"Usuario\") que desee usar
+    o utilice la aplicación SmartMobUCE o los Servicios podrá
+    hacerlo sujetándose a los Términos y Condiciones Generales respectivos.
+    Cualquier persona que no acepte estos términos y condiciones generales,
+    los cuales tienen un carácter obligatorio y vinculante, no podrá utilizar
+    la aplicación y/o los servicios. El Usuario debe leer,
+    entender y aceptar todas las condiciones establecidas
+    en los Términos y Condiciones Generales previo a su
+    registración como Usuario de la aplicación. SmartMobUCE
+    podrá modificar los Términos y Condiciones Generales en
+    cualquier momento haciendo públicos en la web
+    http://gmoncayoresearch.com/smartmobuce/acuerdo.html
+    los términos modificados.\n
+</string>
     <string name="Terminos2">Usuarios</string>
     <string name="Terminos3">Los Servicios
-        sólo están disponibles para personas que tengan
-        capacidad legal para contratar. No podrán utilizar
-        los servicios y/o la aplicación las personas que no
-        tengan esa capacidad, los menores de edad o
-        Usuarios dla aplicación que hayan sido suspendidos
-        temporalmente o indefinidamente. El usuario reconoce
-        ser mayor de 18 años cuando se inscribe para usar la
-        aplicación\n
-    </string>
+    sólo están disponibles para personas que tengan
+    capacidad legal para contratar. No podrán utilizar
+    los servicios y/o la aplicación las personas que no
+    tengan esa capacidad, los menores de edad o
+    Usuarios de la aplicación que hayan sido suspendidos
+    temporal o indefinidamente. El usuario reconoce
+    ser mayor de 18 años cuando se inscribe para usar la
+    aplicación\n
+</string>
     <string name="Terminos4">El servicio</string>
     <string name="Terminos5">El servicio ofrecido por
-        SmartMobUCE a través dla aplicación es gratuito,
-        pero SmartMobUCE se reserva el derecho de implementar
-        nuevos servicios a los Usuarios, gratis o pagos.
-        SmartMobUCE se reserva el derecho de inhabilitar
-        o suspender usuarios dla aplicación, sin que esté
-        obligado a comunicar o exponer las razones de su
-        decisión y sin que ello genere algún derecho a
-        indemnización o resarcimiento. Sin perjuicio de
-        otras medidas, SmartMobUCE podrá advertir,suspender
-        en forma temporal o inhabilitar un Usuario o una
-        publicación, iniciar las acciones que estime
-        pertinentes y/o suspender la prestación de sus
-        Servicios si:\n
-        (1)Se quebrantará alguna ley, o cualquiera de las
-        estipulaciones de los Términos y Condiciones Generales;\n
-        (2)Si incumpliera sus compromisos como Usuario;\n
-        (3)Si se incurriera, a criterio de SmartMobUCE,
-        en conductas o actos dolosos o fraudulentos;\n
-        (4)No pudiera verificarse la identidad del Usuario
-        o cualquier información proporcionada por el mismo
-        fuere errónea;\n
-    </string>
+    SmartMobUCE a través de la aplicación es gratuito,
+    pero SmartMobUCE se reserva el derecho de implementar
+    nuevos servicios a los Usuarios, gratis o pagos.
+    SmartMobUCE se reserva el derecho de inhabilitar
+    o suspender usuarios de la aplicación, sin que esté
+    obligado a comunicar o exponer las razones de su
+    decisión y sin que ello genere algún derecho a
+    indemnización o resarcimiento. Sin perjuicio de
+    otras medidas, SmartMobUCE podrá advertir, suspender
+    en forma temporal o inhabilitar un Usuario o una
+    publicación, iniciar las acciones que estime
+    pertinentes y/o suspender la prestación de sus
+    Servicios si:\n
+    (1)Se quebrantará alguna ley, o cualquiera de las
+    estipulaciones de los Términos y Condiciones Generales;\n
+    (2)Si incumpliera sus compromisos como Usuario;\n
+    (3)Si se incurriera, a criterio de SmartMobUCE,
+    en conductas o actos dolosos o fraudulentos;\n
+    (4)No pudiera verificarse la identidad del Usuario
+    o cualquier información proporcionada por el mismo
+    fuere errónea;\n
+</string>
     <string name="Terminos6">El uso del servicio</string>
     <string name="Terminos7">Un trayecto en el que los usuarios del servicio
-        no puede hacer responsable a SmartMobUCE.
-        Tampoco SmartMobUCE será responsable de las condiciones
-        de movilidad de los usuarios, en cualquier forma que fuere:
-        el servicio brindado por SmartMobUCE mediante la aplicación
-        es sólo como medio de estadístico. SmartMobUCE no asume
-        la realización, titularidad, ni responsabilidad de la
-        prestación de los servicios que intermedia, ni frente
-        a los usuarios de lo mismos, ni frente a terceros.\n
-    </string>
+    no puede hacer responsable a SmartMobUCE.
+    Tampoco SmartMobUCE será responsable de las condiciones
+    de movilidad de los usuarios, en cualquier forma que fuere:
+    el servicio brindado por SmartMobUCE mediante la aplicación
+    es sólo como medio de estadístico. SmartMobUCE no asume
+    la realización, titularidad, ni responsabilidad de la
+    prestación de los servicios que intermedia, ni frente
+    a los usuarios de los mismos, ni frente a terceros.\n
+</string>
     <string name="Terminos8">Interrupciones y fallas del servicio</string>
     <string name="Terminos9">SmartMobUCE es parte de un proyecto de investigación
-        y en esta fase su permanencia en la aplicacion y
-        acceso web será por aproximadamente 15 días para
-        fines de pilotaje de la aplicación, dentro de este
-        periodo de prueba puede ocurrir que el acceso a la
-        web o al servicio se interrumpa en el curso de
-        operaciones de mantenimiento, actualizaciones
-        hardware y software, de reparaciones de emergencia
-        de la web, o debido a circunstancias fuera del
-        control de SmartMobUCE (como falla de Internet).
-        Es por eso que SmartMobUCE no garantiza el acceso
-        y uso continuado o ininterrumpido de su sitio.
-        Los Usuarios reconocen y aceptan que SmartMobUCE
-        no asume ninguna responsabilidad hacia él por cualquier
-        falta, suspensión o interrupción de la web o del servicio.
-        SmartMobUCE no se responsabiliza por cualquier daño,
-        perjuicio o pérdida al Usuario causados por fallas
-        en el sistema, en el servidor o en Internet.
-        SmartMobUCE tampoco será responsable por cualquier
-        virus que pudiera infectar el equipo de los Usuarios
-        como consecuencia del acceso, uso o examen de su sitio
-        web o a raíz de cualquier transferencia de datos,
-        archivos, imágenes, textos, o audio contenidos en
-        el mismo. Los Usuarios no podrán imputarle a SmartMobUCE
-        responsabilidad alguna ni exigir pago por lucro cesante,
-        en virtud de perjuicios resultantes de dificultades
-        técnicas o fallas en los sistemas o en Internet.\n
-    </string>
+    y en esta fase su permanencia en la aplicación y
+    acceso web será por aproximadamente 15 días para
+    fines de pilotaje de la aplicación, dentro de este
+    periodo de prueba puede ocurrir que el acceso a la
+    web o al servicio se interrumpa en el curso de
+    operaciones de mantenimiento, actualizaciones
+    hardware y software, de reparaciones de emergencia
+    de la web, o debido a circunstancias fuera del
+    control de SmartMobUCE (como falla de Internet).
+    Es por eso que SmartMobUCE no garantiza el acceso
+    y uso continuado o ininterrumpido de su sitio.
+    Los Usuarios reconocen y aceptan que SmartMobUCE
+    no asume ninguna responsabilidad hacia él por cualquier
+    falta, suspensión o interrupción de la web o del servicio.
+    SmartMobUCE no se responsabiliza por cualquier daño,
+    perjuicio o pérdida al Usuario causados por fallas
+    en el sistema, en el servidor o en Internet.
+    SmartMobUCE tampoco será responsable por cualquier
+    virus que pudiera infectar el equipo de los Usuarios
+    como consecuencia del acceso, uso o examen de su sitio
+    web o a raíz de cualquier transferencia de datos,
+    archivos, imágenes, textos, o audio contenidos en
+    el mismo. Los Usuarios no podrán imputarle a SmartMobUCE
+    responsabilidad alguna ni exigir pago por lucro cesante,
+    en virtud de perjuicios resultantes de dificultades
+    técnicas o fallas en los sistemas o en Internet.\n
+</string>
     <string name="Terminos10">Violaciones del sistema</string>
     <string name="Terminos11">No está permitida ninguna acción o uso de dispositivo,
-        software, u otro medio tendiente a interferir tanto en
-        las actividades y operatoria dla aplicación y servicios
-        de SmartMobUCE como en descripciones o bases de datos
-        asociadas al sitio o la web
-        http://gmoncayoresearch.com/smartmobuce/acuerdo.html .
-        Cualquier intromisión, tentativa o actividad violatoria
-        o contraria a las leyes sobre derecho de propiedad
-        intelectual y/o a las prohibiciones estipuladas en
-        este contrato harán posible a su responsable de las
-        acciones legales pertinentes, y a las sanciones
-        previstas por este acuerdo, así como lo hará responsable
-        de indemnizar los daños ocasionados.\n
-    </string>
+    software, u otro medio tendiente a interferir tanto en
+    las actividades y operatoria de la aplicación y servicios
+    de SmartMobUCE como en descripciones o bases de datos
+    asociadas al sitio o la web
+    http://gmoncayoresearch.com/smartmobuce/acuerdo.html .
+    Cualquier intromisión, tentativa o actividad violatoria
+    o contraria a las leyes sobre derecho de propiedad
+    intelectual y/o a las prohibiciones estipuladas en
+    este contrato harán posible a su responsable de las
+    acciones legales pertinentes, y a las sanciones
+    previstas por este acuerdo, así como lo hará responsable
+    de indemnizar los daños ocasionados.\n
+</string>
     <string name="Terminos12">Propiedad intelectual</string>
     <string name="Terminos13">Los contenidos de las pantallas relativas a los
-        servicios de SmartMobUCE como así también los
-        programas, bases de datos, redes, archivos que
-        permiten al Usuario hacer uso dla aplicación,
-        son de propiedad de SmartMobUCE y están protegidas
-        por las leyes y los tratados internacionales de derecho
-        de autor, marcas, patentes, modelos y diseños industriales.
-        El uso indebido y la reproducción total o parcial de
-        dichos contenidos quedan prohibidos, salvo autorización
-        expresa y por escrito de SmartMobUCE.\n
-    </string>
+    servicios de SmartMobUCE como así también los
+    programas, bases de datos, redes, archivos que
+    permiten al Usuario hacer uso de la aplicación,
+    son de propiedad de SmartMobUCE y están protegidas
+    por las leyes y los tratados internacionales de derecho
+    de autor, marcas, patentes, modelos y diseños industriales.
+    El uso indebido y la reproducción total o parcial de
+    dichos contenidos quedan prohibidos, salvo autorización
+    expresa y por escrito de SmartMobUCE.\n
+</string>
     <string name="check">Verificar acuerdo</string>
     <string name="s04">Valles</string>
     <string name="m_correo">Por favor revisar su correo para activar la cuenta</string>
@@ -221,7 +221,6 @@
     <string name="gps_Speed">La velocidad va aquí</string>
     <string name="gps_Provider">El proveedor va aquí</string>
     <string name="gps_Date">La fecha va aquí</string>
-    <string name="dialog_Instructive">Se ha enviado un correo de activacion revise su bandeja de correo o correo no deseado para activar su cuenta. Una vez activada su cuenta podra ingresar su usuario y clave para acceder a la aplicacion</string>
     <string name="dialog_title">Atención!!!</string>
 
 </resources>

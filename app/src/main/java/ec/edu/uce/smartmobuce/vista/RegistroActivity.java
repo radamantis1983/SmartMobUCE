@@ -197,7 +197,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                     }
-                }, 7000);
+                }, 5000);
     }
 
 
@@ -257,7 +257,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         } else {
             int y = Integer.parseInt(_year.getText().toString());
-            if (y >= 2000 || y <= 1940) {
+            if (y >= 2010 || y <= 1940) {
                 _year.requestFocus();
                 _year.setError(getString(R.string.re_year_valid));
                 valid = false;

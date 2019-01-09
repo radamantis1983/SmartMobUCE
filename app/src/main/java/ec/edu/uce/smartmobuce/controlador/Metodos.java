@@ -32,6 +32,7 @@ public class Metodos {
     private final SimpleDateFormat hformat = new SimpleDateFormat("HH:mm:ss"); //formato para la hora 24h
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//formato de fecha
     private double aux1 = 0, aux2 = 0;
+    private static final String TAG = "Metodos";
 
     public boolean lastlocation(double last_latitud, double last_longitud) {
 
@@ -104,7 +105,7 @@ public class Metodos {
         return dateFormat.format(afecha);
     }
 
-    //compara horas de funcionamiento para guardar datos
+    //compara horas para proceder a la sincronizadion de la base de datos
     public boolean rangoHorassincronizacion(String horaActual, String horaInicial, String horaFinal) {
 
         try {
@@ -120,38 +121,13 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
-            //Logger.getLogger(Main2.class.getName()).log(Level.SEVERE, null, ex);
-            // System.out.println("La hora Posee errores");
+            Log.e(TAG, "rangoHorassincronizacion:");
             return false;
         }
 
     }
 
-
-    //compara horas para proceder a la sincronizadion de la base de datos
-    public boolean compararHoras(String horaInicial, String horaFinal) {
-
-        try {
-
-
-            Date horaIni;
-            Date horaFin;
-            horaIni = hformat.parse(horaInicial);
-            horaFin = hformat.parse(horaFinal);
-            // System.out.println("horas iguales procediendo a sincronizar");
-//  System.out.println("hora actual "+horaIni+" Hora final "+horaFin);
-//  System.out.println("no es hora de sincronizar");
-            return horaIni.equals(horaFin);
-
-
-        } catch (ParseException ex) {
-
-            //System.out.println("Posee errores");
-            return false;
-        }
-    }
-
-    //compara horas de funcionamiento para guardar datos
+  //compara horas de funcionamiento para guardar datos
     public boolean rangoHoras(String horaActual, String horaInicial, String horaFinal) {
 
         try {
@@ -167,29 +143,23 @@ public class Metodos {
 
 
         } catch (ParseException ex) {
+            Log.e(TAG, "rangoHoras:");
 
-            // System.out.println("La hora Posee errores");
             return false;
         }
 
     }
 
-    ////activa la funcion de guardar si se encuentra en el rango del area seleccionada
+    ////activa la funcion de registrar en la base si se encuentra en el rango del area seleccionada
     public Boolean revisarArea(Double lat, Double longi) {
-      /*  boolean estado=false;
+
         //gps area uce
-
-        if(((lat>-0.20672000 && lat <-0.19329001 && longi>-78.51572000 && longi<-78.49808001)==true)
-                //gps area casa
-                ||((lat>-0.259357 && lat<-0.258592 && longi>-78.550617 && longi<-78.549941)==true)){
-            estado =true;
-            return estado;
+        if ((lat > -0.20672000 && lat < -0.19329001 && longi > -78.51572000 && longi < -78.49808001) == true) {
+            return true;
+        } else {
+            return false;
         }
-              return estado;
-*/
-        return true;
     }
-
 
     ///sincronizacion de la base de datos
     public void syncSQLiteMySQLDB(final Context appContext) {
@@ -207,10 +177,9 @@ public class Metodos {
                 @Override
                 public void onSuccess(String response) {
 
-                    System.out.println("dato response" + response);
                     try {
                         JSONArray arr = new JSONArray(response);
-                        System.out.println("arreglo de" + arr.length());
+
                         for (int i = 0; i < arr.length(); i++) {
                             JSONObject obj = (JSONObject) arr.get(i);
                             controller.updateSyncStatus(obj.get("usu_id").toString(), obj.get("dat_fechahora_lectura").toString(), obj.get("status").toString());
@@ -237,13 +206,9 @@ public class Metodos {
                 }
             });
         } else {
-
             Toast.makeText(appContext, R.string.error1_db_synchronization, Toast.LENGTH_LONG).show();
-
         }
-
     }
-
 
 
     public void mensajeAcuerdo(final Activity activity, final Context context) {
@@ -284,7 +249,5 @@ public class Metodos {
         });
 
     }
-
-
 
 }

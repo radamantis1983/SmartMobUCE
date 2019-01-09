@@ -165,9 +165,9 @@ public class GPSActivity extends AppCompatActivity {
     }
 
     private void promptEnableGps() {
-        Intent intent = new Intent(
-                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
+        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
 }

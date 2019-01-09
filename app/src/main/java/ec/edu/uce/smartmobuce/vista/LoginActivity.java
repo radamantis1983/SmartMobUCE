@@ -156,8 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         m.guardarPreferencias(getBaseContext(), usuarioid);
                                         onLoginSuccess();
-                                        startActivity(new Intent(getApplicationContext(), GPSActivity.class));
-                                        finish();
+
                                     } else {
                                         _passwordText.setError(getString(R.string.error_incorrect_password));
                                         focusView = _passwordText;
@@ -199,10 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                         };
                         request.setShouldCache(false);
                         requestQueue.add(request);
-
-
-                        // onLoginFailed();
-                        progressDialog.dismiss();
+                         progressDialog.dismiss();
                     }
                 }, 2000);
 
@@ -212,7 +208,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginSuccess() {
         _loginButton.setEnabled(true);
+        startActivity(new Intent(getApplicationContext(), GPSActivity.class));
         finish();
+
     }
 
     private void onLoginFailed() {
